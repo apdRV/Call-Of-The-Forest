@@ -7,7 +7,11 @@
 		{
 			"Name": "Call_Of_The_Forest",
 			"Type": "Runtime",
-			"LoadingPhase": "Default"
+			"LoadingPhase": "Default",
+			"AdditionalDependencies": [
+				"Engine",
+				"Paper2D"
+			]
 		}
 	],
 	"Plugins": [
