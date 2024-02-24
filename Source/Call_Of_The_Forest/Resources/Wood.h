@@ -4,8 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "Wood.generated.h"
 #include <random>
+#include "Wood.generated.h"
 
 UCLASS()
 class CALL_OF_THE_FOREST_API AWood : public AActor
