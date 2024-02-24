@@ -1,7 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-
-4
+#include "Wood.h"
 
 // Sets default values
 AWood::AWood()

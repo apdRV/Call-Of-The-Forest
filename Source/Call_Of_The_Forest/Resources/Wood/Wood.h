@@ -4,15 +4,15 @@
 
 #include <random>
 
-#include "/Resources/ResourceBase.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Wood.generated.h"
 
 UCLASS()
-class CALL_OF_THE_FOREST_API AWood : public AResourceBase
+class CALL_OF_THE_FOREST_API AWood : public AActor
 {
 	GENERATED_BODY()
+	int Quantity = 0;
 	
 public:	
 	// Sets default values for this actor's properties
