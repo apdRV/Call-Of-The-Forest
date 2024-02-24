@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "../Resources/ResourceBaseClass/ResourceBase.h"
+#include "../ResourceBaseClass/ResourceBase.h"
 #include "Stone.generated.h"
 
 /**
