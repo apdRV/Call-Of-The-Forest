@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "PaperSpriteActor.h"
+#include "Components/CapsuleComponent.h"
+#include "Components/TextRenderComponent.h"
 #include "ResourceBase.generated.h"
 
 UCLASS()
@@ -16,8 +18,13 @@ public:
 	AResourceBase();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Trigger)
+	class UCapsuleComponent* TriggerCapsule;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Tooltip)
+	class UTextRenderComponent* Tooltip;
 
 public:	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
