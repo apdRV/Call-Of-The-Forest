@@ -8,6 +8,22 @@
 #include "Components/TextRenderComponent.h"
 #include "ResourceBase.generated.h"
 
+USTRUCT(BlueprintType)
+struct FResourceData
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	TSubclassOf<AResourceBase> Class;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	class UPaperSprite* Image{nullptr};
+
+	UPROPERTY(BlueprintReadOnly)
+	FString Name;
+
+};
+
 UCLASS()
 class CALL_OF_THE_FOREST_API AResourceBase : public APaperSpriteActor
 {
@@ -25,6 +41,9 @@ protected:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Tooltip)
 	class UTextRenderComponent* Tooltip;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Config)
+	FResourceData Data;
 
 public:	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
