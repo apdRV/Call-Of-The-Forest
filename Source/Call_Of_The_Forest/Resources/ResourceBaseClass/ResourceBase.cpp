@@ -18,10 +18,4 @@ void AResourceBase::BeginPlay()
 	
 }
 
-// Called every frame
-void AResourceBase::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
 

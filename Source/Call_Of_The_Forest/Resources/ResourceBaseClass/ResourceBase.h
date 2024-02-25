@@ -3,11 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
+#include "PaperSpriteActor.h"
 #include "ResourceBase.generated.h"
 
 UCLASS()
-class CALL_OF_THE_FOREST_API AResourceBase : public AActor
+class CALL_OF_THE_FOREST_API AResourceBase : public APaperSpriteActor
 {
 	GENERATED_BODY()
 	
@@ -20,7 +20,7 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	class UPaperFlipbook* ResourceBaseFlipbook{nullptr};
 
 };
