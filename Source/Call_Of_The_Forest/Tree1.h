@@ -22,9 +22,9 @@ class CALL_OF_THE_FOREST_API ATree1: public APaperFlipbookActor
   UPaperFlipbookComponent* TreeComponent;
 
   public:
-  ATree1(){
+  ATree1() {
     TreeComponent = CreateDefaultSubobject<UPaperFlipbookComponent>(FName("tree"));
-    ConstructorHelpers::FObjectFinderOptional<UPaperFlipbook> TreeAsset(TEXT("/Script/Paper2D.PaperFlipbook'/Game/Spawners/Tree/depressed_tree.depressed_tree'"));
+    ConstructorHelpers::FObjectFinderOptional<UPaperFlipbook> TreeAsset(TEXT("/Script/Paper2D.PaperFlipbook'/Game/Sprites/depressed_tree.depressed_tree'"));
     TreeComponent->SetFlipbook(TreeAsset.Get());
     SetRootComponent(TreeComponent);
   }
