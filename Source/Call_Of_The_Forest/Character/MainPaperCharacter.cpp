@@ -4,28 +4,36 @@
 #include "MainPaperCharacter.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Components/CapsuleComponent.h"
 
-AMainPaperCharacter::AMainPaperCharacter(){
-    SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
-    SpringArmComponent->SetupAttachment(RootComponent);
-	SpringArmComponent->SetRelativeRotation(FRotator(0.f, -30.0f, -90.0f));
-    SpringArmComponent->TargetArmLength = 100.f; // расстояние от камеры до игрока
-    SpringArmComponent->bInheritPitch = false;
-    SpringArmComponent->bInheritYaw = false;
-    SpringArmComponent->bInheritRoll = false;
-    SpringArmComponent->bEnableCameraLag = true;
-    SpringArmComponent->bEnableCameraRotationLag = true;
-	SpringArmComponent->CameraLagSpeed = 4.f;
-	SpringArmComponent->CameraRotationLagSpeed = 4.f;
-	SpringArmComponent->CameraLagMaxDistance = 600.f;
+AMainPaperCharacter::AMainPaperCharacter()
+{
+	PrimaryActorTick.bCanEverTick = true;
+
+    // GetSprite()->SetupAttachment(RootComponent);
 
 
-    CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
-    CameraComponent->SetupAttachment(SpringArmComponent);
-    
-	// OnCharacterMovementUpdated.AddDynamic(this, &AMainPaperCharacter::Animate);
+    //SpringArm
+    CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
+    CameraBoom->SetupAttachment(RootComponent);
+	CameraBoom->SetRelativeRotation(FRotator(-60.0f, -90.0f, -30.0f));
+    CameraBoom->TargetArmLength = 100.f; // расстояние от камеры до игрока
+    CameraBoom->bInheritPitch = false;
+    CameraBoom->bInheritYaw = false;
+    CameraBoom->bInheritRoll = false;
+
+
+    //Camera
+    FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
+    FollowCamera->SetupAttachment(CameraBoom);
+    FollowCamera->bUsePawnControlRotation = false;
+
+    // Default capsule component properties
+	GetCapsuleComponent()->InitCapsuleSize(5.0f, 5.0f);
 
 	bIsMoving = false;
+    bIsDead = false;
+    Health = 100.0f;
 }
 
 // Called every frame
@@ -40,42 +48,38 @@ void AMainPaperCharacter::BeginPlay()
     Super::BeginPlay();
 }
 
-// void AMainPaperCharacter::SetCurrentAnimationDirection(FVector const& Velocity)
-// {
-// 	const float x = Velocity.GetSafeNormal().X;
-// 	const float y = Velocity.GetSafeNormal().Y;
+void AMainPaperCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+    Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-// 	bIsMoving = x != 0.0f || y != 0.0f;
+    PlayerInputComponent->BindAxis("MoveForward", this, &AMainPaperCharacter::MoveForward);
+    PlayerInputComponent->BindAxis("MoveRight", this, &AMainPaperCharacter::MoveRight);
+}
 
-// 	if(bIsMoving)
-// 	{
-// 		if(y > 0.0f && (abs(x) < 0.5f || x == 0.0))
-// 		{
-// 			//Доделать
+void AMainPaperCharacter::MoveForward(float Value)
+{
+    if ((Controller != nullptr) && (Value != 0.0f))
+    {
+        const FVector Direction = FVector(1, 0, 0);
+        AddMovementInput(Direction, Value);
+    }
+}
 
-// 		}
+void AMainPaperCharacter::MoveRight(float Value)
+{
+    if ((Controller != nullptr) && (Value != 0.0f))
+    {
+        const FVector Direction = FVector(0, 1, 0);
+        AddMovementInput(Direction, Value);
+    }
+}
 
-// 	}
-
-// }
-
-// void AMainPaperCharacter::Animate(float DeltaTime, FVector OldLocation, FVector const OldVelocity){
-
-// }
-
-// void AMainPaperCharacter::AddMovementInput(FVector WorldDirection, float Scalevalue, bool bForce)
-// {
-// 	auto MovementComponent = GetMovementComponent();
-
-// 	if(MovementComponent)
-// 	{
-// 		MovementComponent->AddInputVector(WorldDirection * ScaleValue, bForce);
-// 	}
-// 	else
-// 	{
-// 		Internal_AddMovementInput(WorldDirection * ScaleValue, bForce);
-
-// 	}
-
-
-// }
+bool AMainPaperCharacter::Die()
+{
+    if(Health <= 0.0f)
+    {
+        bIsDead = true;
+        GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    }
+    return bIsDead;
+}
