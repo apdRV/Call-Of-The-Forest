@@ -4,6 +4,11 @@
 #include "MainPaperCharacter.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "PaperSprite.h"
+#include "PaperSpriteComponent.h"
+#include "PaperFlipbookActor.h"
+#include "PaperFlipbook.h"
+#include "PaperFlipbookComponent.h"
 #include "Components/CapsuleComponent.h"
 
 AMainPaperCharacter::AMainPaperCharacter()
@@ -12,11 +17,10 @@ AMainPaperCharacter::AMainPaperCharacter()
 
     // GetSprite()->SetupAttachment(RootComponent);
 
-
     //SpringArm
     CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
     CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->SetRelativeRotation(FRotator(-60.0f, -90.0f, -30.0f));
+	CameraBoom->SetRelativeRotation(FRotator(-90.0f, 180.0f, 180.0f));
     CameraBoom->TargetArmLength = 100.f; // расстояние от камеры до игрока
     CameraBoom->bInheritPitch = false;
     CameraBoom->bInheritYaw = false;
@@ -29,7 +33,15 @@ AMainPaperCharacter::AMainPaperCharacter()
     FollowCamera->bUsePawnControlRotation = false;
 
     // Default capsule component properties
-	GetCapsuleComponent()->InitCapsuleSize(5.0f, 5.0f);
+	GetCapsuleComponent()->InitCapsuleSize(10.0f, 10.0f);
+
+    //Sprite
+    DefaultSprite = CreateDefaultSubobject<UPaperFlipbookComponent>(FName("Spawn_sprite"));
+    ConstructorHelpers::FObjectFinderOptional<UPaperFlipbook> MainCharacterAsset(TEXT("/Script/Paper2D.PaperFlipbook'/Game/Sprites/SpawnSprite.SpawnSprite'"));
+    DefaultSprite->SetFlipbook(MainCharacterAsset.Get());
+    DefaultSprite->SetupAttachment(GetCapsuleComponent());
+    DefaultSprite->SetRelativeRotation(FRotator(0.0f, 90.0f, -90.0f));
+	DefaultSprite->SetRelativeScale3D(FVector(1.0f, 1.0f, 1.0f));
 
 	bIsMoving = false;
     bIsDead = false;
@@ -52,12 +64,15 @@ void AMainPaperCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 {
     Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-    PlayerInputComponent->BindAxis("MoveForward", this, &AMainPaperCharacter::MoveForward);
-    PlayerInputComponent->BindAxis("MoveRight", this, &AMainPaperCharacter::MoveRight);
+    PlayerInputComponent->BindAxis("MoveForwardBackward", this, &AMainPaperCharacter::MoveForwardBackward);
+    PlayerInputComponent->BindAxis("MoveRightLeft", this, &AMainPaperCharacter::MoveRightLeft);
 }
 
-void AMainPaperCharacter::MoveForward(float Value)
+// When W or S are pressed
+void AMainPaperCharacter::MoveForwardBackward(float Value)
 {
+    // FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxes(EAxis::X);
+    // AddMovementInput(Direction, Value);
     if ((Controller != nullptr) && (Value != 0.0f))
     {
         const FVector Direction = FVector(1, 0, 0);
@@ -65,8 +80,12 @@ void AMainPaperCharacter::MoveForward(float Value)
     }
 }
 
-void AMainPaperCharacter::MoveRight(float Value)
+// When A or D keys are pressed
+void AMainPaperCharacter::MoveRightLeft(float Value)
 {
+    // FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxes(EAxis::Y);
+    // AddMovementInput(Direction, Value);
+
     if ((Controller != nullptr) && (Value != 0.0f))
     {
         const FVector Direction = FVector(0, 1, 0);

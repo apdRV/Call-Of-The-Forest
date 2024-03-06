@@ -6,6 +6,6 @@
 
 ACallOfTheForestModeBase::ACallOfTheForestModeBase() : Super()
 {
-    ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/Blueprints/MainPaperCharacter"));
-    DefaultPawnClass = PlayerPawnBPClass.Class;
+    ConstructorHelpers::FClassFinder<APawn> MainPaperCharacterClass(TEXT("/Script/CoreUObject.Class'/Script/Call_Of_The_Forest.MainPaperCharacter'"));
+    DefaultPawnClass = MainPaperCharacterClass.Class;
 }

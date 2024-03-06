@@ -41,8 +41,8 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "State")
 	bool  Die(); // смерть персонажа
 
-    void MoveForward(float Value);
-    void MoveRight(float Value);
+    void MoveForwardBackward(float Value);
+    void MoveRightLeft(float Value);
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
     class USpringArmComponent* CameraBoom;
@@ -50,8 +50,8 @@ protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
     class UCameraComponent* FollowCamera;
 
-    // UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Animation)
-    // class UPaperFlipbookComponent* Sprite;
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Animation)
+    class UPaperFlipbookComponent* DefaultSprite;
 
 
 
