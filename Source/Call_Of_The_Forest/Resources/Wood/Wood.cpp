@@ -1,23 +1,21 @@
 #include "Wood.h"
-#include <iostream>
 
 AWood::AWood()
 {
-    Sprite = CreateDefaultSubobject<UPaperSpriteComponent>(FName("Wood"));
+    WoodComponent = CreateDefaultSubobject<UPaperFlipbookComponent>(FName("Wood"));
 
-    ConstructorHelpers::FObjectFinder<UPaperSprite> WoodSprite(TEXT("/Script/Paper2D.PaperFlipbook'/Game/Assets/log.log'"));
+    ConstructorHelpers::FObjectFinderOptional<UPaperFlipbook> WoodSprite(TEXT("/Script/Paper2D.PaperFlipbook'/Game/Assets/logFlipBook.logFlipBook'"));
 
-    if (WoodSprite.Succeeded())
-    {
-        Sprite->SetSprite(WoodSprite.Object);
-        SetRootComponent(Sprite);
-    }
+    WoodComponent->SetFlipbook(WoodSprite.Get());
+    SetRootComponent(WoodComponent);
+    SetActorRotation(FRotator(0, 0, 90));
+	SetActorRelativeScale3D(FVector(0.5, 1.0, 0.5));
 }
 
 
 void AWood::BeginPlay()
 {
     Super::BeginPlay();
-    SetActorScale3D(FVector(0.5, 1, 0.4));
+
 }
 

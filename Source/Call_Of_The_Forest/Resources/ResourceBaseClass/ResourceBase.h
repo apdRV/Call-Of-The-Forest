@@ -3,7 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "PaperSpriteActor.h"
+#include "PaperFlipbookActor.h"
+#include "PaperFlipbook.h"
+#include "PaperFlipbookComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/TextRenderComponent.h"
 #include "ResourceBase.generated.h"
@@ -25,13 +27,13 @@ struct FResourceData
 };
 
 UCLASS()
-class CALL_OF_THE_FOREST_API AResourceBase : public APaperSpriteActor
+class CALL_OF_THE_FOREST_API AResourceBase : public APaperFlipbookActor
 {
 	GENERATED_BODY()
-	
+
 public:	
 	// Sets default values for this actor's properties
-	AResourceBase();
+	AResourceBase(){};
 
 protected:
 	virtual void BeginPlay() override;
@@ -44,9 +46,5 @@ protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Config)
 	FResourceData Data;
-
-public:	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	class UPaperFlipbook* ResourceBaseFlipbook{nullptr};
 
 };

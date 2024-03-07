@@ -4,8 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "../ResourceBaseClass/ResourceBase.h"
-#include "PaperSpriteComponent.h"
-#include "PaperSprite.h"
+#include "PaperFlipbookComponent.h"
+#include "PaperFlipbook.h"
 #include "Wood.generated.h"
 
 /**
@@ -19,7 +19,7 @@ class CALL_OF_THE_FOREST_API AWood : public AResourceBase
 public:
 	AWood();
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Wood")
-    UPaperSpriteComponent* Sprite;
+    UPaperFlipbookComponent* WoodComponent;
 
 protected:
 	virtual void BeginPlay() override;

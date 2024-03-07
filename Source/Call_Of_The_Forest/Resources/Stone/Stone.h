@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "../ResourceBaseClass/ResourceBase.h"
+#include "PaperFlipbookComponent.h"
+#include "PaperFlipbook.h"
 #include "Stone.generated.h"
 
 /**
@@ -14,4 +16,12 @@ class CALL_OF_THE_FOREST_API AStone : public AResourceBase
 {
 	GENERATED_BODY()
 	
+public:
+	AStone();
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Stone")
+    UPaperFlipbookComponent* StoneComponent;
+
+protected:
+	virtual void BeginPlay() override;
+
 };
