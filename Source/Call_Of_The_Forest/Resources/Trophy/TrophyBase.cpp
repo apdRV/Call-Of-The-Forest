@@ -2,6 +2,7 @@
 
 
 #include "TrophyBase.h"
+#include "../Inventory/InventoryController.h"
 
 ATrophyBase::ATrophyBase()
 {
@@ -13,6 +14,20 @@ ATrophyBase::ATrophyBase()
     SetRootComponent(TrophyBaseComponent);
     SetActorRotation(FRotator(0, 180, 90));
 	SetActorRelativeScale3D(FVector(0.5, 1.0, 0.5));
+
+    ItemID = FName("3");
+
+    Super::Name = "Trophy";
+    Super::Action = "pickup";
+}
+
+void ATrophyBase::Interact_Implementation(APlayerController* Controller)
+{
+    Super::Interact_Implementation(Controller);
+
+    AInventoryController* IController = Cast(Controller);
+    if(IController->AddItemToInventoryByID(ItemID))
+        Destroy();
 }
 
 
