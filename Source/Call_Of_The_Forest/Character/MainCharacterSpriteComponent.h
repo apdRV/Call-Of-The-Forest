@@ -6,6 +6,7 @@
 #include "PaperSpriteComponent.h"
 #include "PaperFlipbookActor.h"
 #include "PaperFlipbook.h"
+#include "PaperSprite.h"
 #include "PaperFlipbookComponent.h"
 #include "MainCharacterSpriteComponent.generated.h"
 
@@ -35,6 +36,6 @@ public:
 	void SetupOwner(UPaperFlipbookComponent* Owner);
 
 protected:
-    TMap<EMainCharacterDirection, UPaperFlipbook*> DirectionToSprite;
+    TMap<EMainCharacterState, UPaperFlipbook*> DirectionToSprite;
     class UPaperFlipbookComponent* MainCharacterSprite;
 };

@@ -4,8 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "PaperCharacter.h"
-#include "PaperFlipbook.h"
-#include "PaperFlipbookComponent.h"
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
@@ -37,7 +35,7 @@ protected:
 	bool bIsDead;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AnimationCharacter | Config")
-	EMainCharacterDirection CharacterDirection;
+	EMainCharacterState CharacterState;
 
 	UFUNCTION()
 	virtual void BeginPlay() override;

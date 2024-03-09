@@ -4,11 +4,6 @@
 #include "MainPaperCharacter.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
-#include "PaperSprite.h"
-#include "PaperSpriteComponent.h"
-#include "PaperFlipbookActor.h"
-#include "PaperFlipbook.h"
-#include "PaperFlipbookComponent.h"
 #include "Components/CapsuleComponent.h"
 
 AMainPaperCharacter::AMainPaperCharacter()
