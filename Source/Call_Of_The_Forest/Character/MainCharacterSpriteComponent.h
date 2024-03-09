@@ -13,7 +13,7 @@
  * 
  */
 UENUM(BlueprintType, Category = "Animation")
-enum class EMainCharacterDirection : uint8{
+enum class EMainCharacterState : uint8{
 	Up,
 	Down,
 	Left,
@@ -31,10 +31,10 @@ class CALL_OF_THE_FOREST_API UMainCharacterSpriteComponent : public UPaperSprite
 
 public:
     UMainCharacterSpriteComponent();
-    void UpdateSprite(EMainCharacterDirection Direction);
+    void UpdateSprite(EMainCharacterState State);
 	void SetupOwner(UPaperFlipbookComponent* Owner);
 
 protected:
     TMap<EMainCharacterDirection, UPaperFlipbook*> DirectionToSprite;
-    class UPaperFlipbookComponent* CurrentSprite;
+    class UPaperFlipbookComponent* MainCharacterSprite;
 };

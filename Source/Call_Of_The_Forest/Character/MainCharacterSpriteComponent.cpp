@@ -5,7 +5,7 @@
 
 UMainCharacterSpriteComponent::UMainCharacterSpriteComponent()
 {
-    CurrentSprite = CreateDefaultSubobject<UPaperFlipbookComponent>(FName("Spawn_sprite"));
+    MainCharacterSprite = CreateDefaultSubobject<UPaperFlipbookComponent>(FName("Spawn_sprite"));
 
 
     static ConstructorHelpers::FObjectFinder<UPaperFlipbook> IdleDown(TEXT("/Script/Paper2D.PaperFlipbook'/Game/Sprites/IdleDown.IdleDown'"));
@@ -17,26 +17,26 @@ UMainCharacterSpriteComponent::UMainCharacterSpriteComponent()
     static ConstructorHelpers::FObjectFinder<UPaperFlipbook> LeftSprite(TEXT("/Script/Paper2D.PaperFlipbook'/Game/Sprites/WalkingRight.WalkingRight'"));
     static ConstructorHelpers::FObjectFinder<UPaperFlipbook> RightSprite(TEXT("/Script/Paper2D.PaperFlipbook'/Game/Sprites/WalkingRight.WalkingRight'"));
 
-    DirectionToSprite.Add(EMainCharacterDirection::Up, UpSprite.Object);
-    DirectionToSprite.Add(EMainCharacterDirection::Down, DownSprite.Object);
-    DirectionToSprite.Add(EMainCharacterDirection::Left, LeftSprite.Object);
-    DirectionToSprite.Add(EMainCharacterDirection::Right, RightSprite.Object);
-    DirectionToSprite.Add(EMainCharacterDirection::IdleUp, IdleUp.Object);
-    DirectionToSprite.Add(EMainCharacterDirection::IdleDown, IdleDown.Object);
-    DirectionToSprite.Add(EMainCharacterDirection::IdleLeft, IdleLeft.Object);
-    DirectionToSprite.Add(EMainCharacterDirection::IdleRight, IdleRight.Object);
+    DirectionToSprite.Add(EMainCharacterState::Up, UpSprite.Object);
+    DirectionToSprite.Add(EMainCharacterState::Down, DownSprite.Object);
+    DirectionToSprite.Add(EMainCharacterState::Left, LeftSprite.Object);
+    DirectionToSprite.Add(EMainCharacterState::Right, RightSprite.Object);
+    DirectionToSprite.Add(EMainCharacterState::IdleUp, IdleUp.Object);
+    DirectionToSprite.Add(EMainCharacterState::IdleDown, IdleDown.Object);
+    DirectionToSprite.Add(EMainCharacterState::IdleLeft, IdleLeft.Object);
+    DirectionToSprite.Add(EMainCharacterState::IdleRight, IdleRight.Object);
 }
 
-void UMainCharacterSpriteComponent::UpdateSprite(EMainCharacterDirection Direction)
+void UMainCharacterSpriteComponent::UpdateSprite(EMainCharacterState State)
 {
-    UPaperFlipbook* Sprite = DirectionToSprite[Direction];
-    if (CurrentSprite != nullptr && Sprite != nullptr)
+    UPaperFlipbook* TemporarySprite = DirectionToSprite[State];
+    if (MainCharacterSprite != nullptr && TemporarySprite != nullptr)
     {
-        CurrentSprite->SetFlipbook(Sprite);
+        MainCharacterSprite->SetFlipbook(TemporarySprite);
     }
 }
 
 void UMainCharacterSpriteComponent::SetupOwner(UPaperFlipbookComponent *Owner)
 {
-    CurrentSprite = Owner;
+    MainCharacterSprite = Owner;
 }

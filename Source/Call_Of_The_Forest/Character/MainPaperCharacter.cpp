@@ -19,7 +19,7 @@ AMainPaperCharacter::AMainPaperCharacter()
 	bIsMoving = false;
     bIsDead = false;
     Health = 100.0f;
-    CharacterDirection = EMainCharacterDirection::IdleDown;
+    CharacterState = EMainCharacterState::IdleDown;
 
     //SpringArm
     CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
@@ -46,7 +46,7 @@ AMainPaperCharacter::AMainPaperCharacter()
     MainCharacterSpriteComponent = CreateDefaultSubobject<UMainCharacterSpriteComponent>(TEXT("MainCharacterSpriteComponent"));
     MainCharacterSpriteComponent->SetupAttachment(RootComponent);
     MainCharacterSpriteComponent->SetupOwner(GetSprite());
-    MainCharacterSpriteComponent->UpdateSprite(CharacterDirection);
+    MainCharacterSpriteComponent->UpdateSprite(CharacterState);
 }
 
 // Called every frame
@@ -74,28 +74,28 @@ void AMainPaperCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 // When W/UP or S/DOWN are pressed
 void AMainPaperCharacter::MoveForwardBackward(float Value)
 {
-    if ((Controller != nullptr) && (Value != 0.0f))
+    if ((Controller != nullptr) && (Value != 0.0f) && (!bIsDead))
     {
         const FVector Direction = FVector(0.5, 0, 0);
         AddMovementInput(Direction, Value);
 
-        CharacterDirection = (Value > 0) ? EMainCharacterDirection::Up : EMainCharacterDirection::Down;
+        CharacterState = (Value > 0) ? EMainCharacterState::Up : EMainCharacterState::Down;
 
-        MainCharacterSpriteComponent->UpdateSprite(CharacterDirection);
+        MainCharacterSpriteComponent->UpdateSprite(CharacterState);
     }
 }
 
 // When A/LEFT or D/RIGHT keys are pressed
 void AMainPaperCharacter::MoveRightLeft(float Value)
 {
-    if ((Controller != nullptr) && (Value != 0.0f))
+    if ((Controller != nullptr) && (Value != 0.0f) && (!bIsDead))
     {
         const FVector Direction = FVector(0, 0.5, 0);
         AddMovementInput(Direction, Value);
 
-        CharacterDirection = (Value > 0) ? EMainCharacterDirection::Right : EMainCharacterDirection::Left;
+        CharacterState = (Value > 0) ? EMainCharacterState::Right : EMainCharacterState::Left;
 
-        MainCharacterSpriteComponent->UpdateSprite(CharacterDirection);
+        MainCharacterSpriteComponent->UpdateSprite(CharacterState);
     }
 }
 
