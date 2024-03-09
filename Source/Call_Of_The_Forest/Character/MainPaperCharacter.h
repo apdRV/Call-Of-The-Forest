@@ -9,6 +9,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "MainCharacterSpriteComponent.h"
 #include "MainPaperCharacter.generated.h"
 /**
  * 
@@ -35,6 +36,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
 	bool bIsDead;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AnimationCharacter | Config")
+	EMainCharacterDirection CharacterDirection;
+
 	UFUNCTION()
 	virtual void BeginPlay() override;
 
@@ -51,8 +55,6 @@ protected:
     class UCameraComponent* FollowCamera;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Animation)
-    class UPaperFlipbookComponent* DefaultSprite;
-
-
+    class UMainCharacterSpriteComponent* MainCharacterSpriteComponent;
 
 };

@@ -15,7 +15,11 @@ AMainPaperCharacter::AMainPaperCharacter()
 {
 	PrimaryActorTick.bCanEverTick = true;
 
-    // GetSprite()->SetupAttachment(RootComponent);
+    // Default character properties
+	bIsMoving = false;
+    bIsDead = false;
+    Health = 100.0f;
+    CharacterDirection = EMainCharacterDirection::IdleDown;
 
     //SpringArm
     CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
@@ -35,17 +39,14 @@ AMainPaperCharacter::AMainPaperCharacter()
     // Default capsule component properties
 	GetCapsuleComponent()->InitCapsuleSize(10.0f, 10.0f);
 
-    //Sprite
-    DefaultSprite = CreateDefaultSubobject<UPaperFlipbookComponent>(FName("Spawn_sprite"));
-    ConstructorHelpers::FObjectFinderOptional<UPaperFlipbook> MainCharacterAsset(TEXT("/Script/Paper2D.PaperFlipbook'/Game/Sprites/SpawnSprite.SpawnSprite'"));
-    DefaultSprite->SetFlipbook(MainCharacterAsset.Get());
-    DefaultSprite->SetupAttachment(GetCapsuleComponent());
-    DefaultSprite->SetRelativeRotation(FRotator(0.0f, 90.0f, -90.0f));
-	DefaultSprite->SetRelativeScale3D(FVector(1.0f, 1.0f, 1.0f));
+    // Default sprite component properties
+    GetSprite()->SetRelativeRotation(FRotator(0.0f, 90.0f, -90.0f));
+    GetSprite()->SetRelativeScale3D(FVector(1.0f, 1.0f, 1.0f));
 
-	bIsMoving = false;
-    bIsDead = false;
-    Health = 100.0f;
+    MainCharacterSpriteComponent = CreateDefaultSubobject<UMainCharacterSpriteComponent>(TEXT("MainCharacterSpriteComponent"));
+    MainCharacterSpriteComponent->SetupAttachment(RootComponent);
+    MainCharacterSpriteComponent->SetupOwner(GetSprite());
+    MainCharacterSpriteComponent->UpdateSprite(CharacterDirection);
 }
 
 // Called every frame
@@ -55,11 +56,13 @@ void AMainPaperCharacter::Tick(float DeltaTime)
 
 }
 
+// Called when the game starts or when spawned
 void AMainPaperCharacter::BeginPlay()
 {
     Super::BeginPlay();
 }
 
+// Called to bind functionality to input
 void AMainPaperCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
     Super::SetupPlayerInputComponent(PlayerInputComponent);
@@ -68,31 +71,35 @@ void AMainPaperCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
     PlayerInputComponent->BindAxis("MoveRightLeft", this, &AMainPaperCharacter::MoveRightLeft);
 }
 
-// When W or S are pressed
+// When W/UP or S/DOWN are pressed
 void AMainPaperCharacter::MoveForwardBackward(float Value)
 {
-    // FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxes(EAxis::X);
-    // AddMovementInput(Direction, Value);
     if ((Controller != nullptr) && (Value != 0.0f))
     {
-        const FVector Direction = FVector(1, 0, 0);
+        const FVector Direction = FVector(0.5, 0, 0);
         AddMovementInput(Direction, Value);
+
+        CharacterDirection = (Value > 0) ? EMainCharacterDirection::Up : EMainCharacterDirection::Down;
+
+        MainCharacterSpriteComponent->UpdateSprite(CharacterDirection);
     }
 }
 
-// When A or D keys are pressed
+// When A/LEFT or D/RIGHT keys are pressed
 void AMainPaperCharacter::MoveRightLeft(float Value)
 {
-    // FVector Direction = FRotationMatrix(Controller->GetControlRotation()).GetScaledAxes(EAxis::Y);
-    // AddMovementInput(Direction, Value);
-
     if ((Controller != nullptr) && (Value != 0.0f))
     {
-        const FVector Direction = FVector(0, 1, 0);
+        const FVector Direction = FVector(0, 0.5, 0);
         AddMovementInput(Direction, Value);
+
+        CharacterDirection = (Value > 0) ? EMainCharacterDirection::Right : EMainCharacterDirection::Left;
+
+        MainCharacterSpriteComponent->UpdateSprite(CharacterDirection);
     }
 }
 
+// When the character dies
 bool AMainPaperCharacter::Die()
 {
     if(Health <= 0.0f)
@@ -102,3 +109,4 @@ bool AMainPaperCharacter::Die()
     }
     return bIsDead;
 }
+
