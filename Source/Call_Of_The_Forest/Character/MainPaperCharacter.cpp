@@ -50,7 +50,6 @@ AMainPaperCharacter::AMainPaperCharacter()
 void AMainPaperCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
     UpdateCharacterSprite();
 }
 
@@ -67,6 +66,8 @@ void AMainPaperCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 
     PlayerInputComponent->BindAxis("MoveForwardBackward", this, &AMainPaperCharacter::MoveForwardBackward);
     PlayerInputComponent->BindAxis("MoveRightLeft", this, &AMainPaperCharacter::MoveRightLeft);
+
+    //can make action, but 
     PlayerInputComponent->BindAxis("PickUpItem", this, &AMainPaperCharacter::PickUpItem);
 
     PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMainPaperCharacter::Attack);
@@ -139,6 +140,9 @@ void AMainPaperCharacter::UpdateCharacterSprite()
     {
         bIsAttacking--;
     }
+    else if(Health <= 0.0f){
+        Die();
+    }
     else if(GetVelocity().IsNearlyZero() && (!bIsDead))
     {
         CharacterState = LastMoveDirection;
@@ -148,13 +152,15 @@ void AMainPaperCharacter::UpdateCharacterSprite()
 }
 
 // When the character dies
-bool AMainPaperCharacter::Die()
+void AMainPaperCharacter::Die()
 {
     if(Health <= 0.0f)
     {
         bIsDead = true;
+        CharacterState = (LastMoveDirection == EMainCharacterState::IdleLeft) ? EMainCharacterState::DieLeft : EMainCharacterState::DieRight;
+        MainCharacterSpriteComponent->UpdateSprite(CharacterState);
         GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+        EndPlay(EEndPlayReason::Destroyed);
     }
-    return bIsDead;
 }
 

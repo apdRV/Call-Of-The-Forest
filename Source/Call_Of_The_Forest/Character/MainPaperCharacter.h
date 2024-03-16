@@ -47,7 +47,7 @@ protected:
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintCallable, Category = "State")
-	bool  Die(); // смерть персонажа
+	void Die(); // смерть персонажа
 
 	UFUNCTION(BlueprintCallable, Category = "State")
 	void PickUpItem(float Value); // поднять предмет
