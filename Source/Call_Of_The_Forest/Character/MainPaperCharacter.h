@@ -34,6 +34,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
 	bool bIsDead;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
+	uint8 bIsAttacking;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AnimationCharacter | Config")
 	EMainCharacterState CharacterState;
 
@@ -54,6 +57,9 @@ protected:
 
 	UFUNCTION(BlueprintCallable, Category = "Movement")
     void MoveRightLeft(float Value);
+
+	UFUNCTION(BlueprintCallable, Category = "Attacking")
+	void Attack();
 
 	UFUNCTION(BlueprintCallable, Category = "Animation")
 	void UpdateCharacterSprite();

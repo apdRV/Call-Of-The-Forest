@@ -13,6 +13,7 @@ AMainPaperCharacter::AMainPaperCharacter()
     // Default character properties
 	bIsMoving = false;
     bIsDead = false;
+    bIsAttacking = 0;
     Health = 100.0f;
     CharacterState = EMainCharacterState::IdleDown;
     LastMoveDirection = EMainCharacterState::IdleDown;
@@ -67,6 +68,8 @@ void AMainPaperCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
     PlayerInputComponent->BindAxis("MoveForwardBackward", this, &AMainPaperCharacter::MoveForwardBackward);
     PlayerInputComponent->BindAxis("MoveRightLeft", this, &AMainPaperCharacter::MoveRightLeft);
     PlayerInputComponent->BindAxis("PickUpItem", this, &AMainPaperCharacter::PickUpItem);
+
+    PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMainPaperCharacter::Attack);
 }
 
 void AMainPaperCharacter::PickUpItem(float Value)
@@ -103,9 +106,40 @@ void AMainPaperCharacter::MoveRightLeft(float Value)
     }
 }
 
+void AMainPaperCharacter::Attack()
+{
+    bIsAttacking = 20;
+    //Change the character state to attack
+    if(CharacterState == EMainCharacterState::IdleDown || CharacterState == EMainCharacterState::Down)
+    {
+        LastMoveDirection = EMainCharacterState::IdleDown;
+        CharacterState = EMainCharacterState::AttackDown;
+    }
+    else if(CharacterState == EMainCharacterState::IdleUp || CharacterState == EMainCharacterState::Up)
+    {
+        LastMoveDirection = EMainCharacterState::IdleUp;
+        CharacterState = EMainCharacterState::AttackUp;
+    }
+    else if(CharacterState == EMainCharacterState::IdleRight || CharacterState == EMainCharacterState::Right)
+    {
+        LastMoveDirection = EMainCharacterState::IdleRight;
+        CharacterState = EMainCharacterState::AttackRight;
+    }
+    else if(CharacterState == EMainCharacterState::IdleLeft || CharacterState == EMainCharacterState::Left)
+    {
+        LastMoveDirection = EMainCharacterState::IdleLeft;
+        CharacterState = EMainCharacterState::AttackLeft;
+    }
+    // CODE FOR ATTACKING
+}
+
 void AMainPaperCharacter::UpdateCharacterSprite()
 {
-    if(GetVelocity().IsNearlyZero() && (!bIsDead))
+    if((bIsAttacking != 0) && (!bIsDead))
+    {
+        bIsAttacking--;
+    }
+    else if(GetVelocity().IsNearlyZero() && (!bIsDead))
     {
         CharacterState = LastMoveDirection;
     }
