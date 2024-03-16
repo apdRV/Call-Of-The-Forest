@@ -2,7 +2,8 @@
 
 
 #include "TrophyBase.h"
-#include "../Inventory/InventoryController.h"
+#include "../../Inventory/InventoryController.h"
+#include "Templates/Casts.h"
 
 ATrophyBase::ATrophyBase()
 {
@@ -25,7 +26,7 @@ void ATrophyBase::Interact_Implementation(APlayerController* Controller)
 {
     Super::Interact_Implementation(Controller);
 
-    AInventoryController* IController = Cast(Controller);
+    AInventoryController* IController = Cast<AInventoryController>(Controller);
     if(IController->AddItemToInventoryByID(ItemID))
         Destroy();
 }

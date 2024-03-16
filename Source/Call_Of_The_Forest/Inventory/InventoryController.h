@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "../ResourceBaseClass/ResourceBase.h"
+#include "../Resources/ResourceBaseClass/ResourceBase.h"
 #include "InventoryItem.h"
 #include "GameFramework/PlayerController.h"
 #include "InventoryController.generated.h"
@@ -29,7 +29,7 @@ public:
     class AResourceBase* CurrentInteractable;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-    TArray<AResourceBase*> Inventory;
+    TArray<FInventoryItem> Inventory;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
     int32 Money;

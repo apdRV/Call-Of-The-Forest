@@ -2,20 +2,26 @@
 
 
 #include "InventoryController.h"
+#include "InventoryGameState.h"
 
 AInventoryController::AInventoryController(){
     InventorySlotLimit = 20;
 }
 
-AInventoryController::AddItemToInventoryByID(FName ID){
-    AInventoryGameState* GameState = Cast(GetWorld()->GetGameState());
+bool AInventoryController::AddItemToInventoryByID(FName ID){
+    AInventoryGameState* GameState = Cast<AInventoryGameState>(GetWorld()->GetGameState());
     UDataTable* ItemTable = GameState->GetItemDB();
-    FInventoryItem* ItemToAdd = ItemTable->FindRow(ID, "");
+    FString ContextString;
+    FInventoryItem* ItemToAdd = ItemTable->FindRow<FInventoryItem>(ID, ContextString);
 
     if (ItemToAdd){
-        if (Inventory.Num() < InventorySlotLimit) BindAction("Interact", IE_Pressed, this, &amp;AInventoryController::Interact);
+        if (Inventory.Num() < InventorySlotLimit){
+            Inventory.Add(*ItemToAdd);
+            return true;
+        }
     }
-
+    return false;
+}
     void AInventoryController::Interact()
 {
     if (CurrentInteractable)
@@ -23,4 +29,9 @@ AInventoryController::AddItemToInventoryByID(FName ID){
         CurrentInteractable->Interact(this);
     }
 }
+
+void AInventoryController::SetupInputComponent()
+{
+    Super::SetupInputComponent();
+    InputComponent->BindAction("Interact", IE_Pressed, this, &AInventoryController::Interact);
 }

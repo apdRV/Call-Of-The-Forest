@@ -18,6 +18,9 @@ struct CALL_OF_THE_FOREST_API FInventoryItem : public FTableRowBase
 public:
 	FInventoryItem();
 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FName ItemID;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FText Name;
 
@@ -30,7 +33,7 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FText Description;
 
-    bool operator==(const FInventoryItem&amp; OtherItem) const
+    bool operator==(const FInventoryItem&& OtherItem) const
     {
         if (ItemID == OtherItem.ItemID)
             return true;

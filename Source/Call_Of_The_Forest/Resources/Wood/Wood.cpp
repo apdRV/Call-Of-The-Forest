@@ -1,5 +1,6 @@
 #include "Wood.h"
-#include "../Inventory/InventoryController.h"
+#include "../../Inventory/InventoryController.h"
+#include "Templates/Casts.h"
 
 AWood::AWood()
 {
@@ -22,7 +23,7 @@ void AWood::Interact_Implementation(APlayerController* Controller)
 {
     Super::Interact_Implementation(Controller);
 
-    AInventoryController* IController = Cast(Controller);
+    AInventoryController* IController = Cast<AInventoryController>(Controller);
     if(IController->AddItemToInventoryByID(ItemID))
         Destroy();
 }
