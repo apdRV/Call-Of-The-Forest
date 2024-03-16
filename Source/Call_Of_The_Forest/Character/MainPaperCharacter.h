@@ -46,9 +46,17 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "State")
 	bool  Die(); // смерть персонажа
 
+	UFUNCTION(BlueprintCallable, Category = "State")
 	void PickUpItem(float Value); // поднять предмет
+
+	UFUNCTION(BlueprintCallable, Category = "Movement")
     void MoveForwardBackward(float Value);
+
+	UFUNCTION(BlueprintCallable, Category = "Movement")
     void MoveRightLeft(float Value);
+
+	UFUNCTION(BlueprintCallable, Category = "Animation")
+	void UpdateCharacterSprite();
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
     class USpringArmComponent* CameraBoom;

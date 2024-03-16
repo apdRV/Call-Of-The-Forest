@@ -49,6 +49,8 @@ AMainPaperCharacter::AMainPaperCharacter()
 void AMainPaperCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+    UpdateCharacterSprite();
 }
 
 // Called when the game starts or when spawned
@@ -84,7 +86,6 @@ void AMainPaperCharacter::MoveForwardBackward(float Value)
         CharacterState = (Value > 0) ? EMainCharacterState::Up : EMainCharacterState::Down;
         LastMoveDirection = (CharacterState == EMainCharacterState::Up) ? EMainCharacterState::IdleUp : EMainCharacterState::IdleDown;
 
-        MainCharacterSpriteComponent->UpdateSprite(CharacterState);
     }
 }
 
@@ -99,8 +100,17 @@ void AMainPaperCharacter::MoveRightLeft(float Value)
         CharacterState = (Value > 0) ? EMainCharacterState::Right : EMainCharacterState::Left;
         LastMoveDirection = (CharacterState == EMainCharacterState::Right) ? EMainCharacterState::IdleRight : EMainCharacterState::IdleLeft;
 
-        MainCharacterSpriteComponent->UpdateSprite(CharacterState);
     }
+}
+
+void AMainPaperCharacter::UpdateCharacterSprite()
+{
+    if(GetVelocity().IsNearlyZero() && (!bIsDead))
+    {
+        CharacterState = LastMoveDirection;
+    }
+    MainCharacterSpriteComponent->UpdateSprite(CharacterState);
+
 }
 
 // When the character dies
