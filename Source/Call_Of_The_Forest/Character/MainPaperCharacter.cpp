@@ -49,35 +49,6 @@ AMainPaperCharacter::AMainPaperCharacter()
 void AMainPaperCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-    // if ((Controller != nullptr) && (!bIsDead))
-    // {
-    //     float ForwardBackwardValue = Controller->GetInputAxisValue("MoveForwardBackward");
-    //     float RightLeftValue = Controller->GetInputAxisValue("MoveRightLeft");
-
-    //     if (ForwardBackwardValue == 0.0f && RightLeftValue == 0.0f)
-    //     {
-    //         CharacterState = (LastMoveDirection == EMainCharacterState::Up) ? EMainCharacterState::IdleUp :
-    //                          (LastMoveDirection == EMainCharacterState::Down) ? EMainCharacterState::IdleDown :
-    //                          (LastMoveDirection == EMainCharacterState::Right) ? EMainCharacterState::IdleRight :
-    //                          EMainCharacterState::IdleLeft;  // Default to IdleLeft
-    //     }
-    //     else
-    //     {
-    //         if (ForwardBackwardValue != 0.0f)
-    //         {
-    //             CharacterState = (ForwardBackwardValue > 0) ? EMainCharacterState::Up : EMainCharacterState::Down;
-    //             LastMoveDirection = (CharacterState == EMainCharacterState::Up) ? EMainCharacterState::IdleUp : EMainCharacterState::IdleDown;
-    //         }
-    //         if (RightLeftValue != 0.0f)
-    //         {
-    //             CharacterState = (RightLeftValue > 0) ? EMainCharacterState::Right : EMainCharacterState::Left;
-    //             LastMoveDirection = (CharacterState == EMainCharacterState::Right) ? EMainCharacterState::IdleRight : EMainCharacterState::IdleLeft;
-    //         }
-    //     }
-
-    //     MainCharacterSpriteComponent->UpdateSprite(CharacterState);
-    // }
-
 }
 
 // Called when the game starts or when spawned
@@ -93,6 +64,12 @@ void AMainPaperCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 
     PlayerInputComponent->BindAxis("MoveForwardBackward", this, &AMainPaperCharacter::MoveForwardBackward);
     PlayerInputComponent->BindAxis("MoveRightLeft", this, &AMainPaperCharacter::MoveRightLeft);
+    PlayerInputComponent->BindAxis("PickUpItem", this, &AMainPaperCharacter::PickUpItem);
+}
+
+void AMainPaperCharacter::PickUpItem(float Value)
+{
+    //code for implementing the pick up item
 }
 
 // When W/UP or S/DOWN are pressed
@@ -109,10 +86,6 @@ void AMainPaperCharacter::MoveForwardBackward(float Value)
 
         MainCharacterSpriteComponent->UpdateSprite(CharacterState);
     }
-    // else if(Value == 0.0f && (Controller == nullptr) && (!bIsDead))
-    // {
-    //     MainCharacterSpriteComponent->UpdateSprite(LastMoveDirection);
-    // }
 }
 
 // When A/LEFT or D/RIGHT keys are pressed
@@ -128,10 +101,6 @@ void AMainPaperCharacter::MoveRightLeft(float Value)
 
         MainCharacterSpriteComponent->UpdateSprite(CharacterState);
     }
-    // else if(Value == 0.0f && (Controller == nullptr) && (!bIsDead))
-    // {
-    //     MainCharacterSpriteComponent->UpdateSprite(LastMoveDirection);
-    // }
 }
 
 // When the character dies
