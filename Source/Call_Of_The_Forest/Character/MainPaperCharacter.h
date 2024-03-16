@@ -37,6 +37,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AnimationCharacter | Config")
 	EMainCharacterState CharacterState;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AnimationCharacter | Config")
+	EMainCharacterState LastMoveDirection;;
+
 	UFUNCTION()
 	virtual void BeginPlay() override;
 
