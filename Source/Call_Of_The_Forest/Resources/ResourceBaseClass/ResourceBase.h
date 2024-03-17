@@ -6,6 +6,7 @@
 #include "PaperFlipbookActor.h"
 #include "PaperFlipbook.h"
 #include "PaperFlipbookComponent.h"
+#include "GameFramework/Actor.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/TextRenderComponent.h"
 #include "ResourceBase.generated.h"
@@ -32,8 +33,24 @@ class CALL_OF_THE_FOREST_API AResourceBase : public APaperFlipbookActor
 	GENERATED_BODY()
 
 public:	
-	// Sets default values for this actor's properties
-	AResourceBase(){};
+	AResourceBase(){
+
+	Name = "Interactable";
+	Action = "Interact";
+	};
+
+	UFUNCTION(BlueprintNativeEvent)
+	void Interact(APlayerController* Controller);
+	virtual void Interact_Implementation(APlayerController* Controller);
+
+	UPROPERTY(EditDefaultsOnly)
+	FString Name;
+
+	UPROPERTY(EditDefaultsOnly)
+	FString Action;
+
+	UFUNCTION(BlueprintCallable, Category = "Pickup")
+	FString GetInteractText() const;
 
 protected:
 	virtual void BeginPlay() override;

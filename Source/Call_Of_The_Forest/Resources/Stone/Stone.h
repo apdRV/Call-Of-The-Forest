@@ -21,7 +21,12 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Stone")
     UPaperFlipbookComponent* StoneComponent;
 
+	void Interact_Implementation(APlayerController* Controller) override;
+
 protected:
 	virtual void BeginPlay() override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FName ItemID;
 
 };
