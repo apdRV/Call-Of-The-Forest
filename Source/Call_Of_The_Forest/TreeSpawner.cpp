@@ -11,7 +11,7 @@ void ATreeSpawner::BeginPlay()
 }
 
 void ATreeSpawner::SpawnTree(){
-    FRotator Rotation(0, 0, 90);
+    FRotator Rotation(0, -90, 90);
     for (int l=-7;l<7;l++){
         for (int r=-7;r<7;r++){
             for (int i=0;i<ObjectCount;i++){
