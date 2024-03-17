@@ -34,17 +34,35 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
 	bool bIsDead;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
+	uint8 bIsAttacking;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AnimationCharacter | Config")
 	EMainCharacterState CharacterState;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AnimationCharacter | Config")
+	EMainCharacterState LastMoveDirection;;
 
 	UFUNCTION()
 	virtual void BeginPlay() override;
 
 	UFUNCTION(BlueprintCallable, Category = "State")
-	bool  Die(); // смерть персонажа
+	void Die(); // смерть персонажа
 
+	UFUNCTION(BlueprintCallable, Category = "State")
+	void PickUpItem(float Value); // поднять предмет
+
+	UFUNCTION(BlueprintCallable, Category = "Movement")
     void MoveForwardBackward(float Value);
+
+	UFUNCTION(BlueprintCallable, Category = "Movement")
     void MoveRightLeft(float Value);
+
+	UFUNCTION(BlueprintCallable, Category = "Attacking")
+	void Attack();
+
+	UFUNCTION(BlueprintCallable, Category = "Animation")
+	void UpdateCharacterSprite();
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
     class USpringArmComponent* CameraBoom;

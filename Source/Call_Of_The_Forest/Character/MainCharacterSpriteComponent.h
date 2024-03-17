@@ -22,7 +22,13 @@ enum class EMainCharacterState : uint8{
 	IdleUp,
 	IdleDown,
 	IdleLeft,
-	IdleRight
+	IdleRight,
+	AttackUp,
+	AttackDown,
+	AttackLeft,
+	AttackRight,
+	DieLeft,
+	DieRight
 };
 
 UCLASS()

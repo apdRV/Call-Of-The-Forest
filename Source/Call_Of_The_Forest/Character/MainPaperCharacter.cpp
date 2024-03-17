@@ -13,8 +13,10 @@ AMainPaperCharacter::AMainPaperCharacter()
     // Default character properties
 	bIsMoving = false;
     bIsDead = false;
+    bIsAttacking = 0;
     Health = 100.0f;
     CharacterState = EMainCharacterState::IdleDown;
+    LastMoveDirection = EMainCharacterState::IdleDown;
 
     //SpringArm
     CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
@@ -48,7 +50,7 @@ AMainPaperCharacter::AMainPaperCharacter()
 void AMainPaperCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+    UpdateCharacterSprite();
 }
 
 // Called when the game starts or when spawned
@@ -64,6 +66,16 @@ void AMainPaperCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
 
     PlayerInputComponent->BindAxis("MoveForwardBackward", this, &AMainPaperCharacter::MoveForwardBackward);
     PlayerInputComponent->BindAxis("MoveRightLeft", this, &AMainPaperCharacter::MoveRightLeft);
+
+    //can make action, but 
+    PlayerInputComponent->BindAxis("PickUpItem", this, &AMainPaperCharacter::PickUpItem);
+
+    PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMainPaperCharacter::Attack);
+}
+
+void AMainPaperCharacter::PickUpItem(float Value)
+{
+    //code for implementing the pick up item
 }
 
 // When W/UP or S/DOWN are pressed
@@ -74,9 +86,10 @@ void AMainPaperCharacter::MoveForwardBackward(float Value)
         const FVector Direction = FVector(0.5, 0, 0);
         AddMovementInput(Direction, Value);
 
-        CharacterState = (Value > 0) ? EMainCharacterState::Up : EMainCharacterState::Down;
 
-        MainCharacterSpriteComponent->UpdateSprite(CharacterState);
+        CharacterState = (Value > 0) ? EMainCharacterState::Up : EMainCharacterState::Down;
+        LastMoveDirection = (CharacterState == EMainCharacterState::Up) ? EMainCharacterState::IdleUp : EMainCharacterState::IdleDown;
+
     }
 }
 
@@ -89,19 +102,65 @@ void AMainPaperCharacter::MoveRightLeft(float Value)
         AddMovementInput(Direction, Value);
 
         CharacterState = (Value > 0) ? EMainCharacterState::Right : EMainCharacterState::Left;
+        LastMoveDirection = (CharacterState == EMainCharacterState::Right) ? EMainCharacterState::IdleRight : EMainCharacterState::IdleLeft;
 
-        MainCharacterSpriteComponent->UpdateSprite(CharacterState);
     }
 }
 
+void AMainPaperCharacter::Attack()
+{
+    bIsAttacking = 20;
+    //Change the character state to attack
+    if(CharacterState == EMainCharacterState::IdleDown || CharacterState == EMainCharacterState::Down)
+    {
+        LastMoveDirection = EMainCharacterState::IdleDown;
+        CharacterState = EMainCharacterState::AttackDown;
+    }
+    else if(CharacterState == EMainCharacterState::IdleUp || CharacterState == EMainCharacterState::Up)
+    {
+        LastMoveDirection = EMainCharacterState::IdleUp;
+        CharacterState = EMainCharacterState::AttackUp;
+    }
+    else if(CharacterState == EMainCharacterState::IdleRight || CharacterState == EMainCharacterState::Right)
+    {
+        LastMoveDirection = EMainCharacterState::IdleRight;
+        CharacterState = EMainCharacterState::AttackRight;
+    }
+    else if(CharacterState == EMainCharacterState::IdleLeft || CharacterState == EMainCharacterState::Left)
+    {
+        LastMoveDirection = EMainCharacterState::IdleLeft;
+        CharacterState = EMainCharacterState::AttackLeft;
+    }
+    // CODE FOR ATTACKING
+}
+
+void AMainPaperCharacter::UpdateCharacterSprite()
+{
+    if((bIsAttacking != 0) && (!bIsDead))
+    {
+        bIsAttacking--;
+    }
+    else if(Health <= 0.0f){
+        Die();
+    }
+    else if(GetVelocity().IsNearlyZero() && (!bIsDead))
+    {
+        CharacterState = LastMoveDirection;
+    }
+    MainCharacterSpriteComponent->UpdateSprite(CharacterState);
+
+}
+
 // When the character dies
-bool AMainPaperCharacter::Die()
+void AMainPaperCharacter::Die()
 {
     if(Health <= 0.0f)
     {
         bIsDead = true;
+        CharacterState = (LastMoveDirection == EMainCharacterState::IdleLeft) ? EMainCharacterState::DieLeft : EMainCharacterState::DieRight;
+        MainCharacterSpriteComponent->UpdateSprite(CharacterState);
         GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+        EndPlay(EEndPlayReason::Destroyed);
     }
-    return bIsDead;
 }
 
