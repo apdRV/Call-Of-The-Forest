@@ -5,6 +5,9 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "../Resources/ResourceBaseClass/ResourceBase.h"
+#include "../Inventory/InventoryItem.h"
+#include "../Inventory/InventoryController.h"
 
 AMainPaperCharacter::AMainPaperCharacter()
 {
@@ -51,6 +54,7 @@ void AMainPaperCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
     UpdateCharacterSprite();
+    CheckForInteractables();
 }
 
 // Called when the game starts or when spawned
@@ -161,6 +165,35 @@ void AMainPaperCharacter::Die()
         MainCharacterSpriteComponent->UpdateSprite(CharacterState);
         GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
         EndPlay(EEndPlayReason::Destroyed);
+    }
+}
+
+void AMainPaperCharacter::CheckForInteractables()
+{
+    FHitResult HitResult;
+    int32 Range = 100;
+    FVector StartTrace = FollowCamera->GetComponentLocation();
+    FVector EndTrace = (FollowCamera->GetForwardVector() * Range) + StartTrace;
+
+    FCollisionQueryParams QueryParams;
+    QueryParams.AddIgnoredActor(this);
+
+    AInventoryController* IController = Cast<AInventoryController>(GetController());
+
+    if (IController){
+        if (GetWorld()->LineTraceSingleByChannel(HitResult, StartTrace, EndTrace, ECC_Visibility, QueryParams))
+        {
+            // Cast the actor to AInteractable
+            AResourceBase* Interactable = Cast<AResourceBase>(HitResult.GetActor());
+            // If the cast is successful
+            if (Interactable)
+            {
+                IController->CurrentInteractable = Interactable;
+                return;
+            }
+        }
+
+        IController->CurrentInteractable = nullptr;
     }
 }
 
