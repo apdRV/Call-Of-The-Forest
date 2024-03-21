@@ -26,7 +26,7 @@ class CALL_OF_THE_FOREST_API ATree1: public APaperFlipbookActor
     TreeComponent = CreateDefaultSubobject<UPaperFlipbookComponent>(FName("tree"));
     ConstructorHelpers::FObjectFinderOptional<UPaperFlipbook> TreeAsset(TEXT("/Script/Paper2D.PaperFlipbook'/Game/Sprites/tree_Flipbook.tree_Flipbook'"));
     TreeComponent->SetFlipbook(TreeAsset.Get());
-    SetActorScale3D(FVector(1, 2, 20));
+    SetActorScale3D(FVector(0.75, 1.5, 15));
     TreeComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
     TreeComponent->SetCollisionObjectType(ECollisionChannel::ECC_PhysicsBody);
     TreeComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
