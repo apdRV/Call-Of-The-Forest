@@ -1,4 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -7,6 +6,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "../World/StaticWorld.h"
 #include "MainCharacterSpriteComponent.h"
 #include "MainPaperCharacter.generated.h"
 /**
@@ -24,6 +24,8 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 protected:
+    UPROPERTY()
+	AStaticWorld* World;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State") 
 	float Health;

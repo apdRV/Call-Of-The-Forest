@@ -8,6 +8,7 @@
 #include "PaperFlipbookComponent.h"
 #include "PaperSprite.h"
 #include "PaperSpriteComponent.h"
+#include "World/StaticWorld.h"
 #include "Tree1.generated.h"
 
 
@@ -21,6 +22,8 @@ class CALL_OF_THE_FOREST_API ATree1: public APaperFlipbookActor
   UPROPERTY(VisibleAnywhere, Category=paper)
   UPaperFlipbookComponent* TreeComponent;
 
+  UPROPERTY()
+  AStaticWorld* World; 
   public:
   ATree1() {
     TreeComponent = CreateDefaultSubobject<UPaperFlipbookComponent>(FName("tree"));
@@ -34,10 +37,15 @@ class CALL_OF_THE_FOREST_API ATree1: public APaperFlipbookActor
     TreeComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
     TreeComponent->CanCharacterStepUpOn = ECB_No;
     SetRootComponent(TreeComponent);
+    World = AStaticWorld::GetStaticWorld();
+    World->AddActor("Tree", this);
   }
 
   virtual void BeginPlay() override {
     Super::BeginPlay();
+  }
+
+  void Attacked(){
   }
 };
 

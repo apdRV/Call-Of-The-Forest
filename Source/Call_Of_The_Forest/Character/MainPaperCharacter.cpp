@@ -1,3 +1,4 @@
+
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
@@ -44,6 +45,7 @@ AMainPaperCharacter::AMainPaperCharacter()
     MainCharacterSpriteComponent->SetupAttachment(RootComponent);
     MainCharacterSpriteComponent->SetupOwner(GetSprite());
     MainCharacterSpriteComponent->UpdateSprite(CharacterState);
+    World = AStaticWorld::GetStaticWorld();
 }
 
 // Called every frame
@@ -131,6 +133,7 @@ void AMainPaperCharacter::Attack()
         LastMoveDirection = EMainCharacterState::IdleLeft;
         CharacterState = EMainCharacterState::AttackLeft;
     }
+    World->PlayerAttack(GetActorLocation(), CharacterState);
     // CODE FOR ATTACKING
 }
 
