@@ -11,7 +11,7 @@ AStaticWorld::~AStaticWorld()
 {
 }
 
-void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState PlayerRotation) {
+void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState CharacterState) {
 		for (auto Tree: Actors["Tree"]){
 			
 				if(CharacterState == EMainCharacterState::AttackDown)
