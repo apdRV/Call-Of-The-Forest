@@ -5,7 +5,9 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <mutex>
 #include <vector>
+#include <algorithm>
 #include <algorithm>
 #include "../Character/MainCharacterSpriteComponent.h"
 #include "GameFramework/Actor.h"
@@ -15,8 +17,8 @@ UCLASS()
 class CALL_OF_THE_FOREST_API AStaticWorld : public AActor
 {
 	GENERATED_BODY()
-
 	std::map<std::string, std::vector<AActor*>> Actors;
+	static AStaticWorld* World;
 public:
 	AStaticWorld();
 	~AStaticWorld();
@@ -25,7 +27,6 @@ public:
 	}	
 	void PlayerAttack(FVector PlayerLocation, EMainCharacterState CharacterState);	
 	static AStaticWorld* GetStaticWorld() {
-		static AStaticWorld* World = NewObject<AStaticWorld>();
 		return World;
 	}
 };

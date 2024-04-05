@@ -2,9 +2,12 @@
 #include "StaticWorld.h"
 #include "../Tree1.h"
 
-
+AStaticWorld* AStaticWorld::World = nullptr;
 AStaticWorld::AStaticWorld()
 {
+	if (World == nullptr){
+		World = this;
+	}
 }
 
 AStaticWorld::~AStaticWorld()
