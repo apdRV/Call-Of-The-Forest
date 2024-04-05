@@ -12,9 +12,13 @@ AStaticWorld::AStaticWorld()
 
 AStaticWorld::~AStaticWorld()
 {
+	World = nullptr;
 }
 
 void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState CharacterState) {
+	if (Actors.find("Tree") == Actors.end()){
+		return;
+	}
 		for (auto Tree: Actors["Tree"]){
 			
 				if(CharacterState == EMainCharacterState::AttackDown)

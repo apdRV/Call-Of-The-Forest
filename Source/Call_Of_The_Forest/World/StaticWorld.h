@@ -23,6 +23,9 @@ public:
 	AStaticWorld();
 	~AStaticWorld();
 	void AddActor (std::string Type, AActor* Actor){
+		if (Actors.find(Type) == Actors.end()){
+			Actors.insert({Type, std::vector<AActor*>()});
+		}
 		Actors[Type].push_back(Actor);
 	}	
 	void PlayerAttack(FVector PlayerLocation, EMainCharacterState CharacterState);	
