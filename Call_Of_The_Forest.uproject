@@ -11,7 +11,8 @@
 			"AdditionalDependencies": [
 				"Engine",
 				"Paper2D",
-				"UnrealEd"
+				"UnrealEd",
+				"AIModule"
 			]
 		}
 	],
