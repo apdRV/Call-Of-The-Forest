@@ -39,13 +39,15 @@ AMob::AMob()
     //SetActorScale3D(FVector(1.0, 1.0, 1.0));
 
     static ConstructorHelpers::FObjectFinder<UPaperFlipbook> IdleRightUpTest(TEXT("/Script/Paper2D.PaperFlipbook'/Game/AnimatedSprites/MobAnimation/SkeletonAnimation/IdleRightUp/IdleRightUp.IdleRightUp'"));
-    MobTest->SetFlipbook(IdleRightUpTest.Get());
     MobTest->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
     MobTest->SetCollisionObjectType(ECollisionChannel::ECC_PhysicsBody);
     MobTest->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
     MobTest->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Ignore);
     MobTest->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
     MobTest->CanCharacterStepUpOn = ECB_No;
+    if(IdleRightUpTest != nullptr){
+        MobTest->SetFlipbook(IdleRightUpTest.Get());
+    }
     MobTest->SetupAttachment(RootComponent);
 
     // MobSpriteComponent = CreateDefaultSubobject<UMobSpriteComponent>(TEXT("MobSpriteComponent"));
