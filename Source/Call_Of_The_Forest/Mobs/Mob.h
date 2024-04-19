@@ -13,6 +13,7 @@
 /**
  * 
  */
+
 UCLASS()
 class CALL_OF_THE_FOREST_API AMob : public APaperCharacter
 {
@@ -52,9 +53,13 @@ protected:
 	float MaxHealth;
 
 
+
 	// properties for animation
-	UPROPERTY(EditDefaultsOnly, Category =  "Components")
-	class UMobSpriteComponent *MobSpriteComponent;
+	// UPROPERTY(EditAnywhere, Category =  "Components")
+	// class UMobSpriteComponent *MobSpriteComponent;
+
+	UPROPERTY(EditAnywhere, Category =  "Components")
+	class UPaperFlipbookComponent* MobTest;
 
 	// Properties for AI
 
@@ -64,11 +69,11 @@ protected:
 	UBehaviorTree* Tree;
 
 
-	UFUNCTION(BlueprintCallable, Category = "Animation")
-	void UpdateMobSprite();
+	// UFUNCTION(BlueprintCallable, Category = "Animation")
+	// void UpdateMobSprite();
 
 
-	UFUNCTION(BlueprintCallable, Category = "State")
-	void Die();
+	// UFUNCTION(BlueprintCallable, Category = "State")
+	// void Die();
 
 };

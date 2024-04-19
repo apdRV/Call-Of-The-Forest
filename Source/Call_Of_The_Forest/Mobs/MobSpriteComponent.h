@@ -34,7 +34,7 @@ public:
 	void UpdateSprite(EMobState State);
 	void SetupOwner(UPaperFlipbookComponent* Owner);
 
-protected:
+//protected:
 	TMap<EMobState, UPaperFlipbook*> DirectionToSprite;
 	class UPaperFlipbookComponent* MobSprite;
 	
