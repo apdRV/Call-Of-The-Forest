@@ -38,7 +38,7 @@ AMob::AMob()
     GetSprite()->SetRelativeScale3D(FVector(1.0f, 1.0f, 1.0f));
     //SetActorScale3D(FVector(1.0, 1.0, 1.0));
 
-    ConstructorHelpers::FObjectFinderOptional<UPaperFlipbook> IdleRightUpTest(TEXT("/Script/Paper2D.PaperFlipbook'/Game/AnimatedSprites/MobAnimation/SkeletonAnimation/IdleRightUp/IdleRightUp.IdleRightUp'"));
+    static ConstructorHelpers::FObjectFinder<UPaperFlipbook> IdleRightUpTest(TEXT("/Script/Paper2D.PaperFlipbook'/Game/AnimatedSprites/MobAnimation/SkeletonAnimation/IdleRightUp/IdleRightUp.IdleRightUp'"));
     MobTest->SetFlipbook(IdleRightUpTest.Get());
     MobTest->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
     MobTest->SetCollisionObjectType(ECollisionChannel::ECC_PhysicsBody);
