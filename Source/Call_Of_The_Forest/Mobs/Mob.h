@@ -55,11 +55,10 @@ protected:
 
 
 	// properties for animation
-	// UPROPERTY(EditAnywhere, Category =  "Components")
-	// class UMobSpriteComponent *MobSpriteComponent;
-
 	UPROPERTY(EditAnywhere, Category =  "Components")
-	class UPaperFlipbookComponent* MobTest;
+	class UMobSpriteComponent *MobSpriteComponent;
+	
+
 
 	// Properties for AI
 
@@ -69,11 +68,11 @@ protected:
 	UBehaviorTree* Tree;
 
 
-	// UFUNCTION(BlueprintCallable, Category = "Animation")
-	// void UpdateMobSprite();
+	UFUNCTION(BlueprintCallable, Category = "Animation")
+	void UpdateMobSprite();
 
 
-	// UFUNCTION(BlueprintCallable, Category = "State")
-	// void Die();
+	UFUNCTION(BlueprintCallable, Category = "State")
+	void Die();
 
 };
