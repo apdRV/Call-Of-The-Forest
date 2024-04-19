@@ -13,9 +13,9 @@ AWood::AWood()
     SetActorRotation(FRotator(0, 0, 90));
 	SetActorRelativeScale3D(FVector(0.5, 1.0, 0.5));
 
-    ItemID = FName("2");
+    ItemID = FName("No ID");
 
-    Super::Name = "Wood";
+    Super::Name = "Item";
     Super::Action = "pickup";
 }
 

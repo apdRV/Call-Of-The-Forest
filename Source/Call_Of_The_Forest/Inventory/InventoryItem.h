@@ -11,7 +11,7 @@
  * 
  */
 USTRUCT(BlueprintType)
-struct CALL_OF_THE_FOREST_API FInventoryItem : public FTableRowBase
+struct FInventoryItem : public FTableRowBase
 {
 	GENERATED_BODY()
 

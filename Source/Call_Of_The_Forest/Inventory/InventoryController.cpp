@@ -22,6 +22,7 @@ bool AInventoryController::AddItemToInventoryByID(FName ID){
     }
     return false;
 }
+
     void AInventoryController::Interact()
 {
     if (CurrentInteractable)

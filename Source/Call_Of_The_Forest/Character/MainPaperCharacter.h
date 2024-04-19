@@ -49,9 +49,6 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "State")
 	void Die(); // смерть персонажа
 
-	UFUNCTION(BlueprintCallable, Category = "State")
-	void PickUpItem(float Value); // поднять предмет
-
 	UFUNCTION(BlueprintCallable, Category = "Movement")
     void MoveForwardBackward(float Value);
 

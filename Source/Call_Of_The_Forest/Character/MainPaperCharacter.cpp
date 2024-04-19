@@ -71,15 +71,7 @@ void AMainPaperCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
     PlayerInputComponent->BindAxis("MoveForwardBackward", this, &AMainPaperCharacter::MoveForwardBackward);
     PlayerInputComponent->BindAxis("MoveRightLeft", this, &AMainPaperCharacter::MoveRightLeft);
 
-    //can make action, but 
-    PlayerInputComponent->BindAxis("PickUpItem", this, &AMainPaperCharacter::PickUpItem);
-
     PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMainPaperCharacter::Attack);
-}
-
-void AMainPaperCharacter::PickUpItem(float Value)
-{
-    //code for implementing the pick up item
 }
 
 // When W/UP or S/DOWN are pressed
@@ -171,7 +163,7 @@ void AMainPaperCharacter::Die()
 void AMainPaperCharacter::CheckForInteractables()
 {
     FHitResult HitResult;
-    int32 Range = 1000;
+    int32 Range = 10000;
     FVector StartTrace = FollowCamera->GetComponentLocation();
     FVector EndTrace = (FollowCamera->GetForwardVector() * Range) + StartTrace;
 

@@ -9,8 +9,8 @@
 /**
  * 
  */
-UCLASS()
-class CALL_OF_THE_FOREST_API ACallOfTheForestModeBase : public AGameModeBase
+UCLASS(minimalapi)
+class ACallOfTheForestModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 public:
