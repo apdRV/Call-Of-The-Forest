@@ -29,9 +29,3 @@ void AWood::Interact_Implementation(APlayerController* Controller)
 }
 
 
-void AWood::BeginPlay()
-{
-    Super::BeginPlay();
-
-}
-

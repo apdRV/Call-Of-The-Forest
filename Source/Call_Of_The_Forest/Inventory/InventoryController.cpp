@@ -11,12 +11,12 @@ AInventoryController::AInventoryController(){
 bool AInventoryController::AddItemToInventoryByID(FName ID){
     AInventoryGameState* GameState = Cast<AInventoryGameState>(GetWorld()->GetGameState());
     UDataTable* ItemTable = GameState->GetItemDB();
-    FString ContextString;
-    FInventoryItem* ItemToAdd = ItemTable->FindRow<FInventoryItem>(ID, ContextString);
+    FInventoryItem* ItemToAdd = ItemTable->FindRow<FInventoryItem>(ID, "");
 
     if (ItemToAdd){
         if (Inventory.Num() < InventorySlotLimit){
             Inventory.Add(*ItemToAdd);
+            ReloadInventory();
             return true;
         }
     }

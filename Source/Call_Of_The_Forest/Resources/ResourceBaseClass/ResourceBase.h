@@ -11,22 +11,6 @@
 #include "Components/TextRenderComponent.h"
 #include "ResourceBase.generated.h"
 
-USTRUCT(BlueprintType)
-struct FResourceData
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	TSubclassOf<AResourceBase> Class;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	class UPaperSprite* Image{nullptr};
-
-	UPROPERTY(BlueprintReadOnly)
-	FString Name;
-
-};
-
 UCLASS()
 class CALL_OF_THE_FOREST_API AResourceBase : public APaperFlipbookActor
 {
@@ -51,17 +35,5 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Pickup")
 	FString GetInteractText() const;
-
-protected:
-	virtual void BeginPlay() override;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Trigger)
-	class UCapsuleComponent* TriggerCapsule;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Tooltip)
-	class UTextRenderComponent* Tooltip;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Config)
-	FResourceData Data;
 
 };

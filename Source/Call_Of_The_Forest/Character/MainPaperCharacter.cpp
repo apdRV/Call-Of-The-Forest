@@ -171,7 +171,7 @@ void AMainPaperCharacter::Die()
 void AMainPaperCharacter::CheckForInteractables()
 {
     FHitResult HitResult;
-    int32 Range = 100;
+    int32 Range = 1000;
     FVector StartTrace = FollowCamera->GetComponentLocation();
     FVector EndTrace = (FollowCamera->GetForwardVector() * Range) + StartTrace;
 
