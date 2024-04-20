@@ -22,6 +22,7 @@ class CALL_OF_THE_FOREST_API AMob : public APaperCharacter
 public:
 	AMob();
 	virtual void Tick(float Deltatime) override;
+	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UBehaviorTree* GetBehaviourTree() const;
 
@@ -52,6 +53,17 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Health")
 	float MaxHealth;
 
+	UFUNCTION(BlueprintCallable, Category = "Movement")
+    void MoveForwardBackward(float Value);
+
+	UFUNCTION(BlueprintCallable, Category = "Movement")
+    void MoveRightLeft(float Value);
+
+	UFUNCTION(BlueprintCallable, Category = "Attacking")
+	void Attack();
+
+	UFUNCTION(BlueprintCallable, Category = "Animation")
+	void UpdateMobSprite();
 
 
 	// properties for animation
@@ -67,11 +79,7 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI", meta = (AllowPrivateAccess = "true"))
 	UBehaviorTree* Tree;
 
-
-	UFUNCTION(BlueprintCallable, Category = "Animation")
-	void UpdateMobSprite();
-
-
+	// end of AI properties
 	UFUNCTION(BlueprintCallable, Category = "State")
 	void Die();
 

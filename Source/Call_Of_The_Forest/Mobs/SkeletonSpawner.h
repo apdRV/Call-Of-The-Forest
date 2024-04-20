@@ -17,7 +17,7 @@ class CALL_OF_THE_FOREST_API ASkeletonSpawner : public AMobsSpawner
 	GENERATED_BODY()
 
 public:
-	ASkeletonSpawner() : AMobsSpawner(2)
+	ASkeletonSpawner() : AMobsSpawner(0)
 	{
 	}
 	void SpawnSkeletons();

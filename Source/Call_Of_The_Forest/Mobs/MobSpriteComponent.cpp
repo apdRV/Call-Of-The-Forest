@@ -25,12 +25,12 @@ UMobSpriteComponent::UMobSpriteComponent()
     DirectionToSprite.Add(EMobState::DieLeftDown, DieLeftDown.Object);
     DirectionToSprite.Add(EMobState::DieRightUp, DieRightUp.Object);
 
-    MobSprite->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-    MobSprite->SetCollisionObjectType(ECollisionChannel::ECC_PhysicsBody);
-    MobSprite->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
-    MobSprite->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Ignore);
-    MobSprite->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
-    MobSprite->CanCharacterStepUpOn = ECB_No;
+    // MobSprite->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+    // MobSprite->SetCollisionObjectType(ECollisionChannel::ECC_PhysicsBody);
+    // MobSprite->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
+    // MobSprite->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Ignore);
+    // MobSprite->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
+    // MobSprite->CanCharacterStepUpOn = ECB_No;
     //SetRootComponent(MobSprite);
 
 }

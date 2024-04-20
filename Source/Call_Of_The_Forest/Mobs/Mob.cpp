@@ -20,6 +20,8 @@ AMob::AMob()
     BaseDamage = 10.0f;
 
 
+
+    //AI Properties begin
     //устанавливаем наш AIController
     AIControllerClass = AMobsAIController::StaticClass();
 
@@ -30,6 +32,11 @@ AMob::AMob()
         Tree = BTObject.Object;
     }
 
+    //AI Properties end
+
+
+
+
     // Default capsule component properties
 	GetCapsuleComponent()->InitCapsuleSize(10.0f, 10.0f);
 
@@ -38,18 +45,21 @@ AMob::AMob()
     GetSprite()->SetRelativeScale3D(FVector(1.0f, 1.0f, 1.0f));
 
     MobSpriteComponent = CreateDefaultSubobject<UMobSpriteComponent>(TEXT("MobSpriteComponent"));
-    MobSpriteComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-    MobSpriteComponent->SetCollisionObjectType(ECollisionChannel::ECC_PhysicsBody);
-    MobSpriteComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
-    MobSpriteComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Ignore);
-    MobSpriteComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
-    MobSpriteComponent->CanCharacterStepUpOn = ECB_No;
+    // MobSpriteComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+    // MobSpriteComponent->SetCollisionObjectType(ECollisionChannel::ECC_PhysicsBody);
+    // MobSpriteComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
+    // MobSpriteComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Ignore);
+    // MobSpriteComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
+    // MobSpriteComponent->CanCharacterStepUpOn = ECB_No;
     
 
 
     MobSpriteComponent->SetupAttachment(RootComponent);
     MobSpriteComponent->SetupOwner(GetSprite());
     MobSpriteComponent->UpdateSprite(MobState);
+
+
+    
 }
 
 void AMob::Tick(float Deltatime)
@@ -61,17 +71,58 @@ void AMob::Tick(float Deltatime)
 void AMob::BeginPlay()
 {
 
-    //устанавливаем AiController
-    AAIController* AIController = GetWorld()->SpawnActor<AAIController>(AIControllerClass);
+    //!!!!!! устанавливаем AiController МОГУТ БЫТЬ ПРОБЛЕМЫ!!!!!!!!
+    // AAIController* AIController = GetWorld()->SpawnActor<AAIController>(AIControllerClass);
 
-    if (AIController)
+    // if (AIController)
+    // {
+    //     AIController->Possess(this);
+    // }
+    // else
+    // {
+    //     UE_LOG(LogTemp, Warning, TEXT("AIController not found"));
+    // }
+
+}
+
+void AMob::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+    Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+    PlayerInputComponent->BindAxis("MoveForwardBackward", this, &AMob::MoveForwardBackward);
+    PlayerInputComponent->BindAxis("MoveRightLeft", this, &AMob::MoveRightLeft);
+
+    //can make action, but 
+    PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMob::Attack);
+}
+
+void AMob::MoveForwardBackward(float Value)
+{
+    if ((AIControllerClass != nullptr) && (Value != 0.0f) && (!bIsDead))
     {
-        AIController->Possess(this);
+        const FVector Direction = FVector(0.2, 0, 0);
+        AddMovementInput(Direction, Value);
+
+        MobState = (Value > 0) ? EMobState::RightUp : EMobState::LeftDown;
+        LastMobState = (MobState == EMobState::RightUp) ? EMobState::IdleRightUp : EMobState::IdleLeftDown;
     }
-    else
+}
+
+// When A/LEFT or D/RIGHT keys are pressed
+void AMob::MoveRightLeft(float Value)
+{
+    if ((AIControllerClass != nullptr) && (Value != 0.0f) && (!bIsDead))
     {
-        UE_LOG(LogTemp, Warning, TEXT("AIController not found"));
+        const FVector Direction = FVector(0, 0.2, 0);
+        AddMovementInput(Direction, Value);
+
+        MobState = (Value > 0) ? EMobState::IdleRightUp : EMobState::IdleLeftDown;
+        LastMobState = (MobState == EMobState::RightUp) ? EMobState::IdleRightUp : EMobState::IdleLeftDown;
     }
+}
+
+void AMob::Attack()
+{
 
 }
 
