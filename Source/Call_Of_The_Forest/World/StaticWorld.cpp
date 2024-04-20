@@ -1,7 +1,7 @@
 
 #include "StaticWorld.h"
 #include "../Resources/Wood/Wood.h"
-#include "../Tree1.h"
+#include "../Spawners/Tree1.h"
 
 AStaticWorld* AStaticWorld::World = nullptr;
 AStaticWorld::AStaticWorld()

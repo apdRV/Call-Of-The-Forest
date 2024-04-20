@@ -8,7 +8,7 @@
 #include "PaperFlipbookComponent.h"
 #include "PaperSprite.h"
 #include "PaperSpriteComponent.h"
-#include "World/StaticWorld.h"
+#include "../World/StaticWorld.h"
 #include "Tree1.generated.h"
 
 

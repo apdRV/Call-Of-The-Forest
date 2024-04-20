@@ -5,7 +5,10 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "PaperFlipbookComponent.h"
+#include <set>
 #include "Spawner.generated.h"
+
+inline std::set<std::pair<int, int>> occupiedLocations;
 
 UCLASS()
 class CALL_OF_THE_FOREST_API ASpawner : public AActor
