@@ -22,6 +22,14 @@
 			"TargetAllowList": [
 				"Editor"
 			]
+		},
+		{
+			"Name": "SQLiteCore",
+			"Enabled": true
+		},
+		{
+			"Name": "SQLiteSupport",
+			"Enabled": true
 		}
 	]
 }
