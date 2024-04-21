@@ -45,14 +45,19 @@ AMob::AMob()
     GetSprite()->SetRelativeScale3D(FVector(1.0f, 1.0f, 1.0f));
 
     MobSpriteComponent = CreateDefaultSubobject<UMobSpriteComponent>(TEXT("MobSpriteComponent"));
-    // MobSpriteComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-    // MobSpriteComponent->SetCollisionObjectType(ECollisionChannel::ECC_PhysicsBody);
-    // MobSpriteComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
-    // MobSpriteComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Ignore);
-    // MobSpriteComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
-    // MobSpriteComponent->CanCharacterStepUpOn = ECB_No;
+    MobSpriteComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+    MobSpriteComponent->SetCollisionObjectType(ECollisionChannel::ECC_PhysicsBody);
+    MobSpriteComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
+    MobSpriteComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Ignore);
+    MobSpriteComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
+    MobSpriteComponent->CanCharacterStepUpOn = ECB_No;
     
-
+    GetSprite()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+    GetSprite()->SetCollisionObjectType(ECollisionChannel::ECC_PhysicsBody);
+    GetSprite()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
+    GetSprite()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Ignore);
+    GetSprite()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
+    GetSprite()->CanCharacterStepUpOn = ECB_No;
 
     MobSpriteComponent->SetupAttachment(RootComponent);
     MobSpriteComponent->SetupOwner(GetSprite());
@@ -82,12 +87,13 @@ void AMob::BeginPlay()
     // {
     //     UE_LOG(LogTemp, Warning, TEXT("AIController not found"));
     // }
+    Super::BeginPlay();
 
 }
 
 void AMob::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
-    Super::SetupPlayerInputComponent(PlayerInputComponent);
+    Super::SetupPlayerInputComponent(PlayerInputComponent); // может быть проблема чекнуть !!!!!
 
     PlayerInputComponent->BindAxis("MoveForwardBackward", this, &AMob::MoveForwardBackward);
     PlayerInputComponent->BindAxis("MoveRightLeft", this, &AMob::MoveRightLeft);
