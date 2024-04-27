@@ -5,6 +5,9 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Engine/DataTable.h"
+#include "UObject/NameTypes.h"
+#include "UObject/TextProperty.h"
+#include "Engine/Texture2D.h"
 #include "InventoryItem.generated.h"
 
 /**
@@ -21,7 +24,7 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FName ItemID;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FText Name;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
