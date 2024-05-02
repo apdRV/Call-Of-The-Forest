@@ -46,7 +46,6 @@ AMainPaperCharacter::AMainPaperCharacter()
     MainCharacterSpriteComponent->SetupOwner(GetSprite());
     MainCharacterSpriteComponent->UpdateSprite(CharacterState);
     World = AStaticWorld::GetStaticWorld();
-    // World->AddActor("MainCharacter", this);
 }
 
 // Called every frame

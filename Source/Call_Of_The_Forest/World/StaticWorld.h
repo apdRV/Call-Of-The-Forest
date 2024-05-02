@@ -8,7 +8,6 @@
 #include <mutex>
 #include <vector>
 #include <algorithm>
-#include <algorithm>
 #include "../Character/MainCharacterSpriteComponent.h"
 #include "GameFramework/Actor.h"
 #include "StaticWorld.generated.h"

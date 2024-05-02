@@ -69,7 +69,7 @@ AMob::AMob()
     MobSpriteComponent->UpdateSprite(MobState);
 
     World = AStaticWorld::GetStaticWorld();
-    World->AddActor("Mob", this);
+    //World->AddActor("Mob", this);
 }
 
 void AMob::Tick(float Deltatime)
