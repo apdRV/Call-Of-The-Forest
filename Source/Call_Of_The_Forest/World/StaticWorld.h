@@ -8,6 +8,7 @@
 #include <mutex>
 #include <vector>
 #include <algorithm>
+#include <algorithm>
 #include "../Character/MainCharacterSpriteComponent.h"
 #include "GameFramework/Actor.h"
 #include "StaticWorld.generated.h"
@@ -16,12 +17,12 @@ UCLASS()
 class CALL_OF_THE_FOREST_API AStaticWorld : public AActor
 {
 	GENERATED_BODY()
-	std::map<FString, std::vector<AActor*>> Actors;
+	std::map<std::string, std::vector<AActor*>> Actors;
 	static AStaticWorld* World;
 public:
 	AStaticWorld();
 	~AStaticWorld();
-	void AddActor (FString Type, AActor* Actor){
+	void AddActor (std::string Type, AActor* Actor){
 		if (Actors.find(Type) == Actors.end()){
 			Actors.insert({Type, std::vector<AActor*>()});
 		}
@@ -31,7 +32,4 @@ public:
 	static AStaticWorld* GetStaticWorld() {
 		return World;
 	}
-	// std::vector<AActor*> GetActor(std::string Actor_name){
-	// 	return Actors[Actor_name];
-	// }
 };
