@@ -22,14 +22,12 @@ class CALL_OF_THE_FOREST_API AStaticWorld : public AActor
 public:
 	AStaticWorld();
 	~AStaticWorld();
-	void AddActor (std::string Type, AActor* Actor){
-		if (!Actors.contains(Type)){
-			Actors.insert({Type, std::vector<AActor*>(Actor)});
+	void AddActor(std::string Type, AActor* Actor) {
+		if (!Actors.contains(Type)) {
+			Actors.insert({Type, std::vector<AActor*>()});
 		}
-		else{
-			Actors[Type].push_back(Actor);
-		}
-	}	
+		Actors[Type].push_back(Actor);
+	}
 	void PlayerAttack(FVector PlayerLocation, EMainCharacterState CharacterState);	
 	static AStaticWorld* GetStaticWorld() {
 		return World;

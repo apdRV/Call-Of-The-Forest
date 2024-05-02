@@ -6,7 +6,7 @@
 #include "PaperCharacter.h"
 #include "MobsAIController.h"
 #include "../World/StaticWorld.h"
-#include "BehaviorTree/BehaviorTree.h"
+// #include "BehaviorTree/BehaviorTree.h"
 #include "../Character/MainPaperCharacter.h"
 #include "MobSpriteComponent.h"
 #include "Mob.generated.h"
@@ -25,7 +25,7 @@ public:
 	virtual void Tick(float Deltatime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
-	UBehaviorTree* GetBehaviourTree() const;
+	// UBehaviorTree* GetBehaviourTree() const;
 
 protected:
 	virtual void BeginPlay() override;
@@ -86,8 +86,8 @@ protected:
 	UPROPERTY(EditAnywhere, Category =  "Navigation")
 	class AMainPaperCharacter *MainCharacter;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI", meta = (AllowPrivateAccess = "true"))
-	UBehaviorTree* Tree;
+	// UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI", meta = (AllowPrivateAccess = "true"))
+	// UBehaviorTree* Tree;
 
 	// end of AI properties
 	UFUNCTION(BlueprintCallable, Category = "State")

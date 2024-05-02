@@ -3,7 +3,7 @@
 
 #include "Mob.h"
 
-#include "BehaviorTree/BehaviorTree.h"
+// #include "BehaviorTree/BehaviorTree.h"
 #include <vector>
 #include "../Character/MainPaperCharacter.h"
 #include "Components/CapsuleComponent.h"
@@ -31,11 +31,11 @@ AMob::AMob()
 //    AIControllerClass = AMobsAIController::StaticClass();
 
     // устанавливаем behaviourtree
-    static ConstructorHelpers::FObjectFinder<UBehaviorTree> BTObject(TEXT("/Script/AIModule.BehaviorTree'/Game/AI/AI_Mob.AI_Mob'"));
-    if (BTObject.Succeeded())
-    {
-        Tree = BTObject.Object;
-    }
+    // static ConstructorHelpers::FObjectFinder<UBehaviorTree> BTObject(TEXT("/Script/AIModule.BehaviorTree'/Game/AI/AI_Mob.AI_Mob'"));
+    // if (BTObject.Succeeded())
+    // {
+    //     Tree = BTObject.Object;
+    // }
 
     //AI Properties end
 
@@ -69,7 +69,7 @@ AMob::AMob()
     MobSpriteComponent->UpdateSprite(MobState);
 
     // World = AStaticWorld::GetStaticWorld();
-    // World->AddActor(TEXT("Mob"), this);
+    // World->AddActor("Mob", this);
 }
 
 void AMob::Tick(float Deltatime)
@@ -145,10 +145,10 @@ void AMob::Attack()
 
 }
 
-UBehaviorTree* AMob::GetBehaviourTree() const
-{
-    return Tree;
-}
+// UBehaviorTree* AMob::GetBehaviourTree() const
+// {
+//     return Tree;
+// }
 
 void AMob::UpdateMobSprite()
 {
