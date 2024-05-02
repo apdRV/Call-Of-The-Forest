@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "PaperCharacter.h"
 #include "MobsAIController.h"
+#include "../World/StaticWorld.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "../Character/MainPaperCharacter.h"
 #include "MobSpriteComponent.h"
