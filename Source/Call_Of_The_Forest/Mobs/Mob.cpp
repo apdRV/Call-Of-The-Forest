@@ -2,7 +2,10 @@
 
 
 #include "Mob.h"
+
 #include "BehaviorTree/BehaviorTree.h"
+#include <vector>
+#include "../Character/MainPaperCharacter.h"
 #include "Components/CapsuleComponent.h"
 
 AMob::AMob()
@@ -12,18 +15,20 @@ AMob::AMob()
     // Set spawn state
     bIsMoving = false;
     bIsDead = false;
+    bIsAttacking = 0;
     MobState = EMobState::IdleRightUp;
     LastMobState = EMobState::IdleRightUp;
 
     Health = 100.0f;
     MaxHealth = 100.0f;
     BaseDamage = 10.0f;
+    Spead = 10.0f;
 
 
 
     //AI Properties begin
     //устанавливаем наш AIController
-    AIControllerClass = AMobsAIController::StaticClass();
+//    AIControllerClass = AMobsAIController::StaticClass();
 
     // устанавливаем behaviourtree
     static ConstructorHelpers::FObjectFinder<UBehaviorTree> BTObject(TEXT("/Script/AIModule.BehaviorTree'/Game/AI/AI_Mob.AI_Mob'"));
@@ -63,32 +68,38 @@ AMob::AMob()
     MobSpriteComponent->SetupOwner(GetSprite());
     MobSpriteComponent->UpdateSprite(MobState);
 
-
-    
+    World = AStaticWorld::GetStaticWorld();
+    World->AddActor("Mob", this);
 }
 
 void AMob::Tick(float Deltatime)
 {
     Super::Tick(Deltatime);
     UpdateMobSprite();
+    // if(Controller != nullptr){
+    //     UE_LOG(LogTemp, Warning, TEXT("AIController found"));
+    // }
 }
 
 void AMob::BeginPlay()
 {
+    Super::BeginPlay();
+   // GetController()->SetAIControllerClass(AMobsAIController::StaticClass());
 
     //!!!!!! устанавливаем AiController МОГУТ БЫТЬ ПРОБЛЕМЫ!!!!!!!!
-    // AAIController* AIController = GetWorld()->SpawnActor<AAIController>(AIControllerClass);
+    AAIController* AIController = GetWorld()->SpawnActor<AAIController>(AIControllerClass);
 
-    // if (AIController)
-    // {
-    //     AIController->Possess(this);
-    // }
-    // else
-    // {
-    //     UE_LOG(LogTemp, Warning, TEXT("AIController not found"));
-    // }
-    Super::BeginPlay();
+    if (AIController)
+    {
+        AIController->Possess(this);
+        UE_LOG(LogTemp, Warning, TEXT("AIController found"));
+    }
+    else
+    {
+        UE_LOG(LogTemp, Warning, TEXT("AIController not found"));
+    }
 
+    UE_LOG(LogTemp, Warning, TEXT("SkeletonSpawned"));
 }
 
 void AMob::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -104,9 +115,10 @@ void AMob::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void AMob::MoveForwardBackward(float Value)
 {
-    if ((AIControllerClass != nullptr) && (Value != 0.0f) && (!bIsDead))
+    if ((Controller != nullptr) && (Value != 0.0f) && (!bIsDead))
     {
-        const FVector Direction = FVector(0.2, 0, 0);
+    //    UE_LOG(LogTemp, Warning, TEXT("Go_forward_backward"));
+        const FVector Direction = FVector(0.05, 0, 0);
         AddMovementInput(Direction, Value);
 
         MobState = (Value > 0) ? EMobState::RightUp : EMobState::LeftDown;
@@ -117,12 +129,13 @@ void AMob::MoveForwardBackward(float Value)
 // When A/LEFT or D/RIGHT keys are pressed
 void AMob::MoveRightLeft(float Value)
 {
-    if ((AIControllerClass != nullptr) && (Value != 0.0f) && (!bIsDead))
+    if ((Controller != nullptr) && (Value != 0.0f) && (!bIsDead))
     {
+        UE_LOG(LogTemp, Warning, TEXT("Go_right_left"));
         const FVector Direction = FVector(0, 0.2, 0);
         AddMovementInput(Direction, Value);
 
-        MobState = (Value > 0) ? EMobState::IdleRightUp : EMobState::IdleLeftDown;
+        MobState = (Value > 0) ? EMobState::RightUp : EMobState::LeftDown;
         LastMobState = (MobState == EMobState::RightUp) ? EMobState::IdleRightUp : EMobState::IdleLeftDown;
     }
 }
@@ -162,4 +175,31 @@ void AMob::Die()
         MobSpriteComponent->UpdateSprite(MobState);
 
     }
+}
+
+AMainPaperCharacter* AMob::FindTarget(){
+    AMainPaperCharacter* NearestPlayer;
+    FVector MobLocation = GetActorLocation();
+    FVector NearestActorLocation;
+    AMainPaperCharacter* NearestCharacter;
+    float NearestDistance;
+    std::vector<AActor*> copy_array_of_main_characters = World->GetActor("MainCharacter");
+    if(copy_array_of_main_characters.size() == 0){
+        UE_LOG(LogTemp, Warning, TEXT("No_main_characters_in_area"));
+    }
+    else{
+        NearestActorLocation = copy_array_of_main_characters[0]->GetActorLocation();
+        NearestDistance = FVector::DistSquared(NearestActorLocation, MobLocation);
+        NearestCharacter = Cast<AMainPaperCharacter>(copy_array_of_main_characters[0]);
+    }
+    for(auto &i : copy_array_of_main_characters){
+        FVector CurrentActorLocation = i->GetActorLocation();
+        float Distance = FVector::DistSquared(CurrentActorLocation, MobLocation);
+        if(Distance > NearestDistance){
+            NearestDistance = Distance;
+            NearestActorLocation = CurrentActorLocation;
+            NearestCharacter = Cast<AMainPaperCharacter>(i);
+        }
+    }
+    return NearestCharacter;
 }

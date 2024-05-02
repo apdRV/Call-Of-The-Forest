@@ -32,4 +32,7 @@ public:
 	static AStaticWorld* GetStaticWorld() {
 		return World;
 	}
+	std::vector<AActor*> GetActor(std::string Actor_name){
+		return Actors[Actor_name];
+	}
 };

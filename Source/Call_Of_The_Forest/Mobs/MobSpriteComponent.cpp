@@ -8,7 +8,7 @@ UMobSpriteComponent::UMobSpriteComponent()
     MobSprite = CreateDefaultSubobject<UPaperFlipbookComponent>(FName("Mob_spawn_sprite"));
 
     static ConstructorHelpers::FObjectFinder<UPaperFlipbook> LeftDown(TEXT("/Script/Paper2D.PaperFlipbook'/Game/AnimatedSprites/MobAnimation/SkeletonAnimation/LeftDown/LeftDown.LeftDown'"));
-    static ConstructorHelpers::FObjectFinder<UPaperFlipbook> RightUp(TEXT("/Script/Paper2D.PaperFlipbook'/Game/AnimatedSprites/MobAnimation/SkeletonAnimation/IdleRightUp/IdleRightUp.IdleRightUp'"));
+    static ConstructorHelpers::FObjectFinder<UPaperFlipbook> RightUp(TEXT("/Script/Paper2D.PaperFlipbook'/Game/AnimatedSprites/MobAnimation/SkeletonAnimation/RightUp/RightUp.RightUp'"));
     static ConstructorHelpers::FObjectFinder<UPaperFlipbook> IdleLeftDown(TEXT("/Script/Paper2D.PaperFlipbook'/Game/AnimatedSprites/MobAnimation/SkeletonAnimation/IdleLeftDown/IdleLeftDown.IdleLeftDown'"));
     static ConstructorHelpers::FObjectFinder<UPaperFlipbook> IdleRightUp(TEXT("/Script/Paper2D.PaperFlipbook'/Game/AnimatedSprites/MobAnimation/SkeletonAnimation/IdleRightUp/IdleRightUp.IdleRightUp'"));
     static ConstructorHelpers::FObjectFinder<UPaperFlipbook> AttackLeftDown(TEXT("/Script/Paper2D.PaperFlipbook'/Game/AnimatedSprites/MobAnimation/SkeletonAnimation/AttackingLeftDown/AttackingLeftDown.AttackingLeftDown'"));

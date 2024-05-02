@@ -29,6 +29,9 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	UPROPERTY()
+	AStaticWorld* World;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
 	EMobState MobState;
 
@@ -37,6 +40,9 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = "State")
 	float BaseDamage;
+
+	UPROPERTY(EditAnywhere, Category = "State")
+	float Spead;
 
 	UPROPERTY(EditAnywhere, Category = "State")
 	float Health;
@@ -62,6 +68,9 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "Attacking")
 	void Attack();
 
+	UFUNCTION(BlueprintCallable, Category = "Attacking")
+	AMainPaperCharacter* FindTarget();
+
 	UFUNCTION(BlueprintCallable, Category = "Animation")
 	void UpdateMobSprite();
 
@@ -73,8 +82,8 @@ protected:
 
 
 	// Properties for AI
-
-	class UMainPaperCharacter *MainCharacter;
+	UPROPERTY(EditAnywhere, Category =  "Navigation")
+	class AMainPaperCharacter *MainCharacter;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI", meta = (AllowPrivateAccess = "true"))
 	UBehaviorTree* Tree;
