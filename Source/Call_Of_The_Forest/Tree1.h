@@ -26,23 +26,23 @@ class CALL_OF_THE_FOREST_API ATree1: public APaperFlipbookActor
   AStaticWorld* World; 
   public:
   ATree1() {
-    TreeComponent = CreateDefaultSubobject<UPaperFlipbookComponent>(FName("tree"));
-    ConstructorHelpers::FObjectFinderOptional<UPaperFlipbook> TreeAsset(TEXT("/Script/Paper2D.PaperFlipbook'/Game/Sprites/tree_Flipbook.tree_Flipbook'"));
-    TreeComponent->SetFlipbook(TreeAsset.Get());
-    SetActorScale3D(FVector(0.75, 1.5, 15));
-    TreeComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-    TreeComponent->SetCollisionObjectType(ECollisionChannel::ECC_PhysicsBody);
-    TreeComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
-    TreeComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Ignore);
-    TreeComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
-    TreeComponent->CanCharacterStepUpOn = ECB_No;
-    SetRootComponent(TreeComponent);
-    World = AStaticWorld::GetStaticWorld();
-    World->AddActor("Tree", this);
+      TreeComponent = CreateDefaultSubobject<UPaperFlipbookComponent>(FName("tree"));
+      ConstructorHelpers::FObjectFinderOptional<UPaperFlipbook> TreeAsset(TEXT("/Script/Paper2D.PaperFlipbook'/Game/Sprites/tree_Flipbook.tree_Flipbook'"));
+      TreeComponent->SetFlipbook(TreeAsset.Get());
+      SetActorScale3D(FVector(0.75, 1.5, 15));
+      TreeComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+      TreeComponent->SetCollisionObjectType(ECollisionChannel::ECC_PhysicsBody);
+      TreeComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
+      TreeComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Ignore);
+      TreeComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
+      TreeComponent->CanCharacterStepUpOn = ECB_No;
+      SetRootComponent(TreeComponent);
+      World = AStaticWorld::GetStaticWorld();
   }
 
   virtual void BeginPlay() override {
-    Super::BeginPlay();
+      Super::BeginPlay();
+      World->AddActor("Tree", this);
   }
 
   void Attacked(){
