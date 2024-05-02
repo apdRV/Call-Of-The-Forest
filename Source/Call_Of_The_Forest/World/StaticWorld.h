@@ -23,10 +23,12 @@ public:
 	AStaticWorld();
 	~AStaticWorld();
 	void AddActor (std::string Type, AActor* Actor){
-		if (Actors.contains(Type) == Actors.end()){
-			Actors.insert({Type, std::vector<AActor*>()});
+		if (!Actors.contains(Type)){
+			Actors.insert({Type, std::vector<AActor*>(Actor)});
 		}
-		Actors[Type].push_back(Actor);
+		else{
+			Actors[Type].push_back(Actor);
+		}
 	}	
 	void PlayerAttack(FVector PlayerLocation, EMainCharacterState CharacterState);	
 	static AStaticWorld* GetStaticWorld() {
