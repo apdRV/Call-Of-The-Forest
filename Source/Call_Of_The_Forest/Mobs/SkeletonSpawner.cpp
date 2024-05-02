@@ -16,9 +16,6 @@ void ASkeletonSpawner::SpawnSkeletons()
                 if(abs(Location[0]) > 20 && abs(Location[1]) > 20){
                     GetWorld()->SpawnActor<AMob>(Location, Rotation);
                 }
-                else{
-                    continue;
-                }
             }
         }
     }

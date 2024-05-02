@@ -201,7 +201,6 @@ void AMob::MoveToTarget()
         FVector Direction = (TargetLocation - CurrentLocation).GetSafeNormal(); // Normalize the direction
         MoveForwardBackward(Direction.X);
         MoveRightLeft(Direction.Y);
-        // AddMovementInput(Direction, 0.05f);
     } else {
         UE_LOG(LogTemp, Warning, TEXT("No_target_found"));
     }
