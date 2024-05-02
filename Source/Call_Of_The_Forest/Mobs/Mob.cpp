@@ -70,15 +70,15 @@ AMob::AMob()
     MobSpriteComponent->UpdateSprite(MobState);
 
     World = AStaticWorld::GetStaticWorld();
+    MainCharacter = nullptr;
 }
 
 void AMob::Tick(float Deltatime)
 {
     Super::Tick(Deltatime);
+    // MoveForwardBackward(1);
+    MoveToTarget();
     UpdateMobSprite();
-    // if(Controller != nullptr){
-    //     UE_LOG(LogTemp, Warning, TEXT("AIController found"));
-    // }
 }
 
 void AMob::BeginPlay()
@@ -90,33 +90,14 @@ void AMob::BeginPlay()
     } else {
         UE_LOG(LogTemp, Warning, TEXT("World is null"));
     }
-   // GetController()->SetAIControllerClass(AMobsAIController::StaticClass());
-
-    //!!!!!! устанавливаем AiController МОГУТ БЫТЬ ПРОБЛЕМЫ!!!!!!!!
-    // AAIController* AIController = GetWorld()->SpawnActor<AAIController>(AIControllerClass);
-
-    // if (AIController)
-    // {
-    //     AIController->Possess(this);
-    //     UE_LOG(LogTemp, Warning, TEXT("AIController found"));
-    // }
-    // else
-    // {
-    //     UE_LOG(LogTemp, Warning, TEXT("AIController not found"));
-    // }
+    MainCharacter = FindTarget();
 
     UE_LOG(LogTemp, Warning, TEXT("SkeletonSpawned"));
 }
 
 void AMob::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
-    Super::SetupPlayerInputComponent(PlayerInputComponent); // может быть проблема чекнуть !!!!!
-
-    // PlayerInputComponent->BindAxis("MoveForwardBackward", this, &AMob::MoveForwardBackward);
-    // PlayerInputComponent->BindAxis("MoveRightLeft", this, &AMob::MoveRightLeft);
-
-    //can make action, but 
-    // PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMob::Attack);
+    //Super::SetupPlayerInputComponent(PlayerInputComponent); // может быть проблема чекнуть !!!!!
 }
 
 void AMob::MoveForwardBackward(float Value)
@@ -124,7 +105,7 @@ void AMob::MoveForwardBackward(float Value)
     if ((Controller != nullptr) && (Value != 0.0f) && (!bIsDead))
     {
     //    UE_LOG(LogTemp, Warning, TEXT("Go_forward_backward"));
-        const FVector Direction = FVector(0.05, 0, 0);
+        const FVector Direction = FVector(0.1, 0, 0);
         AddMovementInput(Direction, Value);
 
         MobState = (Value > 0) ? EMobState::RightUp : EMobState::LeftDown;
@@ -137,8 +118,8 @@ void AMob::MoveRightLeft(float Value)
 {
     if ((Controller != nullptr) && (Value != 0.0f) && (!bIsDead))
     {
-        UE_LOG(LogTemp, Warning, TEXT("Go_right_left"));
-        const FVector Direction = FVector(0, 0.2, 0);
+        //UE_LOG(LogTemp, Warning, TEXT("Go_right_left"));
+        const FVector Direction = FVector(0, 0.1, 0);
         AddMovementInput(Direction, Value);
 
         MobState = (Value > 0) ? EMobState::RightUp : EMobState::LeftDown;
@@ -208,4 +189,20 @@ AMainPaperCharacter* AMob::FindTarget(){
         }
     }
     return NearestCharacter;
+}
+
+void AMob::MoveToTarget()
+{
+    AMainPaperCharacter* Target = FindTarget();
+    if(Target != nullptr){
+        UE_LOG(LogTemp, Warning, TEXT("Target_found"));
+        FVector TargetLocation = Target->GetActorLocation();
+        FVector CurrentLocation = GetActorLocation();
+        FVector Direction = (TargetLocation - CurrentLocation).GetSafeNormal(); // Normalize the direction
+        MoveForwardBackward(Direction.X);
+        MoveRightLeft(Direction.Y);
+        // AddMovementInput(Direction, 0.05f);
+    } else {
+        UE_LOG(LogTemp, Warning, TEXT("No_target_found"));
+    }
 }

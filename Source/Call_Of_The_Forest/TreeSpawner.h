@@ -17,7 +17,7 @@ class CALL_OF_THE_FOREST_API ATreeSpawner : public ASpawner
 	GENERATED_BODY()
 	
 public:
-	ATreeSpawner(): ASpawner(9) {}
+	ATreeSpawner(): ASpawner(1) {}
 	void SpawnTree();
 protected:
 	// Called when the game starts or when spawned

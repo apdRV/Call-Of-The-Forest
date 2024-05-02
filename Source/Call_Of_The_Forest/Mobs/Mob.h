@@ -69,8 +69,11 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "Attacking")
 	void Attack();
 
-	UFUNCTION(BlueprintCallable, Category = "Attacking")
+	UFUNCTION(BlueprintCallable, Category = "Moving")
 	AMainPaperCharacter* FindTarget();
+
+	UFUNCTION(BlueprintCallable, Category = "Moving")
+	void MoveToTarget();
 
 	UFUNCTION(BlueprintCallable, Category = "Animation")
 	void UpdateMobSprite();
