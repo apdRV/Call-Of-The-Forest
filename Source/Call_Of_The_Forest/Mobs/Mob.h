@@ -29,8 +29,8 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	UPROPERTY()
-	AStaticWorld* World;
+	// UPROPERTY()
+	// AStaticWorld* World;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
 	EMobState MobState;
@@ -68,8 +68,8 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "Attacking")
 	void Attack();
 
-	UFUNCTION(BlueprintCallable, Category = "Attacking")
-	AMainPaperCharacter* FindTarget();
+	// UFUNCTION(BlueprintCallable, Category = "Attacking")
+	// AMainPaperCharacter* FindTarget();
 
 	UFUNCTION(BlueprintCallable, Category = "Animation")
 	void UpdateMobSprite();

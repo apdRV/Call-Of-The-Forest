@@ -68,7 +68,7 @@ AMob::AMob()
     MobSpriteComponent->SetupOwner(GetSprite());
     MobSpriteComponent->UpdateSprite(MobState);
 
-    World = AStaticWorld::GetStaticWorld();
+    // World = AStaticWorld::GetStaticWorld();
     //World->AddActor("Mob", this);
 }
 
@@ -177,29 +177,29 @@ void AMob::Die()
     }
 }
 
-AMainPaperCharacter* AMob::FindTarget(){
-    AMainPaperCharacter* NearestPlayer;
-    FVector MobLocation = GetActorLocation();
-    FVector NearestActorLocation;
-    AMainPaperCharacter* NearestCharacter;
-    float NearestDistance;
-    std::vector<AActor*> copy_array_of_main_characters = World->GetActor("MainCharacter");
-    if(copy_array_of_main_characters.size() == 0){
-        UE_LOG(LogTemp, Warning, TEXT("No_main_characters_in_area"));
-    }
-    else{
-        NearestActorLocation = copy_array_of_main_characters[0]->GetActorLocation();
-        NearestDistance = FVector::DistSquared(NearestActorLocation, MobLocation);
-        NearestCharacter = Cast<AMainPaperCharacter>(copy_array_of_main_characters[0]);
-    }
-    for(auto &i : copy_array_of_main_characters){
-        FVector CurrentActorLocation = i->GetActorLocation();
-        float Distance = FVector::DistSquared(CurrentActorLocation, MobLocation);
-        if(Distance > NearestDistance){
-            NearestDistance = Distance;
-            NearestActorLocation = CurrentActorLocation;
-            NearestCharacter = Cast<AMainPaperCharacter>(i);
-        }
-    }
-    return NearestCharacter;
-}
+// AMainPaperCharacter* AMob::FindTarget(){
+//     AMainPaperCharacter* NearestPlayer;
+//     FVector MobLocation = GetActorLocation();
+//     FVector NearestActorLocation;
+//     AMainPaperCharacter* NearestCharacter;
+//     float NearestDistance;
+//     std::vector<AActor*> copy_array_of_main_characters = World->GetActor("MainCharacter");
+//     if(copy_array_of_main_characters.size() == 0){
+//         UE_LOG(LogTemp, Warning, TEXT("No_main_characters_in_area"));
+//     }
+//     else{
+//         NearestActorLocation = copy_array_of_main_characters[0]->GetActorLocation();
+//         NearestDistance = FVector::DistSquared(NearestActorLocation, MobLocation);
+//         NearestCharacter = Cast<AMainPaperCharacter>(copy_array_of_main_characters[0]);
+//     }
+//     for(auto &i : copy_array_of_main_characters){
+//         FVector CurrentActorLocation = i->GetActorLocation();
+//         float Distance = FVector::DistSquared(CurrentActorLocation, MobLocation);
+//         if(Distance > NearestDistance){
+//             NearestDistance = Distance;
+//             NearestActorLocation = CurrentActorLocation;
+//             NearestCharacter = Cast<AMainPaperCharacter>(i);
+//         }
+//     }
+//     return NearestCharacter;
+// }
