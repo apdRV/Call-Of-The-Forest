@@ -35,9 +35,10 @@ void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState Char
 	std::unique_lock lock(m_mutex);
 	if (Actors.find("Tree") == Actors.end()){
 		return;
-	}
+	} 
 	//auto Trees = Actors["Tree"];
-	for (auto &Tree : Actors["Tree"]){
+	for (int i = 0; i < Actors["Tree"].size(); i++){
+		auto Tree = Actors["Tree"][i];
 		if(Tree != nullptr){
 			if(abs(Tree->GetActorLocation().X - PlayerLocation.X) > 100 || abs(Tree->GetActorLocation().Y - PlayerLocation.Y) > 100){
 				continue;
@@ -47,26 +48,30 @@ void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState Char
 			}
 			if(CharacterState == EMainCharacterState::AttackDown)
 			{
-				if (Tree->GetActorLocation().X < PlayerLocation.X && PlayerLocation.X - Tree->GetActorLocation().X <= 50 && std::abs(Tree->GetActorLocation().Y - PlayerLocation.Y) <= 20){
+				if (Tree->GetActorLocation().X < PlayerLocation.X && PlayerLocation.X - Tree->GetActorLocation().X <= 100 && std::abs(Tree->GetActorLocation().Y - PlayerLocation.Y) <= 20){
 					DestroyTree(dynamic_cast<ATree1*>(Tree));
+					Actors["Tree"].erase(Actors["Tree"].begin() + i);
 				}
 			}
 			else if(CharacterState == EMainCharacterState::AttackUp)
 			{
 				if (Tree->GetActorLocation().X > PlayerLocation.X && Tree->GetActorLocation().X - PlayerLocation.X <= 20 && std::abs(Tree->GetActorLocation().Y - PlayerLocation.Y) <= 20){
 					DestroyTree(dynamic_cast<ATree1*>(Tree));
+					Actors["Tree"].erase(Actors["Tree"].begin() + i);
 				}
 			}
 			else if(CharacterState == EMainCharacterState::AttackRight)
 			{
-				if (Tree->GetActorLocation().Y > PlayerLocation.Y && Tree->GetActorLocation().Y - PlayerLocation.Y <= 27.5 && PlayerLocation.X - Tree->GetActorLocation().X <= 50 && PlayerLocation.X > Tree->GetActorLocation().X){
+				if (Tree->GetActorLocation().Y > PlayerLocation.Y && Tree->GetActorLocation().Y - PlayerLocation.Y <= 27.5 && PlayerLocation.X - Tree->GetActorLocation().X <= 100 && PlayerLocation.X > Tree->GetActorLocation().X){
 					DestroyTree(dynamic_cast<ATree1*>(Tree));
+					Actors["Tree"].erase(Actors["Tree"].begin() + i);
 				}
 			}
 			else if(CharacterState == EMainCharacterState::AttackLeft)
 			{
-				if (Tree->GetActorLocation().Y < PlayerLocation.Y && PlayerLocation.Y - Tree->GetActorLocation().Y <= 27.5 && PlayerLocation.X - Tree->GetActorLocation().X <= 50 && PlayerLocation.X > Tree->GetActorLocation().X){
+				if (Tree->GetActorLocation().Y < PlayerLocation.Y && PlayerLocation.Y - Tree->GetActorLocation().Y <= 27.5 && PlayerLocation.X - Tree->GetActorLocation().X <= 100 && PlayerLocation.X > Tree->GetActorLocation().X){
 					DestroyTree(dynamic_cast<ATree1*>(Tree));
+					Actors["Tree"].erase(Actors["Tree"].begin() + i);
 				}
 			}
 		}

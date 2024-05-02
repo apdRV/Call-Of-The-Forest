@@ -41,4 +41,7 @@ public:
 	static AStaticWorld* GetStaticWorld() {
 		return World;
 	}
+	std::vector<AActor*> GetActor(std::string Type){
+		return Actors[Type];
+	}
 };

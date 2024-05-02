@@ -59,6 +59,12 @@ void AMainPaperCharacter::Tick(float DeltaTime)
 void AMainPaperCharacter::BeginPlay()
 {
     Super::BeginPlay();
+    if (World != nullptr) {
+        World->AddActor("MainCharacter", this);
+        UE_LOG(LogTemp, Warning, TEXT("Add MainCharacter"));
+    } else {
+        UE_LOG(LogTemp, Warning, TEXT("World is null"));
+    }
 }
 
 // Called to bind functionality to input
