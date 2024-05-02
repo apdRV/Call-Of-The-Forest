@@ -23,8 +23,15 @@ public:
 	AStaticWorld();
 	~AStaticWorld();
 	void AddActor(std::string Type, AActor* Actor) {
+		if (Actor == nullptr) {
+			return;
+		}
 		if (!Actors.contains(Type)) {
 			Actors.insert({Type, std::vector<AActor*>()});
+		} else {
+			if (std::find(Actors[Type].begin(), Actors[Type].end(), Actor) != Actors[Type].end()) {
+				return;
+			}
 		}
 		Actors[Type].push_back(Actor);
 	}

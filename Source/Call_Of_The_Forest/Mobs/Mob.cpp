@@ -5,6 +5,7 @@
 
 // #include "BehaviorTree/BehaviorTree.h"
 #include <vector>
+#include "../World/StaticWorld.h"
 #include "../Character/MainPaperCharacter.h"
 #include "Components/CapsuleComponent.h"
 
@@ -87,17 +88,17 @@ void AMob::BeginPlay()
    // GetController()->SetAIControllerClass(AMobsAIController::StaticClass());
 
     //!!!!!! устанавливаем AiController МОГУТ БЫТЬ ПРОБЛЕМЫ!!!!!!!!
-    AAIController* AIController = GetWorld()->SpawnActor<AAIController>(AIControllerClass);
+    // AAIController* AIController = GetWorld()->SpawnActor<AAIController>(AIControllerClass);
 
-    if (AIController)
-    {
-        AIController->Possess(this);
-        UE_LOG(LogTemp, Warning, TEXT("AIController found"));
-    }
-    else
-    {
-        UE_LOG(LogTemp, Warning, TEXT("AIController not found"));
-    }
+    // if (AIController)
+    // {
+    //     AIController->Possess(this);
+    //     UE_LOG(LogTemp, Warning, TEXT("AIController found"));
+    // }
+    // else
+    // {
+    //     UE_LOG(LogTemp, Warning, TEXT("AIController not found"));
+    // }
 
     UE_LOG(LogTemp, Warning, TEXT("SkeletonSpawned"));
 }
@@ -106,11 +107,11 @@ void AMob::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
     Super::SetupPlayerInputComponent(PlayerInputComponent); // может быть проблема чекнуть !!!!!
 
-    PlayerInputComponent->BindAxis("MoveForwardBackward", this, &AMob::MoveForwardBackward);
-    PlayerInputComponent->BindAxis("MoveRightLeft", this, &AMob::MoveRightLeft);
+    // PlayerInputComponent->BindAxis("MoveForwardBackward", this, &AMob::MoveForwardBackward);
+    // PlayerInputComponent->BindAxis("MoveRightLeft", this, &AMob::MoveRightLeft);
 
     //can make action, but 
-    PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMob::Attack);
+    // PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMob::Attack);
 }
 
 void AMob::MoveForwardBackward(float Value)
