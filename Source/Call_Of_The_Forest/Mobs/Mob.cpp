@@ -69,8 +69,7 @@ AMob::AMob()
     MobSpriteComponent->SetupOwner(GetSprite());
     MobSpriteComponent->UpdateSprite(MobState);
 
-    // World = AStaticWorld::GetStaticWorld();
-    // World->AddActor("Mob", this);
+    World = AStaticWorld::GetStaticWorld();
 }
 
 void AMob::Tick(float Deltatime)
@@ -85,6 +84,12 @@ void AMob::Tick(float Deltatime)
 void AMob::BeginPlay()
 {
     Super::BeginPlay();
+    if (World != nullptr) {
+        World->AddActor("Mob", this);
+        UE_LOG(LogTemp, Warning, TEXT("World not a null"));
+    } else {
+        UE_LOG(LogTemp, Warning, TEXT("World is null"));
+    }
    // GetController()->SetAIControllerClass(AMobsAIController::StaticClass());
 
     //!!!!!! устанавливаем AiController МОГУТ БЫТЬ ПРОБЛЕМЫ!!!!!!!!
