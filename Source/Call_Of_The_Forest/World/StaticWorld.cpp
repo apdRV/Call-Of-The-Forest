@@ -47,7 +47,7 @@ void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState Char
 			}
 			if(CharacterState == EMainCharacterState::AttackDown)
 			{
-				if (Tree->GetActorLocation().X < PlayerLocation.X && PlayerLocation.X - Tree->GetActorLocation().X <= 100 && std::abs(Tree->GetActorLocation().Y - PlayerLocation.Y) <= 20){
+				if (Tree->GetActorLocation().X < PlayerLocation.X && PlayerLocation.X - Tree->GetActorLocation().X <= 50 && std::abs(Tree->GetActorLocation().Y - PlayerLocation.Y) <= 20){
 					DestroyTree(dynamic_cast<ATree1*>(Tree));
 				}
 			}
@@ -59,13 +59,13 @@ void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState Char
 			}
 			else if(CharacterState == EMainCharacterState::AttackRight)
 			{
-				if (Tree->GetActorLocation().Y > PlayerLocation.Y && Tree->GetActorLocation().Y - PlayerLocation.Y <= 27.5 && PlayerLocation.X - Tree->GetActorLocation().X <= 100 && PlayerLocation.X > Tree->GetActorLocation().X){
+				if (Tree->GetActorLocation().Y > PlayerLocation.Y && Tree->GetActorLocation().Y - PlayerLocation.Y <= 27.5 && PlayerLocation.X - Tree->GetActorLocation().X <= 50 && PlayerLocation.X > Tree->GetActorLocation().X){
 					DestroyTree(dynamic_cast<ATree1*>(Tree));
 				}
 			}
 			else if(CharacterState == EMainCharacterState::AttackLeft)
 			{
-				if (Tree->GetActorLocation().Y < PlayerLocation.Y && PlayerLocation.Y - Tree->GetActorLocation().Y <= 27.5 && PlayerLocation.X - Tree->GetActorLocation().X <= 100 && PlayerLocation.X > Tree->GetActorLocation().X){
+				if (Tree->GetActorLocation().Y < PlayerLocation.Y && PlayerLocation.Y - Tree->GetActorLocation().Y <= 27.5 && PlayerLocation.X - Tree->GetActorLocation().X <= 50 && PlayerLocation.X > Tree->GetActorLocation().X){
 					DestroyTree(dynamic_cast<ATree1*>(Tree));
 				}
 			}
