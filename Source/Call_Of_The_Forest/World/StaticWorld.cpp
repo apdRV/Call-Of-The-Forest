@@ -16,6 +16,9 @@ AStaticWorld::~AStaticWorld()
 	World = nullptr;
 }
 void DestroyTree(ATree1* Tree){
+	if(Tree == nullptr){
+		return;
+	}
 	Tree->Attacked();
 	FVector Location = Tree->GetActorLocation();
 	Location.X += 10;
@@ -29,11 +32,19 @@ void DestroyTree(ATree1* Tree){
 	World->SpawnActor<AWood>(Location, Rotation, SpawnParams);
 }
 void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState CharacterState) {
+	std::unique_lock lock(m_mutex);
 	if (Actors.find("Tree") == Actors.end()){
 		return;
 	}
-	for (auto Tree: Actors["Tree"]){
-		
+	//auto Trees = Actors["Tree"];
+	for (auto &Tree : Actors["Tree"]){
+		if(Tree != nullptr){
+			if(abs(Tree->GetActorLocation().X - PlayerLocation.X) > 100 || abs(Tree->GetActorLocation().Y - PlayerLocation.Y) > 100){
+				continue;
+			}
+			if(dynamic_cast<ATree1*>(Tree) == nullptr){
+				continue;
+			}
 			if(CharacterState == EMainCharacterState::AttackDown)
 			{
 				if (Tree->GetActorLocation().X < PlayerLocation.X && PlayerLocation.X - Tree->GetActorLocation().X <= 100 && std::abs(Tree->GetActorLocation().Y - PlayerLocation.Y) <= 20){
@@ -58,6 +69,10 @@ void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState Char
 					DestroyTree(dynamic_cast<ATree1*>(Tree));
 				}
 			}
+		}
+		else{
+			continue;
+		}
 	}
 }
 

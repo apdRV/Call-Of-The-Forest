@@ -18,7 +18,12 @@ void ATreeSpawner::SpawnTree(){
                 FVector Location = {0, 0, 12};
                 Location[0] = l * 500 + std::rand() % 500;
                 Location[1] = r * 500 + std::rand() % 500;
-                GetWorld()->SpawnActor<ATree1>(Location, Rotation);
+                if(abs(Location[0]) > 100 && abs(Location[1]) > 100){
+                    GetWorld()->SpawnActor<ATree1>(Location, Rotation);
+                }
+                else{
+                    continue;
+                }
             }
         }
     }
