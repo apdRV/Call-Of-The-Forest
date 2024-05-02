@@ -29,8 +29,8 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
-	// UPROPERTY()
-	// AStaticWorld* World;
+	UPROPERTY()
+	AStaticWorld* World;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
 	EMobState MobState;

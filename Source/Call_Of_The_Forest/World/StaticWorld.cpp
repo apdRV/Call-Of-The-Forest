@@ -29,10 +29,10 @@ void DestroyTree(ATree1* Tree){
 	World->SpawnActor<AWood>(Location, Rotation, SpawnParams);
 }
 void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState CharacterState) {
-	if (Actors.find("Tree") == Actors.end()){
+	if (Actors.find(TEXT("Tree")) == Actors.end()){
 		return;
 	}
-	for (auto Tree: Actors["Tree"]){
+	for (auto Tree: Actors[TEXT("Tree")]){
 		
 			if(CharacterState == EMainCharacterState::AttackDown)
 			{

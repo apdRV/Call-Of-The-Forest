@@ -16,12 +16,12 @@ UCLASS()
 class CALL_OF_THE_FOREST_API AStaticWorld : public AActor
 {
 	GENERATED_BODY()
-	std::map<std::string, std::vector<AActor*>> Actors;
+	std::map<FString, std::vector<AActor*>> Actors;
 	static AStaticWorld* World;
 public:
 	AStaticWorld();
 	~AStaticWorld();
-	void AddActor (std::string Type, AActor* Actor){
+	void AddActor (FString Type, AActor* Actor){
 		if (Actors.find(Type) == Actors.end()){
 			Actors.insert({Type, std::vector<AActor*>()});
 		}
