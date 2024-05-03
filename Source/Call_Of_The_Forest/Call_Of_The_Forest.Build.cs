@@ -16,7 +16,8 @@ public class Call_Of_The_Forest : ModuleRules
 			"InputCore",
 			"AIModule",
 			"GameplayTasks",
-			"NavigationSystem"
+			"NavigationSystem",
+			"EnhancedInput"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });

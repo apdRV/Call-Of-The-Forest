@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
+#include "../Mobs/Mob.h"
 #include "CallOfTheForestModeBase.generated.h"
 
 /**
@@ -15,5 +16,8 @@ class CALL_OF_THE_FOREST_API ACallOfTheForestModeBase : public AGameModeBase
 	GENERATED_BODY()
 public:
 	ACallOfTheForestModeBase();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Enemies, meta = (AllowPrivateAccess = "true"))
+    TSubclassOf<AMob> SkeletonClass;
 	
 };

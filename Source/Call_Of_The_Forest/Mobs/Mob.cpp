@@ -76,7 +76,6 @@ AMob::AMob()
 void AMob::Tick(float Deltatime)
 {
     Super::Tick(Deltatime);
-    // MoveForwardBackward(1);
     MoveToTarget();
     UpdateMobSprite();
 }
@@ -86,7 +85,7 @@ void AMob::BeginPlay()
     Super::BeginPlay();
     if (World != nullptr) {
         World->AddActor("Mob", this);
-        UE_LOG(LogTemp, Warning, TEXT("World not a null"));
+        UE_LOG(LogTemp, Warning, TEXT("World is not a null, added mob"));
     } else {
         UE_LOG(LogTemp, Warning, TEXT("World is null"));
     }
@@ -97,7 +96,7 @@ void AMob::BeginPlay()
 
 void AMob::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
-    //Super::SetupPlayerInputComponent(PlayerInputComponent); // может быть проблема чекнуть !!!!!
+    Super::SetupPlayerInputComponent(PlayerInputComponent); // может быть проблема чекнуть !!!!!
 }
 
 void AMob::MoveForwardBackward(float Value)
@@ -168,11 +167,12 @@ AMainPaperCharacter* AMob::FindTarget(){
     AMainPaperCharacter* NearestPlayer;
     FVector MobLocation = GetActorLocation();
     FVector NearestActorLocation;
-    AMainPaperCharacter* NearestCharacter;
+    AMainPaperCharacter* NearestCharacter = nullptr;
     float NearestDistance;
     std::vector<AActor*> copy_array_of_main_characters = World->GetActor("MainCharacter");
     if(copy_array_of_main_characters.size() == 0){
         UE_LOG(LogTemp, Warning, TEXT("No_main_characters_in_area"));
+        return NearestCharacter;
     }
     else{
         NearestActorLocation = copy_array_of_main_characters[0]->GetActorLocation();
@@ -190,7 +190,6 @@ AMainPaperCharacter* AMob::FindTarget(){
     }
     return NearestCharacter;
 }
-
 void AMob::MoveToTarget()
 {
     AMainPaperCharacter* Target = FindTarget();
@@ -201,6 +200,7 @@ void AMob::MoveToTarget()
         FVector Direction = (TargetLocation - CurrentLocation).GetSafeNormal(); // Normalize the direction
         MoveForwardBackward(Direction.X);
         MoveRightLeft(Direction.Y);
+        UE_LOG(LogTemp, Warning, TEXT("The float value is: %f"), float(Direction.X));
     } else {
         UE_LOG(LogTemp, Warning, TEXT("No_target_found"));
     }
