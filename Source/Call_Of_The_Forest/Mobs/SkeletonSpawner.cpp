@@ -18,8 +18,8 @@ void ASkeletonSpawner::SpawnSkeletons()
                     AMob* SpawnedMob = GetWorld()->SpawnActor<AMob>(Location, Rotation);
                    if(SpawnedMob){
                         AController* AIController = GetWorld()->SpawnActor<AMobsAIController>(AMobsAIController::StaticClass());
-                        if(NewController){
-                            NewController->Possess(SpawnedMob);
+                        if(AIController){
+                            AIController->Possess(SpawnedMob);
                         }
                    }
                 }

@@ -25,12 +25,6 @@ AMob::AMob()
     BaseDamage = 10.0f;
     Spead = 10.0f;
 
-
-
-    //AI Properties begin
-    //устанавливаем наш AIController
-//    AIControllerClass = AMobsAIController::StaticClass();
-
     // устанавливаем behaviourtree
     // static ConstructorHelpers::FObjectFinder<UBehaviorTree> BTObject(TEXT("/Script/AIModule.BehaviorTree'/Game/AI/AI_Mob.AI_Mob'"));
     // if (BTObject.Succeeded())
@@ -117,7 +111,6 @@ void AMob::MoveRightLeft(float Value)
 {
     if ((Controller != nullptr) && (Value != 0.0f) && (!bIsDead))
     {
-        //UE_LOG(LogTemp, Warning, TEXT("Go_right_left"));
         const FVector Direction = FVector(0, 0.1, 0);
         AddMovementInput(Direction, Value);
 
@@ -194,13 +187,11 @@ void AMob::MoveToTarget()
 {
     AMainPaperCharacter* Target = FindTarget();
     if(Target != nullptr){
-        UE_LOG(LogTemp, Warning, TEXT("Target_found"));
         FVector TargetLocation = Target->GetActorLocation();
         FVector CurrentLocation = GetActorLocation();
-        FVector Direction = (TargetLocation - CurrentLocation).GetSafeNormal(); // Normalize the direction
+        FVector Direction = (TargetLocation - CurrentLocation).GetSafeNormal();
         MoveForwardBackward(Direction.X);
         MoveRightLeft(Direction.Y);
-        UE_LOG(LogTemp, Warning, TEXT("The float value is: %f"), float(Direction.X));
     } else {
         UE_LOG(LogTemp, Warning, TEXT("No_target_found"));
     }
