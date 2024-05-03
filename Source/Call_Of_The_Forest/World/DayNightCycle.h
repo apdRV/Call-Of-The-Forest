@@ -32,5 +32,5 @@ public:
 	ADirectionalLight* lightSource;
 
 	UPROPERTY(EditAnywhere, Category = "Sky")
-	float turnRate;
+	float turnRate = 3;
 };
