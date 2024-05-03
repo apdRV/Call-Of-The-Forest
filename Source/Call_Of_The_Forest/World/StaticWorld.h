@@ -19,17 +19,29 @@ class CALL_OF_THE_FOREST_API AStaticWorld : public AActor
 	GENERATED_BODY()
 	std::map<std::string, std::vector<AActor*>> Actors;
 	static AStaticWorld* World;
+	std::mutex m_mutex;
 public:
 	AStaticWorld();
 	~AStaticWorld();
-	void AddActor (std::string Type, AActor* Actor){
-		if (Actors.find(Type) == Actors.end()){
+	void AddActor(std::string Type, AActor* Actor) {
+		std::unique_lock lock(m_mutex);
+		if (Actor == nullptr) {
+			return;
+		}
+		if (!Actors.contains(Type)) {
 			Actors.insert({Type, std::vector<AActor*>()});
+		} else {
+			if (std::find(Actors[Type].begin(), Actors[Type].end(), Actor) != Actors[Type].end()) {
+				return;
+			}
 		}
 		Actors[Type].push_back(Actor);
-	}	
+	}
 	void PlayerAttack(FVector PlayerLocation, EMainCharacterState CharacterState);	
 	static AStaticWorld* GetStaticWorld() {
 		return World;
+	}
+	std::vector<AActor*> GetActor(std::string Type){
+		return Actors[Type];
 	}
 };

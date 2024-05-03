@@ -38,11 +38,15 @@ class CALL_OF_THE_FOREST_API ATree1: public APaperFlipbookActor
     TreeComponent->CanCharacterStepUpOn = ECB_No;
     SetRootComponent(TreeComponent);
     World = AStaticWorld::GetStaticWorld();
-    World->AddActor("Tree", this);
   }
 
   virtual void BeginPlay() override {
     Super::BeginPlay();
+    if (World != nullptr) {
+        World->AddActor("Tree", this);
+    } else {
+        UE_LOG(LogTemp, Warning, TEXT("World is null, cannot add tree"));
+    }
   }
 
   void Attacked(){
