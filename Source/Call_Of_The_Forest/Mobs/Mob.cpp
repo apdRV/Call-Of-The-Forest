@@ -3,7 +3,7 @@
 
 #include "Mob.h"
 
-// #include "BehaviorTree/BehaviorTree.h"
+#include "BehaviorTree/BehaviorTree.h"
 #include <vector>
 #include "../World/StaticWorld.h"
 #include "../Character/MainPaperCharacter.h"
@@ -64,13 +64,11 @@ AMob::AMob()
     MobSpriteComponent->UpdateSprite(MobState);
 
     World = AStaticWorld::GetStaticWorld();
-    MainCharacter = nullptr;
 }
 
 void AMob::Tick(float Deltatime)
 {
     Super::Tick(Deltatime);
-    MoveToTarget();
     UpdateMobSprite();
 }
 
@@ -83,7 +81,6 @@ void AMob::BeginPlay()
     } else {
         UE_LOG(LogTemp, Warning, TEXT("World is null"));
     }
-    MainCharacter = FindTarget();
 
     UE_LOG(LogTemp, Warning, TEXT("SkeletonSpawned"));
 }
@@ -91,14 +88,19 @@ void AMob::BeginPlay()
 void AMob::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
     Super::SetupPlayerInputComponent(PlayerInputComponent); // может быть проблема чекнуть !!!!!
+    PlayerInputComponent->BindAxis("MoveForwardBackward", this, &AMob::MoveForwardBackward);
+    PlayerInputComponent->BindAxis("MoveRightLeft", this, &AMob::MoveRightLeft);
+
+    //can make action, but 
+
+    // PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMob::Attack);
 }
 
 void AMob::MoveForwardBackward(float Value)
 {
     if ((Controller != nullptr) && (Value != 0.0f) && (!bIsDead))
     {
-    //    UE_LOG(LogTemp, Warning, TEXT("Go_forward_backward"));
-        const FVector Direction = FVector(0.1, 0, 0);
+        const FVector Direction = FVector(0.05, 0, 0);
         AddMovementInput(Direction, Value);
 
         MobState = (Value > 0) ? EMobState::RightUp : EMobState::LeftDown;
@@ -106,12 +108,11 @@ void AMob::MoveForwardBackward(float Value)
     }
 }
 
-// When A/LEFT or D/RIGHT keys are pressed
 void AMob::MoveRightLeft(float Value)
 {
     if ((Controller != nullptr) && (Value != 0.0f) && (!bIsDead))
     {
-        const FVector Direction = FVector(0, 0.1, 0);
+        const FVector Direction = FVector(0, 0.05, 0);
         AddMovementInput(Direction, Value);
 
         MobState = (Value > 0) ? EMobState::RightUp : EMobState::LeftDown;
@@ -156,43 +157,3 @@ void AMob::Die()
     }
 }
 
-AMainPaperCharacter* AMob::FindTarget(){
-    AMainPaperCharacter* NearestPlayer;
-    FVector MobLocation = GetActorLocation();
-    FVector NearestActorLocation;
-    AMainPaperCharacter* NearestCharacter = nullptr;
-    float NearestDistance;
-    std::vector<AActor*> copy_array_of_main_characters = World->GetActor("MainCharacter");
-    if(copy_array_of_main_characters.size() == 0){
-        UE_LOG(LogTemp, Warning, TEXT("No_main_characters_in_area"));
-        return NearestCharacter;
-    }
-    else{
-        NearestActorLocation = copy_array_of_main_characters[0]->GetActorLocation();
-        NearestDistance = FVector::DistSquared(NearestActorLocation, MobLocation);
-        NearestCharacter = Cast<AMainPaperCharacter>(copy_array_of_main_characters[0]);
-    }
-    for(auto &i : copy_array_of_main_characters){
-        FVector CurrentActorLocation = i->GetActorLocation();
-        float Distance = FVector::DistSquared(CurrentActorLocation, MobLocation);
-        if(Distance > NearestDistance){
-            NearestDistance = Distance;
-            NearestActorLocation = CurrentActorLocation;
-            NearestCharacter = Cast<AMainPaperCharacter>(i);
-        }
-    }
-    return NearestCharacter;
-}
-void AMob::MoveToTarget()
-{
-    AMainPaperCharacter* Target = FindTarget();
-    if(Target != nullptr){
-        FVector TargetLocation = Target->GetActorLocation();
-        FVector CurrentLocation = GetActorLocation();
-        FVector Direction = (TargetLocation - CurrentLocation).GetSafeNormal();
-        MoveForwardBackward(Direction.X);
-        MoveRightLeft(Direction.Y);
-    } else {
-        UE_LOG(LogTemp, Warning, TEXT("No_target_found"));
-    }
-}

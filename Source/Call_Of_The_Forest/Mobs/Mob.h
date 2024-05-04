@@ -4,9 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "PaperCharacter.h"
-// #include "MobsAIController.h"
 #include "../World/StaticWorld.h"
-// #include "BehaviorTree/BehaviorTree.h"
+#include "BehaviorTree/BehaviorTree.h"
 #include "../Character/MainPaperCharacter.h"
 #include "MobSpriteComponent.h"
 #include "Mob.generated.h"
@@ -60,6 +59,8 @@ protected:
 	UPROPERTY(EditAnywhere, Category = "Health")
 	float MaxHealth;
 
+public: //because are used in aicontroller
+
 	UFUNCTION(BlueprintCallable, Category = "Movement")
     void MoveForwardBackward(float Value);
 
@@ -69,11 +70,7 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "Attacking")
 	void Attack();
 
-	UFUNCTION(BlueprintCallable, Category = "Moving")
-	AMainPaperCharacter* FindTarget();
-
-	UFUNCTION(BlueprintCallable, Category = "Moving")
-	void MoveToTarget();
+protected:
 
 	UFUNCTION(BlueprintCallable, Category = "Animation")
 	void UpdateMobSprite();
@@ -86,13 +83,12 @@ protected:
 
 
 	// Properties for AI
-	UPROPERTY(EditAnywhere, Category =  "Navigation")
-	class AMainPaperCharacter *MainCharacter;
 
 	// UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI", meta = (AllowPrivateAccess = "true"))
 	// UBehaviorTree* Tree;
 
 	// end of AI properties
+
 	UFUNCTION(BlueprintCallable, Category = "State")
 	void Die();
 

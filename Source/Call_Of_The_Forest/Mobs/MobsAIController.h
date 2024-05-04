@@ -20,5 +20,5 @@ class CALL_OF_THE_FOREST_API AMobsAIController : public AAIController
 public:
 	explicit AMobsAIController(FObjectInitializer const& ObjectInitializer);
 protected:
-	// virtual void OnPossess(APawn* InPawn) override;
+	virtual void OnPossess(APawn* InPawn) override;
 };
