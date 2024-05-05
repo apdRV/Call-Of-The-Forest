@@ -8,16 +8,17 @@ AMyDatabase::AMyDatabase()
 {
 }
 void AMyDatabase::CreateAccount(FString name, FString password) {
-  const FString DbPath = "../../../Content/Database/Users.db";
-  const FString CreateSQL = TEXT("INSERT INTO Users (Username, PasswordHash) VALUES (@Username, @PasswordHash) RETURNING UserID;");
+  const FString DbPath = FPaths::ProjectContentDir() + "Database/Users.db";
+  const FString CreateSQL = TEXT("INSERT INTO Users (Username, PasswordHash) VALUES (@Username, @PasswordHash);");
   const FString Username = TEXT("@Username");
   const FString PasswordHash = TEXT("@PasswordHash");
   FSQLiteDatabase* AutorisationDb = new FSQLiteDatabase(); 
-  AutorisationDb -> Open(*DbPath, OpenMode);
+  AutorisationDb -> Open(*DbPath, ESQLiteDatabaseOpenMode::ReadWrite);
   FSQLitePreparedStatement* Statement = new FSQLitePreparedStatement(); 
-  Statement->Create(*AutorisationDb, *CreateSQL, ESQLitePreparedStatementFlags::Persistent); 
+  Statement->Create(*AutorisationDb, *CreateSQL, ESQLitePreparedStatementFlags::Persistent);
   Statement->SetBindingValueByName(*Username, name);
-  Statement->SetBindingValueByName(*PasswordHash, 15);
+  password = FMD5::HashAnsiString(*password);
+  Statement->SetBindingValueByName(*PasswordHash, password);
   Statement->Execute();
   Statement->Destroy();
   delete Statement;

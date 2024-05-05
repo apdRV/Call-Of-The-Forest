@@ -7,6 +7,8 @@
 #include <string>
 #include "SQLiteDatabase.h"
 #include "../Character/MainPaperCharacter.h"
+#include "Misc/Paths.h"
+#include "Misc/SecureHash.h"
 #include "MyDatabase.generated.h"
 
 UCLASS()
