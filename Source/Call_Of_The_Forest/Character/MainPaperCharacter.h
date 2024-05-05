@@ -74,5 +74,13 @@ protected:
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Animation)
     class UMainCharacterSpriteComponent* MainCharacterSpriteComponent;
+public:
+	float GetHealth(){
+		return Health;
+	}
+
+	float GetMaxHealth(){
+		return 100.0f;
+	}
 
 };
