@@ -38,29 +38,21 @@ AMob::AMob()
 
 
     // Default capsule component properties
-	GetCapsuleComponent()->InitCapsuleSize(10.0f, 10.0f);
+	GetCapsuleComponent()->InitCapsuleSize(12.0f, 12.0f);
 
     // Default sprite component properties
     GetSprite()->SetRelativeRotation(FRotator(0.0f, 90.0f, -90.0f));
     GetSprite()->SetRelativeScale3D(FVector(1.0f, 1.0f, 1.0f));
 
-    MobSpriteComponent = CreateDefaultSubobject<UMobSpriteComponent>(TEXT("MobSpriteComponent"));
-    MobSpriteComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-    MobSpriteComponent->SetCollisionObjectType(ECollisionChannel::ECC_PhysicsBody);
-    MobSpriteComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
-    MobSpriteComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Ignore);
-    MobSpriteComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
-    MobSpriteComponent->CanCharacterStepUpOn = ECB_No;
-    
+    MobSpriteComponent = CreateDefaultSubobject<UMobFlipbookComponent>(TEXT("MobSpriteComponent"));
+    MobSpriteComponent->SetupAttachment(RootComponent);
+    MobSpriteComponent->SetupOwner(GetSprite());
     GetSprite()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
     GetSprite()->SetCollisionObjectType(ECollisionChannel::ECC_PhysicsBody);
-    GetSprite()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
+    GetSprite()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
     GetSprite()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Ignore);
     GetSprite()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
     GetSprite()->CanCharacterStepUpOn = ECB_No;
-
-    MobSpriteComponent->SetupAttachment(RootComponent);
-    MobSpriteComponent->SetupOwner(GetSprite());
     MobSpriteComponent->UpdateSprite(MobState);
 
     World = AStaticWorld::GetStaticWorld();

@@ -3,93 +3,88 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "PaperCharacter.h"
+#include "../Character/MainPaperCharacter.h"
 #include "../World/StaticWorld.h"
 #include "BehaviorTree/BehaviorTree.h"
-#include "../Character/MainPaperCharacter.h"
+#include "MobFlipbookComponent.h"
 #include "MobSpriteComponent.h"
+#include "PaperCharacter.h"
 #include "Mob.generated.h"
 
 /**
- * 
+ *
  */
 
 UCLASS()
-class CALL_OF_THE_FOREST_API AMob : public APaperCharacter
-{
-	GENERATED_BODY()
+class CALL_OF_THE_FOREST_API AMob : public APaperCharacter {
+  GENERATED_BODY()
 
 public:
-	AMob();
-	virtual void Tick(float Deltatime) override;
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+  AMob();
+  virtual void Tick(float Deltatime) override;
+  virtual void SetupPlayerInputComponent(
+      class UInputComponent *PlayerInputComponent) override;
 
-	// UBehaviorTree* GetBehaviourTree() const;
-
-protected:
-	virtual void BeginPlay() override;
-
-	UPROPERTY()
-	AStaticWorld* World;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
-	EMobState MobState;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
-	EMobState LastMobState;
-
-	UPROPERTY(EditAnywhere, Category = "State")
-	float BaseDamage;
-
-	UPROPERTY(EditAnywhere, Category = "State")
-	float Spead;
-
-	UPROPERTY(EditAnywhere, Category = "State")
-	float Health;
-
-	UPROPERTY(EditAnywhere, Category = "State")
-	bool bIsDead;
-
-	UPROPERTY(EditAnywhere, Category = "State")
-	uint8 bIsAttacking;
-
-	UPROPERTY(EditAnywhere, Category = "State")
-	bool bIsMoving;
-
-	UPROPERTY(EditAnywhere, Category = "Health")
-	float MaxHealth;
-
-public: //because are used in aicontroller
-
-	UFUNCTION(BlueprintCallable, Category = "Movement")
-    void MoveForwardBackward(float Value);
-
-	UFUNCTION(BlueprintCallable, Category = "Movement")
-    void MoveRightLeft(float Value);
-
-	UFUNCTION(BlueprintCallable, Category = "Attacking")
-	void Attack();
+  // UBehaviorTree* GetBehaviourTree() const;
 
 protected:
+  virtual void BeginPlay() override;
 
-	UFUNCTION(BlueprintCallable, Category = "Animation")
-	void UpdateMobSprite();
+  UPROPERTY()
+  AStaticWorld *World;
 
+  UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
+  EMobState MobState;
 
-	// properties for animation
-	UPROPERTY(EditAnywhere, Category =  "Components")
-	class UMobSpriteComponent *MobSpriteComponent;
-	
+  UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
+  EMobState LastMobState;
 
+  UPROPERTY(EditAnywhere, Category = "State")
+  float BaseDamage;
 
-	// Properties for AI
+  UPROPERTY(EditAnywhere, Category = "State")
+  float Spead;
 
-	// UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI", meta = (AllowPrivateAccess = "true"))
-	// UBehaviorTree* Tree;
+  UPROPERTY(EditAnywhere, Category = "State")
+  float Health;
 
-	// end of AI properties
+  UPROPERTY(EditAnywhere, Category = "State")
+  bool bIsDead;
 
-	UFUNCTION(BlueprintCallable, Category = "State")
-	void Die();
+  UPROPERTY(EditAnywhere, Category = "State")
+  uint8 bIsAttacking;
 
+  UPROPERTY(EditAnywhere, Category = "State")
+  bool bIsMoving;
+
+  UPROPERTY(EditAnywhere, Category = "Health")
+  float MaxHealth;
+
+public: // because are used in aicontroller
+  UFUNCTION(BlueprintCallable, Category = "Movement")
+  void MoveForwardBackward(float Value);
+
+  UFUNCTION(BlueprintCallable, Category = "Movement")
+  void MoveRightLeft(float Value);
+
+  UFUNCTION(BlueprintCallable, Category = "Attacking")
+  void Attack();
+
+protected:
+  UFUNCTION(BlueprintCallable, Category = "Animation")
+  void UpdateMobSprite();
+
+  // properties for animation
+  UPROPERTY(EditAnywhere, Category = "Components")
+  class UMobFlipbookComponent *MobSpriteComponent;
+
+  // Properties for AI
+
+  // UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI", meta =
+  // (AllowPrivateAccess = "true")) UBehaviorTree* Tree;
+
+  // end of AI properties
+
+  UFUNCTION(BlueprintCallable, Category = "State")
+  void Die();
 };

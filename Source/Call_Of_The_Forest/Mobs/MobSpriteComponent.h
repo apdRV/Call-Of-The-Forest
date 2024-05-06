@@ -13,29 +13,29 @@
 /**
  * 
  */
-UENUM(BlueprintType, Category = "Animation")
-enum class EMobState : uint8{
-	LeftDown,
-	RightUp,
-	IdleLeftDown,
-	IdleRightUp,
-	AttackLeftDown,
-	AttackRightUp,
-	DieLeftDown,
-	DieRightUp
-};
+// UENUM(BlueprintType, Category = "Animation")
+// enum class EMobState : uint8{
+// 	LeftDown,
+// 	RightUp,
+// 	IdleLeftDown,
+// 	IdleRightUp,
+// 	AttackLeftDown,
+// 	AttackRightUp,
+// 	DieLeftDown,
+// 	DieRightUp
+// };
 UCLASS()
 class CALL_OF_THE_FOREST_API UMobSpriteComponent : public UPaperSpriteComponent
 {
 	GENERATED_BODY()
 
-public:
-	UMobSpriteComponent();
-	void UpdateSprite(EMobState State);
-	void SetupOwner(UPaperFlipbookComponent* Owner);
+// public:
+// 	UMobSpriteComponent();
+// 	void UpdateSprite(EMobState State);
+// 	void SetupOwner(UPaperFlipbookComponent* Owner);
 
-protected:
-	TMap<EMobState, UPaperFlipbook*> DirectionToSprite;
-	class UPaperFlipbookComponent* MobSprite;
+// protected:
+// 	TMap<EMobState, UPaperFlipbook*> DirectionToSprite;
+// 	class UPaperFlipbookComponent* MobSprite;
 	
 };

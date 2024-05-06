@@ -64,6 +64,11 @@ AMainPaperCharacter* AMobAIController::FindTarget(){
     return NearestCharacter;
 }
 
+void AMobAIController::TriggerAttack(FVector TargetLocation,FVector CurrentLocation)
+{
+
+    //m_Mob->Attack();
+}
 
 void AMobAIController::MoveToTarget()
 {
@@ -74,9 +79,10 @@ void AMobAIController::MoveToTarget()
         FVector TargetLocation = TargetMainCharacter->GetActorLocation();
         FVector CurrentLocation = m_Mob->GetActorLocation();
         FVector Direction = (TargetLocation - CurrentLocation).GetSafeNormal();
-        // MoveToLocation(TargetLocation, 40.0f);
         m_Mob->MoveForwardBackward(Direction.X);
         m_Mob->MoveRightLeft(Direction.Y);
+        // MoveTo(
+        // MoveToActor(TargetMainCharacter, 40.0f, true, true, true, 0, true);
     } else {
         UE_LOG(LogTemp, Warning, TEXT("No_target_found"));
     }

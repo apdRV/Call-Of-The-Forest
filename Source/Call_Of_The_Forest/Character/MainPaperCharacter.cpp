@@ -23,7 +23,7 @@ AMainPaperCharacter::AMainPaperCharacter()
     CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
     CameraBoom->SetupAttachment(RootComponent);
 	CameraBoom->SetRelativeRotation(FRotator(-90.0f, 180.0f, 180.0f));
-    CameraBoom->TargetArmLength = 100.f; // расстояние от камеры до игрока
+    CameraBoom->TargetArmLength = 200.f; // расстояние от камеры до игрока
     CameraBoom->bInheritPitch = false;
     CameraBoom->bInheritYaw = false;
     CameraBoom->bInheritRoll = false;
@@ -35,13 +35,27 @@ AMainPaperCharacter::AMainPaperCharacter()
     FollowCamera->bUsePawnControlRotation = false;
 
     // Default capsule component properties
-	GetCapsuleComponent()->InitCapsuleSize(10.0f, 10.0f);
+	GetCapsuleComponent()->InitCapsuleSize(12.0f, 12.0f);
 
     // Default sprite component properties
     GetSprite()->SetRelativeRotation(FRotator(0.0f, 90.0f, -90.0f));
     GetSprite()->SetRelativeScale3D(FVector(1.0f, 1.0f, 1.0f));
 
     MainCharacterSpriteComponent = CreateDefaultSubobject<UMainCharacterSpriteComponent>(TEXT("MainCharacterSpriteComponent"));
+    MainCharacterSpriteComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+    MainCharacterSpriteComponent->SetCollisionObjectType(ECollisionChannel::ECC_PhysicsBody);
+    MainCharacterSpriteComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
+    MainCharacterSpriteComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Ignore);
+    MainCharacterSpriteComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
+    MainCharacterSpriteComponent->CanCharacterStepUpOn = ECB_No;
+
+    GetSprite()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+    GetSprite()->SetCollisionObjectType(ECollisionChannel::ECC_PhysicsBody);
+    GetSprite()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
+    GetSprite()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Ignore);
+    GetSprite()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
+    GetSprite()->CanCharacterStepUpOn = ECB_No;
+
     MainCharacterSpriteComponent->SetupAttachment(RootComponent);
     MainCharacterSpriteComponent->SetupOwner(GetSprite());
     MainCharacterSpriteComponent->UpdateSprite(CharacterState);

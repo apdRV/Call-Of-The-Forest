@@ -3,25 +3,22 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Mob.h"
 #include "MobsSpawner.h"
 #include <random>
-#include "Mob.h"
 #include "SkeletonSpawner.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
-class CALL_OF_THE_FOREST_API ASkeletonSpawner : public AMobsSpawner
-{
-	GENERATED_BODY()
+class CALL_OF_THE_FOREST_API ASkeletonSpawner : public AMobsSpawner {
+  GENERATED_BODY()
 
 public:
-	ASkeletonSpawner() : AMobsSpawner(1)
-	{
-	}
-	void SpawnSkeletons();
+  ASkeletonSpawner() : AMobsSpawner(2) {}
+  void SpawnSkeletons();
+
 protected:
-	virtual void BeginPlay() override;
-	
+  virtual void BeginPlay() override;
 };
