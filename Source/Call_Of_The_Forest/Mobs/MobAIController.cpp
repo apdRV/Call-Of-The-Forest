@@ -3,6 +3,7 @@
 
 #include "MobAIController.h"
 #include "Mob.h"
+#include "MobFlipbookComponent.h"
 #include "NavigationSystem.h"
 
 AMobAIController::AMobAIController()
@@ -18,11 +19,21 @@ AMobAIController::AMobAIController()
 void AMobAIController::BeginPlay()
 {
     Super::BeginPlay();
+
+    NavArea = FNavigationSystem::GetCurrent<UNavigationSystemV1>(this);
+
+    bIsMoving = false;
+	
 }
 
 void AMobAIController::Tick(float Delta)
 {
     Super::Tick(Delta);
+
+	// if (!bIsMoving && NavArea && m_Mob)
+	// {
+	// 	SearchForPlayer();
+	// }
     MoveToTarget();
 }
 
@@ -81,9 +92,37 @@ void AMobAIController::MoveToTarget()
         FVector Direction = (TargetLocation - CurrentLocation).GetSafeNormal();
         m_Mob->MoveForwardBackward(Direction.X);
         m_Mob->MoveRightLeft(Direction.Y);
-        // MoveTo(
-        // MoveToActor(TargetMainCharacter, 40.0f, true, true, true, 0, true);
     } else {
         UE_LOG(LogTemp, Warning, TEXT("No_target_found"));
     }
+}
+
+
+void AMobAIController::GenerateRandomSearchLocation()
+{
+    FNavLocation Location{};
+	if (IsValid(NavArea) && m_Mob)
+	{
+        NavArea->GetRandomReachablePointInRadius(m_Mob->GetActorLocation(), 50.0f, Location);
+		RandomLocation = Location.Location;
+	} 
+}
+
+
+void AMobAIController::SearchForPlayer()
+{
+	if (IsValid(NavArea) && m_Mob && !bIsMoving)
+	{
+		GenerateRandomSearchLocation();
+		bIsMoving = true;
+        MoveToLocation(RandomLocation);
+	}
+}
+
+
+void AMobAIController::OnMoveCompleted(FAIRequestID RequestID, const FPathFollowingResult& Result)
+{
+	Super::OnMoveCompleted(RequestID, Result);
+
+	bIsMoving = false;
 }

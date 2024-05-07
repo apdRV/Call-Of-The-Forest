@@ -7,6 +7,7 @@
 #include "../Character/MainPaperCharacter.h"
 #include "../World/StaticWorld.h"
 #include "Mob.h"
+#include "NavigationSystem.h"
 #include "MobAIController.generated.h"
 
 /**
@@ -36,6 +37,22 @@ private:
   UPROPERTY()
   class AMob *m_Mob;
 
+  UPROPERTY()
+  bool bIsMoving;
+
+  UPROPERTY()
+  class UNavigationSystemV1* NavArea;
+
+  UPROPERTY()
+  FVector RandomLocation = FVector();
+
+  UFUNCTION(BlueprintCallable, Category = "Moving")
+	void GenerateRandomSearchLocation();
+
+  UFUNCTION(BlueprintCallable, Category = "Moving")
+	void SearchForPlayer();
+
+
   UFUNCTION(BlueprintCallable, Category = "Moving")
   AMainPaperCharacter* FindTarget();
 
@@ -44,4 +61,8 @@ private:
 
   UFUNCTION(BlueprintCallable, Category = "Moving")
   void MoveToTarget();
+
+public:
+	// stuff to continue after location reached
+	void OnMoveCompleted(FAIRequestID RequestID, const FPathFollowingResult& Result) override;
 };

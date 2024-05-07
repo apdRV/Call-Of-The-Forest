@@ -23,7 +23,7 @@ AMob::AMob()
     Health = 100.0f;
     MaxHealth = 100.0f;
     BaseDamage = 10.0f;
-    Spead = 10.0f;
+    Speed = 10.0f;
 
     // устанавливаем behaviourtree
     // static ConstructorHelpers::FObjectFinder<UBehaviorTree> BTObject(TEXT("/Script/AIModule.BehaviorTree'/Game/AI/AI_Mob.AI_Mob'"));
@@ -38,7 +38,13 @@ AMob::AMob()
 
 
     // Default capsule component properties
-	GetCapsuleComponent()->InitCapsuleSize(12.0f, 12.0f);
+	GetCapsuleComponent()->InitCapsuleSize(10.0f, 10.0f);
+    GetCapsuleComponent()->CanCharacterStepUpOn = ECB_No;
+    GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
+    GetCapsuleComponent()->SetCollisionObjectType(ECollisionChannel::ECC_WorldDynamic);
+    GetSprite()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
+    GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Overlap);
+    GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Overlap);
 
     // Default sprite component properties
     GetSprite()->SetRelativeRotation(FRotator(0.0f, 90.0f, -90.0f));
@@ -47,12 +53,12 @@ AMob::AMob()
     MobSpriteComponent = CreateDefaultSubobject<UMobFlipbookComponent>(TEXT("MobSpriteComponent"));
     MobSpriteComponent->SetupAttachment(RootComponent);
     MobSpriteComponent->SetupOwner(GetSprite());
-    GetSprite()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-    GetSprite()->SetCollisionObjectType(ECollisionChannel::ECC_PhysicsBody);
-    GetSprite()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
+    GetSprite()->CanCharacterStepUpOn = ECB_No;
+    GetSprite()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+    GetSprite()->SetCollisionObjectType(ECollisionChannel::ECC_WorldDynamic);
+    GetSprite()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
     GetSprite()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Ignore);
     GetSprite()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
-    GetSprite()->CanCharacterStepUpOn = ECB_No;
     MobSpriteComponent->UpdateSprite(MobState);
 
     World = AStaticWorld::GetStaticWorld();
@@ -85,8 +91,9 @@ void AMob::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
     //can make action, but 
 
-    // PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMob::Attack);
+    PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMob::Attack);
 }
+
 
 void AMob::MoveForwardBackward(float Value)
 {

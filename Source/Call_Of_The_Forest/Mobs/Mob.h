@@ -25,6 +25,25 @@ public:
   virtual void SetupPlayerInputComponent(
       class UInputComponent *PlayerInputComponent) override;
 
+  UFUNCTION()
+  float GetSpeed(){
+    return Speed;
+  }
+
+  UFUNCTION()
+  EMobState GetMobState(){
+    return MobState;
+  }
+
+  UFUNCTION()
+  EMobState GetLastMobState(){
+    return LastMobState;
+  }
+
+  UFUNCTION()
+  void SetMobState(EMobState NewState){
+      MobState = NewState;
+  }
   // UBehaviorTree* GetBehaviourTree() const;
 
 protected:
@@ -43,7 +62,7 @@ protected:
   float BaseDamage;
 
   UPROPERTY(EditAnywhere, Category = "State")
-  float Spead;
+  float Speed;
 
   UPROPERTY(EditAnywhere, Category = "State")
   float Health;
@@ -70,9 +89,10 @@ public: // because are used in aicontroller
   UFUNCTION(BlueprintCallable, Category = "Attacking")
   void Attack();
 
-protected:
   UFUNCTION(BlueprintCallable, Category = "Animation")
   void UpdateMobSprite();
+
+protected:
 
   // properties for animation
   UPROPERTY(EditAnywhere, Category = "Components")

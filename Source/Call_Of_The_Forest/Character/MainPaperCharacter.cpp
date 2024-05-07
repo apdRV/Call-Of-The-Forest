@@ -35,7 +35,7 @@ AMainPaperCharacter::AMainPaperCharacter()
     FollowCamera->bUsePawnControlRotation = false;
 
     // Default capsule component properties
-	GetCapsuleComponent()->InitCapsuleSize(12.0f, 12.0f);
+	GetCapsuleComponent()->InitCapsuleSize(10.0f, 10.0f);
 
     // Default sprite component properties
     GetSprite()->SetRelativeRotation(FRotator(0.0f, 90.0f, -90.0f));
