@@ -42,7 +42,7 @@ AMob::AMob()
     GetCapsuleComponent()->CanCharacterStepUpOn = ECB_No;
     GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
     GetCapsuleComponent()->SetCollisionObjectType(ECollisionChannel::ECC_WorldDynamic);
-    GetSprite()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
+    GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
     GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Overlap);
     GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Overlap);
 
@@ -88,8 +88,6 @@ void AMob::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
     Super::SetupPlayerInputComponent(PlayerInputComponent); // может быть проблема чекнуть !!!!!
     PlayerInputComponent->BindAxis("MoveForwardBackward", this, &AMob::MoveForwardBackward);
     PlayerInputComponent->BindAxis("MoveRightLeft", this, &AMob::MoveRightLeft);
-
-    //can make action, but 
 
     PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMob::Attack);
 }

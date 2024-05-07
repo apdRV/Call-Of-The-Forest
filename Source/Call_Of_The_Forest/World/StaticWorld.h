@@ -42,6 +42,9 @@ public:
 		return World;
 	}
 	std::vector<AActor*> GetActor(std::string Type){
-		return Actors[Type];
+		if(Actors.contains(Type)){
+			return Actors[Type];
+		}
+		return std::vector<AActor*>();
 	}
 };
