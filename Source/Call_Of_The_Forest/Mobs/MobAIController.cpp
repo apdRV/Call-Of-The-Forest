@@ -29,12 +29,15 @@ void AMobAIController::BeginPlay()
 void AMobAIController::Tick(float Delta)
 {
     Super::Tick(Delta);
+    if(m_Mob->GetTriggered()){
+        MoveToTarget();
+    }
 
 	// if (!bIsMoving && NavArea && m_Mob)
 	// {
 	// 	SearchForPlayer();
 	// }
-    MoveToTarget();
+    // MoveToTarget();
 }
 
 void AMobAIController::OnPossess(APawn* InPawn)
@@ -123,6 +126,5 @@ void AMobAIController::SearchForPlayer()
 void AMobAIController::OnMoveCompleted(FAIRequestID RequestID, const FPathFollowingResult& Result)
 {
 	Super::OnMoveCompleted(RequestID, Result);
-
-	bIsMoving = false;
+    bIsMoving = false;
 }

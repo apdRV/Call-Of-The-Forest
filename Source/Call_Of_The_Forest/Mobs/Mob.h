@@ -7,6 +7,7 @@
 #include "../World/StaticWorld.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "MobFlipbookComponent.h"
+#include "Components/SphereComponent.h"
 #include "MobSpriteComponent.h"
 #include "PaperCharacter.h"
 #include "Mob.generated.h"
@@ -92,6 +93,12 @@ public: // because are used in aicontroller
   UFUNCTION(BlueprintCallable, Category = "Animation")
   void UpdateMobSprite();
 
+  UFUNCTION(BlueprintCallable, Category = "Trigger")
+  bool GetTriggered();
+
+  UFUNCTION(BlueprintCallable, Category = "Trigger")
+  void SetTriggered(bool Value);
+
 protected:
 
   // properties for animation
@@ -107,4 +114,9 @@ protected:
 
   UFUNCTION(BlueprintCallable, Category = "State")
   void Die();
+
+private:
+  UPROPERTY()
+  bool triggered;
+
 };

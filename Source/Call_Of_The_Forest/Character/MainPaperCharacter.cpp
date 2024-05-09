@@ -5,6 +5,7 @@
 #include "MainPaperCharacter.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "../Mobs/Mob.h"
 #include "Components/CapsuleComponent.h"
 
 AMainPaperCharacter::AMainPaperCharacter()
@@ -58,7 +59,18 @@ AMainPaperCharacter::AMainPaperCharacter()
     GetSprite()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
     MainCharacterSpriteComponent->UpdateSprite(CharacterState);
 
+    //World properties
     World = AStaticWorld::GetStaticWorld();
+
+    // Properties for Sphere
+    TriggerRadius = 100.0f;
+    SphereCollider = CreateDefaultSubobject<USphereComponent>(TEXT("SphereCollider"));
+    SphereCollider->InitSphereRadius(TriggerRadius); // radius to trigger mobs
+    SphereCollider->SetCollisionProfileName(TEXT("OverlapAll"));
+    SphereCollider->SetupAttachment(RootComponent);
+
+    SphereCollider->OnComponentBeginOverlap.AddDynamic(this, &AMainPaperCharacter::OnOverlapBegin);
+    SphereCollider->OnComponentEndOverlap.AddDynamic(this, &AMainPaperCharacter::OnOverlapEnd);
 }
 
 // Called every frame
@@ -184,5 +196,24 @@ void AMainPaperCharacter::Die()
         GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
         EndPlay(EEndPlayReason::Destroyed);
     }
+}
+
+//funtion to deal with other actors
+void AMainPaperCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult){
+    AMob* Mob = dynamic_cast<AMob*>(OtherActor);
+    if (Mob != nullptr)
+    {
+        Mob->SetTriggered(true);
+        OverlappingActors.Add(OtherActor);
+    }
+}
+
+void AMainPaperCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+    AMob* Mob = dynamic_cast<AMob*>(OtherActor);
+    if(Mob != nullptr){
+        Mob->SetTriggered(false);
+    }
+    OverlappingActors.Remove(OtherActor);
 }
 

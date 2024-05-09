@@ -24,6 +24,7 @@ AMob::AMob()
     MaxHealth = 100.0f;
     BaseDamage = 10.0f;
     Speed = 10.0f;
+    triggered = false;
 
     // устанавливаем behaviourtree
     // static ConstructorHelpers::FObjectFinder<UBehaviorTree> BTObject(TEXT("/Script/AIModule.BehaviorTree'/Game/AI/AI_Mob.AI_Mob'"));
@@ -152,5 +153,16 @@ void AMob::Die()
         MobSpriteComponent->UpdateSprite(MobState);
 
     }
+}
+
+
+bool AMob::GetTriggered()
+{
+    return triggered;
+}
+
+void AMob::SetTriggered(bool Value)
+{
+    triggered = Value;
 }
 

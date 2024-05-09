@@ -6,6 +6,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "Components/SphereComponent.h"
 #include "../World/StaticWorld.h"
 #include "MainCharacterSpriteComponent.h"
 #include "MainPaperCharacter.generated.h"
@@ -66,6 +67,12 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "Animation")
 	void UpdateCharacterSprite();
 
+    UFUNCTION()
+    void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
+    UFUNCTION()
+    void OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
+
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
     class USpringArmComponent* CameraBoom;
 
@@ -74,5 +81,15 @@ protected:
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Animation)
     class UMainCharacterSpriteComponent* MainCharacterSpriteComponent;
+
+private:
+	UPROPERTY(VisibleAnywhere)
+    class USphereComponent* SphereCollider;
+
+	UPROPERTY(VisibleAnywhere)
+    TArray<AActor*> OverlappingActors;
+
+	UPROPERTY(VisibleAnywhere)
+	float TriggerRadius;
 
 };

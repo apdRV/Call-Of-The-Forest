@@ -62,6 +62,7 @@ private:
   UFUNCTION(BlueprintCallable, Category = "Moving")
   void MoveToTarget();
 
+
 public:
 	// stuff to continue after location reached
 	void OnMoveCompleted(FAIRequestID RequestID, const FPathFollowingResult& Result) override;
