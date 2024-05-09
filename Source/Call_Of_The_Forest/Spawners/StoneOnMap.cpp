@@ -16,6 +16,5 @@ AStoneOnMap::AStoneOnMap(){
     	StoneMapComponent->CanCharacterStepUpOn = ECB_No;
     	SetRootComponent(StoneMapComponent);
     	World = AStaticWorld::GetStaticWorld();
-    	World->AddActor("Stone", this);
 }
 

@@ -28,6 +28,7 @@ public:
 
 	virtual void BeginPlay() override {
     	Super::BeginPlay();
+		World->AddActor("Stone", this);
 	}
 
 	void Attacked(){
