@@ -29,7 +29,7 @@ void AMobAIController::BeginPlay()
 void AMobAIController::Tick(float Delta)
 {
     Super::Tick(Delta);
-    if(m_Mob->GetTriggered()){
+    if(m_Mob && m_Mob->GetTriggered()){
         MoveToTarget();
     }
 

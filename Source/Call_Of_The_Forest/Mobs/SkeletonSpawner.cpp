@@ -8,8 +8,8 @@
 void ASkeletonSpawner::SpawnSkeletons()
 {
     FRotator Rotation(0, 0, 0);
-    for (int l = -2; l < 2; l++) {
-        for (int r = -2; r < 2; r++) {
+    for (int l = -7; l < 7; l++) {
+        for (int r = -7; r < 7; r++) {
             for (int i = 0; i < ObjectCount; i++) {
                 FVector Location = { 0, 0, 12 };
                 Location[0] = l * 500 + FMath::RandRange(0, 500);
