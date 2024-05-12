@@ -12,7 +12,8 @@
 				"Engine",
 				"Paper2D",
 				"UnrealEd",
-				"UMG"
+				"UMG",
+				"Niagara"
 			]
 		}
 	],

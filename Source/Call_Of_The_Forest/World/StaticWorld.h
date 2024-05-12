@@ -8,10 +8,11 @@
 #include <mutex>
 #include <vector>
 #include <algorithm>
-#include <algorithm>
 #include "../Character/MainCharacterSpriteComponent.h"
 #include "GameFramework/Actor.h"
 #include "StaticWorld.generated.h"
+
+class ATree1;
 
 UCLASS()
 class CALL_OF_THE_FOREST_API AStaticWorld : public AActor
@@ -19,12 +20,10 @@ class CALL_OF_THE_FOREST_API AStaticWorld : public AActor
 	GENERATED_BODY()
 	std::map<std::string, std::vector<AActor*>> Actors;
 	static AStaticWorld* World;
-	std::mutex m_mutex;
 public:
 	AStaticWorld();
 	~AStaticWorld();
 	void AddActor(std::string Type, AActor* Actor) {
-		std::unique_lock lock(m_mutex);
 		if (Actor == nullptr) {
 			return;
 		}
@@ -38,6 +37,7 @@ public:
 		Actors[Type].push_back(Actor);
 	}
 	void PlayerAttack(FVector PlayerLocation, EMainCharacterState CharacterState);	
+	void DestroyTree(ATree1* Tree);
 	static AStaticWorld* GetStaticWorld() {
 		return World;
 	}

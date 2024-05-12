@@ -15,7 +15,7 @@ AStaticWorld::~AStaticWorld()
 {
 	World = nullptr;
 }
-void DestroyTree(ATree1* Tree){
+void AStaticWorld::DestroyTree(ATree1* Tree){
 	if(Tree == nullptr){
 		return;
 	}
@@ -27,12 +27,12 @@ void DestroyTree(ATree1* Tree){
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.bNoFail = true;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	UWorld* World = Tree->GetWorld();
+	UWorld* GlobalWorld = Tree->GetWorld();
 	Tree->Destroy();
-	World->SpawnActor<AWood>(Location, Rotation, SpawnParams);
+	std::remove(Actors["Tree"].begin(), Actors["Tree"].end(), Tree);
+	GlobalWorld->SpawnActor<AWood>(Location, Rotation, SpawnParams);
 }
 void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState CharacterState) {
-	std::unique_lock lock(m_mutex);
 	if (Actors.find("Tree") == Actors.end()){
 		return;
 	} 
