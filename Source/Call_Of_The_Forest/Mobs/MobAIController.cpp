@@ -2,7 +2,6 @@
 
 
 #include "MobAIController.h"
-#include "Mob.h"
 #include "MobFlipbookComponent.h"
 #include "NavigationSystem.h"
 
@@ -29,15 +28,9 @@ void AMobAIController::BeginPlay()
 void AMobAIController::Tick(float Delta)
 {
     Super::Tick(Delta);
-    if(m_Mob && m_Mob->GetTriggered()){
+    if(m_Mob != nullptr && m_Mob->GetTriggered()){
         MoveToTarget();
     }
-
-	// if (!bIsMoving && NavArea && m_Mob)
-	// {
-	// 	SearchForPlayer();
-	// }
-    // MoveToTarget();
 }
 
 void AMobAIController::OnPossess(APawn* InPawn)
@@ -95,6 +88,8 @@ void AMobAIController::MoveToTarget()
         FVector Direction = (TargetLocation - CurrentLocation).GetSafeNormal();
         m_Mob->MoveForwardBackward(Direction.X);
         m_Mob->MoveRightLeft(Direction.Y);
+        //attacking
+        
     } else {
         UE_LOG(LogTemp, Warning, TEXT("No_target_found"));
     }

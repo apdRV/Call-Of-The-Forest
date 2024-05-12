@@ -23,8 +23,7 @@ class CALL_OF_THE_FOREST_API AMob : public APaperCharacter {
 public:
   AMob();
   virtual void Tick(float Deltatime) override;
-  virtual void SetupPlayerInputComponent(
-      class UInputComponent *PlayerInputComponent) override;
+  virtual void SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent) override;
 
   UFUNCTION()
   float GetSpeed(){
