@@ -21,7 +21,7 @@ void AAnimalsAIController::BeginPlay()
 void AAnimalsAIController::Tick(float Delta)
 {
     Super::Tick(Delta);
-    if(m_Animal != nullptr && wait_time > 100.0f && m_Animal->GetActive()){
+    if(m_Animal != nullptr && wait_time > 100.0f && m_Animal->GetbIsActive()){
         RandomMove();
         wait_time = 0;
         UE_LOG(LogTemp, Warning, TEXT("Call Random Move"));

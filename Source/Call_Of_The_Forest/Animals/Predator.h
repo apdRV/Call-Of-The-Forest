@@ -11,28 +11,31 @@
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "../World/StaticWorld.h"
-#include "Animal.generated.h"
+#include "Predator.generated.h"
 
 /**
  * 
  */
 UENUM(BlueprintType, Category = "Animation")
-enum class EAnimalState : uint8{
+enum class EPredatorState : uint8{
 	LeftDown,
 	RightUp,
 	IdleLeftDown,
 	IdleRightUp,
+	AttackingLeftDown,
+	AttackingRightUp,
+	HitLeftDown,
+	HitRightUp,
 	DieLeftDown,
 	DieRightUp
 };
-
 UCLASS()
-class CALL_OF_THE_FOREST_API AAnimal : public APaperCharacter
+class CALL_OF_THE_FOREST_API APredator : public APaperCharacter
 {
 	GENERATED_BODY()
-public:
 
-	AAnimal();
+public:
+	APredator();
 
 	UFUNCTION()
 	virtual void Tick(float DeltaTime) override;
@@ -41,10 +44,16 @@ public:
 	virtual void BeginPlay() override;
 
 	UFUNCTION()
-	virtual void UpdateAnimalSprite();
+	virtual void UpdatePredatorSprite();
 
 	UFUNCTION()
-	void UpdateAnimalState();
+	void SetupOwner(UPaperFlipbookComponent* m_owner);
+
+	UFUNCTION()
+	void UpdatePredatorState();
+
+	UFUNCTION()
+	virtual void Die();
 
 	UFUNCTION()
   	bool GetbIsActive();
@@ -53,21 +62,21 @@ public:
   	void SetbIsActive(bool Value);
 
 	UFUNCTION()
-	virtual void Die();
+	bool GetbIsTriggered();
 
 	UFUNCTION()
-	void SetupOwner(UPaperFlipbookComponent* m_owner);
+	void SetbIsTriggered(bool Value);
 
 
 protected:
 	UPROPERTY()
-	EAnimalState AnimalState;
+	EPredatorState PredatorState;
 
 	UPROPERTY()
-	EAnimalState LastAnimalState;
+	EPredatorState LastPredatorState;
 
 	UPROPERTY()
-	UPaperFlipbookComponent* AnimalFlipbookComponent;
+	UPaperFlipbookComponent* PredatorFlipbookComponent;
 
 	UPROPERTY()
 	AStaticWorld* World;
@@ -79,14 +88,23 @@ protected:
 	float Health;
 
 	UPROPERTY()
+	float Damage;
+
+	UPROPERTY()
 	bool bIsDead;
 
 	UPROPERTY()
 	bool bIsAttacking;
 
 	UPROPERTY()
+	bool bIsTriggered;
+
+	UPROPERTY()
 	bool bIsActive;
 
+
+
 private:
-	
+
+
 };

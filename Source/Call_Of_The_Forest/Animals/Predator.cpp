@@ -1,19 +1,22 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Animal.h"
+#include "Predator.h"
 
-AAnimal::AAnimal(){
-    PrimaryActorTick.bCanEverTick = true;
-
-    Speed = 0.05f;
+APredator::APredator()
+{
+    // Default Properties
+    Speed = 60.0f;
     Health = 100.0f;
+    Damage = 20.0f;
     bIsDead = false;
     bIsAttacking = false;
+    bIsTriggered = false;
     bIsActive = false;
 
-    AnimalState = EAnimalState::IdleRightUp;
-    LastAnimalState = EAnimalState::IdleRightUp;
+    //Default State
+    PredatorState = EPredatorState::IdleRightUp;
+    LastPredatorState = EPredatorState::IdleRightUp;
 
     // Default capsule component properties
 	GetCapsuleComponent()->InitCapsuleSize(10.0f, 10.0f);
@@ -28,8 +31,8 @@ AAnimal::AAnimal(){
     GetSprite()->SetRelativeRotation(FRotator(0.0f, 90.0f, -90.0f));
     GetSprite()->SetRelativeScale3D(FVector(1.0f, 1.0f, 1.0f));
 
-    AnimalFlipbookComponent = CreateDefaultSubobject<UPaperFlipbookComponent>(TEXT("AnimalFlipbookComponent"));
-    AnimalFlipbookComponent->SetupAttachment(RootComponent);
+    PredatorFlipbookComponent = CreateDefaultSubobject<UPaperFlipbookComponent>(TEXT("PredatorFlipbookComponent"));
+    PredatorFlipbookComponent->SetupAttachment(RootComponent);
     SetupOwner(GetSprite());
     GetSprite()->CanCharacterStepUpOn = ECB_No;
     GetSprite()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
@@ -52,54 +55,62 @@ AAnimal::AAnimal(){
     World = AStaticWorld::GetStaticWorld();
 }
 
-void AAnimal::Tick(float DeltaTime)
+void APredator::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
 }
 
-void AAnimal::BeginPlay()
+void APredator::BeginPlay()
 {
     Super::BeginPlay();
 }
 
-void AAnimal::SetupOwner(UPaperFlipbookComponent *m_owner)
+void APredator::UpdatePredatorSprite()
 {
-    AnimalFlipbookComponent = m_owner;
+
 }
 
-
-void AAnimal::UpdateAnimalSprite()
+void APredator::SetupOwner(UPaperFlipbookComponent* m_owner)
 {
+    PredatorFlipbookComponent = m_owner;
 }
 
-bool AAnimal::GetbIsActive()
-{
-    return bIsActive;
-}
-
-void AAnimal::SetbIsActive(bool Value)
-{
-    bIsActive = Value;
-}
-
-void AAnimal::UpdateAnimalState()
+void APredator::UpdatePredatorState()
 {
     FVector Velocity = GetVelocity();
 
     if (Velocity.SizeSquared() > 0.0f)
     {
-        AnimalState = (Velocity.Y > 0.0f) ? EAnimalState::RightUp : EAnimalState::LeftDown;
-        LastAnimalState = (AnimalState == EAnimalState::RightUp) ? EAnimalState::IdleRightUp : EAnimalState::IdleLeftDown;
+        PredatorState = (Velocity.Y > 0.0f) ? EPredatorState::RightUp : EPredatorState::LeftDown;
+        LastPredatorState = (PredatorState == EPredatorState::RightUp) ? EPredatorState::IdleRightUp : EPredatorState::IdleLeftDown;
     }
     else
     {
-        AnimalState = LastAnimalState;
+        PredatorState = LastPredatorState;
     }
-    UpdateAnimalSprite();
+    UpdatePredatorSprite();
 }
 
-void AAnimal::Die()
+void APredator::Die()
 {
 }
 
+bool APredator::GetbIsActive()
+{
+    return bIsActive;
+}
 
+void APredator::SetbIsActive(bool Value)
+{
+    bIsActive = Value;
+}
+
+bool APredator::GetbIsTriggered()
+{
+    return bIsTriggered;
+}
+
+void APredator::SetbIsTriggered(bool Value)
+{
+    bIsTriggered = Value;
+}

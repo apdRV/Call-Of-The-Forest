@@ -208,7 +208,7 @@ void AMainPaperCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AA
     }
     AAnimal* Animal = dynamic_cast<AAnimal*>(OtherActor);
     if(Animal != nullptr){
-        Animal->SetActive(true);
+        Animal->SetbIsActive(true);
         OverlappingActors.Add(OtherActor);
     }
 }
@@ -221,7 +221,7 @@ void AMainPaperCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AAct
     }
     AAnimal* Animal = dynamic_cast<AAnimal*>(OtherActor);
     if(Animal != nullptr){
-        Animal->SetActive(false);
+        Animal->SetbIsActive(false);
     }
     OverlappingActors.Remove(OtherActor);
 }
