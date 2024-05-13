@@ -8,6 +8,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/SphereComponent.h"
 #include "../World/StaticWorld.h"
+#include "../Animals/Animal.h"
 #include "MainCharacterSpriteComponent.h"
 #include "MainPaperCharacter.generated.h"
 /**

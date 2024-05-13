@@ -206,6 +206,11 @@ void AMainPaperCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AA
         Mob->SetTriggered(true);
         OverlappingActors.Add(OtherActor);
     }
+    AAnimal* Animal = dynamic_cast<AAnimal*>(OtherActor);
+    if(Animal != nullptr){
+        Animal->SetActive(true);
+        OverlappingActors.Add(OtherActor);
+    }
 }
 
 void AMainPaperCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
@@ -213,6 +218,10 @@ void AMainPaperCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AAct
     AMob* Mob = dynamic_cast<AMob*>(OtherActor);
     if(Mob != nullptr){
         Mob->SetTriggered(false);
+    }
+    AAnimal* Animal = dynamic_cast<AAnimal*>(OtherActor);
+    if(Animal != nullptr){
+        Animal->SetActive(false);
     }
     OverlappingActors.Remove(OtherActor);
 }

@@ -4,23 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "Animal.h"
-#include "Components/CapsuleComponent.h"
-#include "PaperSpriteComponent.h"
-#include "PaperFlipbookActor.h"
-#include "PaperFlipbook.h"
-#include "PaperSprite.h"
-#include "PaperFlipbookComponent.h"
-#include "Rabbit.generated.h"
+#include "Boar.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class CALL_OF_THE_FOREST_API ARabbit : public AAnimal
+class CALL_OF_THE_FOREST_API ABoar : public AAnimal
 {
 	GENERATED_BODY()
 public:
-	ARabbit();
+	ABoar();
 	virtual void UpdateAnimalSprite() override;
 	virtual void Die() override;
 	virtual void BeginPlay() override;
@@ -29,6 +23,6 @@ public:
 
 protected:
 	UPROPERTY()
-	TMap<EAnimalState, UPaperFlipbook*> DirectionToRabbitSprite;
+	TMap<EAnimalState, UPaperFlipbook*> DirectionToBoarSprite;
 	
 };

@@ -22,13 +22,12 @@ void AAnimalsAIController::BeginPlay()
 void AAnimalsAIController::Tick(float Delta)
 {
     Super::Tick(Delta);
-    if(m_Animal != nullptr && wait_time > 300.0f){
-        // GenerateRandomLocation();
+    if(m_Animal != nullptr && wait_time > 100.0f && m_Animal->GetActive()){
         RandomMove();
         wait_time = 0;
         UE_LOG(LogTemp, Warning, TEXT("Call Random Move"));
     }
-    wait_time++;
+    wait_time = (wait_time > 100.0f) ? wait_time : wait_time + 1;
 }
 
 void AAnimalsAIController::OnPossess(APawn* InPawn)
@@ -38,8 +37,6 @@ void AAnimalsAIController::OnPossess(APawn* InPawn)
     if(m_Animal == nullptr){
         UE_LOG(LogTemp, Warning, TEXT("Animal is null"));
     }
-    const FRotator NewRotation(0.0f, 0.0f, 0.0f);
-    SetControlRotation(NewRotation);
 }
 
 void AAnimalsAIController::RandomMove()

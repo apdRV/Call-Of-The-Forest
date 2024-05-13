@@ -8,6 +8,8 @@
 #include <random>
 #include "Rabbit.h"
 #include "Animal.h"
+#include "Boar.h"
+#include "Math/UnrealMathUtility.h"
 #include "AnimalsAIController.h"
 #include "AnimalSpawner.generated.h"
 

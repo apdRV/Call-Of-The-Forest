@@ -33,32 +33,17 @@ private:
 	UPROPERTY()
 	class AStaticWorld *World;
 
-// 	UPROPERTY()
-// 	class AMainPaperCharacter *TargetMainCharacter;
-
 	UPROPERTY()
 	class AAnimal *m_Animal;
 	
 	UPROPERTY()
 	int wait_time;
 
-// 	UPROPERTY()
-// 	bool bIsMoving;
-
 	UPROPERTY()
 	class UNavigationSystemV1* NavArea;
 
 	UPROPERTY()
 	FVector RandomLocation = FVector();
-
-//   	UFUNCTION(BlueprintCallable, Category = "Moving")
-// 	void GenerateRandomWalkLocation();
-
-// 	UFUNCTION(BlueprintCallable, Category = "Moving")
-// 	AMainPaperCharacter* FindTarget();
-
-// 	UFUNCTION(BlueprintCallable, Category = "Moving")
-// 	void MoveFromTarget();
 
 	UFUNCTION(BlueprintCallable, Category = "Moving")
 	void GenerateRandomLocation();
