@@ -8,7 +8,6 @@
 #include "BehaviorTree/BehaviorTree.h"
 #include "MobFlipbookComponent.h"
 #include "Components/SphereComponent.h"
-#include "MobSpriteComponent.h"
 #include "PaperCharacter.h"
 #include "Mob.generated.h"
 
