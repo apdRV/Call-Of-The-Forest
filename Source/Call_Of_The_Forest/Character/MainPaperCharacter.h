@@ -9,6 +9,7 @@
 #include "Components/SphereComponent.h"
 #include "../World/StaticWorld.h"
 #include "../Animals/Animal.h"
+#include "../Animals/Predator.h"
 #include "MainCharacterSpriteComponent.h"
 #include "MainPaperCharacter.generated.h"
 /**

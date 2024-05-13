@@ -15,7 +15,6 @@ void AAnimalsAIController::BeginPlay()
 {
     Super::BeginPlay();
     NavArea = FNavigationSystem::GetCurrent<UNavigationSystemV1>(this);
-
 }
 
 void AAnimalsAIController::Tick(float Delta)

@@ -10,8 +10,11 @@
 #include "Animal.h"
 #include "Boar.h"
 #include "Deer.h"
+#include "Predator.h"
+#include "Wolf.h"
 #include "Math/UnrealMathUtility.h"
 #include "AnimalsAIController.h"
+#include "PredatorAIController.h"
 #include "AnimalSpawner.generated.h"
 
 UCLASS()
