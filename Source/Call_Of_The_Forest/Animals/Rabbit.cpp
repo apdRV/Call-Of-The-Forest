@@ -38,7 +38,7 @@ void ARabbit::BeginPlay(){
 void ARabbit::Tick(float Deltatime)
 {
     Super::Tick(Deltatime);
-    UpdateAnimalSprite();
+    UpdateAnimalState();
 }
 
 void ARabbit::UpdateAnimalSprite()

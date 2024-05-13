@@ -22,9 +22,9 @@ void AAnimalSpawner::BeginPlay()
 void AAnimalSpawner::SpawnAnimals()
 {
     FRotator Rotation(0, 0, 0);
-    for (int l = -2; l < 2; l++) {
-        for (int r = -2; r < 2; r++) {
-            for (int i = 0; i < 2; i++) {
+    for (int l = -1; l < 1; l++) {
+        for (int r = -1; r < 1; r++) {
+            for (int i = 0; i < 1; i++) {
                 FVector Location = { 0, 0, 12 };
                 Location[0] = l * 500 + FMath::RandRange(0, 500);
                 Location[1] = r * 500 + FMath::RandRange(0, 500);

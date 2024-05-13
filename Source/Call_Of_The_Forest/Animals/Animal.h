@@ -6,8 +6,10 @@
 #include "PaperCharacter.h"
 #include "PaperFlipbookActor.h"
 #include "PaperFlipbook.h"
+#include "GameFramework/Character.h"
 #include "PaperFlipbookComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "../World/StaticWorld.h"
 #include "Animal.generated.h"
 
@@ -46,6 +48,9 @@ public:
 
 	UFUNCTION()
 	virtual void UpdateAnimalSprite();
+
+	UFUNCTION()
+	void UpdateAnimalState();
 
 	UFUNCTION()
   	bool GetActive();

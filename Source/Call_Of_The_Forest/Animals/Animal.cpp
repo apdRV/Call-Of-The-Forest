@@ -37,6 +37,17 @@ AAnimal::AAnimal(){
     GetSprite()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Ignore);
     GetSprite()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
 
+    GetCharacterMovement()->MaxWalkSpeed = 60.0f;  // Adjust this value as needed
+    GetCharacterMovement()->bOrientRotationToMovement = false;
+    GetCharacterMovement()->RotationRate = FRotator(0.f, 0.f, 0.f);
+    GetCharacterMovement()->bConstrainToPlane = true;
+    GetCharacterMovement()->bSnapToPlaneAtStart = true;
+    GetCharacterMovement()->bIgnoreBaseRotation = true;
+
+    bUseControllerRotationPitch = false;
+    bUseControllerRotationRoll = false;
+    bUseControllerRotationYaw = false;
+    
     World = AStaticWorld::GetStaticWorld();
 }
 
@@ -98,6 +109,21 @@ void AAnimal::SetActive(bool Value)
     Active = Value;
 }
 
+void AAnimal::UpdateAnimalState()
+{
+    FVector Velocity = GetVelocity();
+
+    if (Velocity.SizeSquared() > 0.0f)
+    {
+        AnimalState = (Velocity.Y > 0.0f) ? EAnimalState::RightUp : EAnimalState::LeftDown;
+        LastAnimalState = (AnimalState == EAnimalState::RightUp) ? EAnimalState::IdleRightUp : EAnimalState::IdleLeftDown;
+    }
+    else
+    {
+        AnimalState = LastAnimalState;
+    }
+    UpdateAnimalSprite();
+}
 
 void AAnimal::Die()
 {

@@ -14,14 +14,16 @@ AAnimalsAIController::AAnimalsAIController()
 void AAnimalsAIController::BeginPlay()
 {
     Super::BeginPlay();
+    bSetControlRotationFromPawnOrientation = false;
     NavArea = FNavigationSystem::GetCurrent<UNavigationSystemV1>(this);
-    RandomMove();
+
 }
 
 void AAnimalsAIController::Tick(float Delta)
 {
     Super::Tick(Delta);
-    if(m_Animal != nullptr && wait_time > 50){
+    if(m_Animal != nullptr && wait_time > 300.0f){
+        // GenerateRandomLocation();
         RandomMove();
         wait_time = 0;
         UE_LOG(LogTemp, Warning, TEXT("Call Random Move"));
@@ -36,32 +38,28 @@ void AAnimalsAIController::OnPossess(APawn* InPawn)
     if(m_Animal == nullptr){
         UE_LOG(LogTemp, Warning, TEXT("Animal is null"));
     }
+    const FRotator NewRotation(0.0f, 0.0f, 0.0f);
+    SetControlRotation(NewRotation);
 }
 
 void AAnimalsAIController::RandomMove()
 {
     if(m_Animal == nullptr){
+        UE_LOG(LogTemp, Warning, TEXT("Animal is null"));
         return;
     }
-    GenerateRandomLocation();
-    // while(FVector::Dist(m_Animal->GetActorLocation(), RandomLocation) < 10.0f){
-    FVector CurrentLocation = m_Animal->GetActorLocation();
-    FVector Direction = (RandomLocation - CurrentLocation).GetSafeNormal();
-    // m_Animal->MoveForwardBackward(Direction.X);
-    // m_Animal->MoveRightLeft(Direction.Y);
-    m_Animal->MoveForwardBackward(1);
-    m_Animal->MoveRightLeft(1);
-    // }
-	// if (/*IsValid(NavArea) &&*/ m_Animal)
-	// {
-    //     GenerateRandomLocation();
-    //     FVector CurrentLocation = m_Animal->GetActorLocation();
-    //     FVector Direction = (RandomLocation - CurrentLocation).GetSafeNormal();
-    //     m_Animal->MoveForwardBackward(Direction.X);
-    //     m_Animal->MoveRightLeft(Direction.Y);
 
-    //     GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AAnimalsAIController::RandomMove, 5.0f, false);
-	// }
+    NavArea = FNavigationSystem::GetCurrent<UNavigationSystemV1>(this);
+    if(NavArea == nullptr){
+        UE_LOG(LogTemp, Warning, TEXT("NavArea is null"));
+        return;
+    }
+
+    FNavLocation NavLocation;
+    bool bLocationValid = NavArea->GetRandomReachablePointInRadius(m_Animal->GetActorLocation(), 300.0f, NavLocation);
+    if(bLocationValid){
+        MoveToLocation(NavLocation.Location);
+    }
 }
 
 void AAnimalsAIController::GenerateRandomLocation()
