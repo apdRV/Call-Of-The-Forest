@@ -9,6 +9,7 @@
 #include "Rabbit.h"
 #include "Animal.h"
 #include "Boar.h"
+#include "Deer.h"
 #include "Math/UnrealMathUtility.h"
 #include "AnimalsAIController.h"
 #include "AnimalSpawner.generated.h"

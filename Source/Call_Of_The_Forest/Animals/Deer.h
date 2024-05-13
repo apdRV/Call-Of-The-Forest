@@ -4,17 +4,17 @@
 
 #include "CoreMinimal.h"
 #include "Animal.h"
-#include "Fox.generated.h"
+#include "Deer.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class CALL_OF_THE_FOREST_API AFox : public AAnimal
+class CALL_OF_THE_FOREST_API ADeer : public AAnimal
 {
 	GENERATED_BODY()
 public:
-	AFox();
+	ADeer();
 	virtual void UpdateAnimalSprite() override;
 	virtual void Die() override;
 	virtual void BeginPlay() override;
@@ -23,6 +23,5 @@ public:
 
 protected:
 	UPROPERTY()
-	TMap<EAnimalState, UPaperFlipbook*> DirectionToFoxSprite;
-	
+	TMap<EAnimalState, UPaperFlipbook*> DirectionToDeerSprite;	
 };

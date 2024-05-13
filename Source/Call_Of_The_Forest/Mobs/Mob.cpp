@@ -127,14 +127,14 @@ void AMob::Attack()
 
 void AMob::UpdateMobSprite()
 {
-    if((bIsAttacking != 0) && (!bIsDead))
+    FVector Velocity = GetVelocity();
+
+    if (Velocity.SizeSquared() > 0.0f)
     {
-        bIsAttacking--;
+        MobState = (Velocity.Y > 0.0f) ? EMobState::RightUp : EMobState::LeftDown;
+        LastMobState = (MobState == EMobState::RightUp) ? EMobState::IdleRightUp : EMobState::IdleLeftDown;
     }
-    else if(Health <= 0.0f){
-        Die();
-    }
-    else if(GetVelocity().IsNearlyZero() && (!bIsDead))
+    else
     {
         MobState = LastMobState;
     }

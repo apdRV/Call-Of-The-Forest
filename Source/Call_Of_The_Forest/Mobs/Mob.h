@@ -43,7 +43,11 @@ public:
   void SetMobState(EMobState NewState){
       MobState = NewState;
   }
-  // UBehaviorTree* GetBehaviourTree() const;
+  UFUNCTION(BlueprintCallable, Category = "Trigger")
+  bool GetTriggered();
+
+  UFUNCTION(BlueprintCallable, Category = "Trigger")
+  void SetTriggered(bool Value);
 
 protected:
   virtual void BeginPlay() override;
@@ -78,7 +82,6 @@ protected:
   UPROPERTY(EditAnywhere, Category = "Health")
   float MaxHealth;
 
-public: // because are used in aicontroller
   UFUNCTION(BlueprintCallable, Category = "Movement")
   void MoveForwardBackward(float Value);
 
@@ -90,14 +93,6 @@ public: // because are used in aicontroller
 
   UFUNCTION(BlueprintCallable, Category = "Animation")
   void UpdateMobSprite();
-
-  UFUNCTION(BlueprintCallable, Category = "Trigger")
-  bool GetTriggered();
-
-  UFUNCTION(BlueprintCallable, Category = "Trigger")
-  void SetTriggered(bool Value);
-
-protected:
 
   // properties for animation
   UPROPERTY(EditAnywhere, Category = "Components")

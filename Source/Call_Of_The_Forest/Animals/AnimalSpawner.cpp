@@ -22,13 +22,13 @@ void AAnimalSpawner::BeginPlay()
 void AAnimalSpawner::SpawnAnimals()
 {
     FRotator Rotation(0, 0, 0);
-    for (int l = -3; l < 3; l++) {
-        for (int r = -3; r < 3; r++) {
+    for (int l = -4; l < 4; l++) {
+        for (int r = -4; r < 4; r++) {
             for (int i = 0; i < 1; i++) {
                 FVector Location = { 0, 0, 12 };
                 Location[0] = l * 500 + FMath::RandRange(0, 500);
                 Location[1] = r * 500 + FMath::RandRange(0, 500);
-                int Animal_type = FMath::RandRange(1, 2);
+                int Animal_type = FMath::RandRange(1, 3);
                 AAnimalsAIController* AIController = nullptr;
                 if(Animal_type == 1){
                     AIController = GetWorld()->SpawnActor<AAnimalsAIController>(AAnimalsAIController::StaticClass());
@@ -44,6 +44,14 @@ void AAnimalSpawner::SpawnAnimals()
                     if(SpawnedBoar && AIController){
                         AIController->Possess(SpawnedBoar);   
                         UE_LOG(LogTemp, Warning, TEXT("Boar AIPossesed"));
+                    }
+                }
+                else if(Animal_type == 3){
+                    AIController = GetWorld()->SpawnActor<AAnimalsAIController>(AAnimalsAIController::StaticClass());
+                    ADeer* SpawnedDeer = GetWorld()->SpawnActor<ADeer>(Location, Rotation);
+                    if(SpawnedDeer && AIController){
+                        AIController->Possess(SpawnedDeer);   
+                        UE_LOG(LogTemp, Warning, TEXT("Deer AIPossesed"));
                     }
                 }
             }
