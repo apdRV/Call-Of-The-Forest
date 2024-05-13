@@ -103,13 +103,6 @@ protected:
   UPROPERTY(EditAnywhere, Category = "Components")
   class UMobFlipbookComponent *MobSpriteComponent;
 
-  // Properties for AI
-
-  // UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "AI", meta =
-  // (AllowPrivateAccess = "true")) UBehaviorTree* Tree;
-
-  // end of AI properties
-
   UFUNCTION(BlueprintCallable, Category = "State")
   void Die();
 

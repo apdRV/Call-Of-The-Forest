@@ -14,7 +14,6 @@ AAnimalsAIController::AAnimalsAIController()
 void AAnimalsAIController::BeginPlay()
 {
     Super::BeginPlay();
-    bSetControlRotationFromPawnOrientation = false;
     NavArea = FNavigationSystem::GetCurrent<UNavigationSystemV1>(this);
 
 }
@@ -66,4 +65,9 @@ void AAnimalsAIController::GenerateRandomLocation()
         NavArea->GetRandomReachablePointInRadius(m_Animal->GetActorLocation(), 200.0f, Location);
     }
     RandomLocation = Location.Location;
+}
+
+void AAnimalsAIController::OnMoveCompleted(FAIRequestID RequestID, const FPathFollowingResult& Result)
+{
+    Super::OnMoveCompleted(RequestID, Result);
 }

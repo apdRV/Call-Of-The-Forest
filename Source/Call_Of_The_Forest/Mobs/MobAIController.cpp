@@ -83,11 +83,13 @@ void AMobAIController::MoveToTarget()
         TargetMainCharacter = FindTarget();
     }
     if(TargetMainCharacter != nullptr){
-        FVector TargetLocation = TargetMainCharacter->GetActorLocation();
-        FVector CurrentLocation = m_Mob->GetActorLocation();
-        FVector Direction = (TargetLocation - CurrentLocation).GetSafeNormal();
-        m_Mob->MoveForwardBackward(Direction.X);
-        m_Mob->MoveRightLeft(Direction.Y);
+        NavArea = FNavigationSystem::GetCurrent<UNavigationSystemV1>(this);
+        //FVector TargetLocation = TargetMainCharacter->GetActorLocation();
+        // FVector CurrentLocation = m_Mob->GetActorLocation();
+        // FVector Direction = (TargetLocation - CurrentLocation).GetSafeNormal();
+        MoveToActor(TargetMainCharacter, 2.0f);
+        // m_Mob->MoveForwardBackward(Direction.X);
+        // m_Mob->MoveRightLeft(Direction.Y);
         //attacking
         
     } else {

@@ -4,7 +4,8 @@
 #include "Rabbit.h"
 
 ARabbit::ARabbit(){
-    Speed = 0.05f;
+    Speed = 50.0f;
+    GetCharacterMovement()->MaxWalkSpeed = Speed;  // Adjust this value as needed
     Health = 100.0f;
     bIsDead = false;
 

@@ -32,11 +32,7 @@ class CALL_OF_THE_FOREST_API AAnimal : public APaperCharacter
 	GENERATED_BODY()
 public:
 
-	// UPROPERTY()
-	// friend class UPaperFlipbookComponent;
-
 	AAnimal();
-
 	
 	virtual void SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent) override;
 

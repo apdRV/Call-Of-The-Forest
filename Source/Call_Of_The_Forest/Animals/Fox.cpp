@@ -1,15 +1,15 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "Boar.h"
+#include "Fox.h"
 
-ABoar::ABoar(){
-    Speed = 100.0f;
-    GetCharacterMovement()->MaxWalkSpeed = Speed;  // Adjust this value as needed
+AFox::AFox()
+{
+    Speed = 0.05f;
     Health = 200.0f;
     bIsDead = false;
 
-    GetSprite()->SetRelativeScale3D(FVector(1.25f, 1.25f, 1.25f));
+    GetSprite()->SetRelativeScale3D(FVector(1.1f, 1.1f, 1.1f));
 
     static ConstructorHelpers::FObjectFinder<UPaperFlipbook> LeftDown(TEXT("/Script/Paper2D.PaperFlipbook'/Game/AnimatedSprites/Animals/Boar/WalkingLeftDown/LeftDown.LeftDown'"));
     static ConstructorHelpers::FObjectFinder<UPaperFlipbook> RightUp(TEXT("/Script/Paper2D.PaperFlipbook'/Game/AnimatedSprites/Animals/Boar/WalkingRightUp/RightUp.RightUp'"));
@@ -18,35 +18,34 @@ ABoar::ABoar(){
     static ConstructorHelpers::FObjectFinder<UPaperFlipbook> DieLeftDown(TEXT("/Script/Paper2D.PaperFlipbook'/Game/AnimatedSprites/Animals/Boar/DeathLeftDown/DeathLeftDown.DeathLeftDown'"));
     static ConstructorHelpers::FObjectFinder<UPaperFlipbook> DieRightUp(TEXT("/Script/Paper2D.PaperFlipbook'/Game/AnimatedSprites/Animals/Boar/DeathRightUp/DeathRightUp.DeathRightUp'"));
 
-    DirectionToBoarSprite.Add(EAnimalState::LeftDown, LeftDown.Object);
-    DirectionToBoarSprite.Add(EAnimalState::RightUp, RightUp.Object);
-    DirectionToBoarSprite.Add(EAnimalState::IdleLeftDown, IdleLeftDown.Object);
-    DirectionToBoarSprite.Add(EAnimalState::IdleRightUp, IdleRightUp.Object);
-    DirectionToBoarSprite.Add(EAnimalState::DieLeftDown, DieLeftDown.Object);
-    DirectionToBoarSprite.Add(EAnimalState::DieRightUp, DieRightUp.Object);
+    DirectionToFoxSprite.Add(EAnimalState::LeftDown, LeftDown.Object);
+    DirectionToFoxSprite.Add(EAnimalState::RightUp, RightUp.Object);
+    DirectionToFoxSprite.Add(EAnimalState::IdleLeftDown, IdleLeftDown.Object);
+    DirectionToFoxSprite.Add(EAnimalState::IdleRightUp, IdleRightUp.Object);
+    DirectionToFoxSprite.Add(EAnimalState::DieLeftDown, DieLeftDown.Object);
+    DirectionToFoxSprite.Add(EAnimalState::DieRightUp, DieRightUp.Object);
+
 }
 
-
-
-void ABoar::BeginPlay(){
+void AFox::BeginPlay(){
     Super::BeginPlay();
     if (World != nullptr) {
-        World->AddActor("Boar", this);
-        UE_LOG(LogTemp, Warning, TEXT("World is not a null, Boar rabbit"));
+        World->AddActor("Fox", this);
+        UE_LOG(LogTemp, Warning, TEXT("World is not a null, added fox"));
     } else {
         UE_LOG(LogTemp, Warning, TEXT("World is null"));
     }
 
-    UE_LOG(LogTemp, Warning, TEXT("BoarSpawned"));
+    UE_LOG(LogTemp, Warning, TEXT("FoxSpawned"));
 }
 
-void ABoar::Tick(float Deltatime)
+void AFox::Tick(float Deltatime)
 {
     Super::Tick(Deltatime);
     UpdateAnimalState();
 }
 
-void ABoar::UpdateAnimalSprite()
+void AFox::UpdateAnimalSprite()
 {
     if(Health <= 0.0f){
         Die();
@@ -58,16 +57,16 @@ void ABoar::UpdateAnimalSprite()
     SetAnimalSprite(AnimalState);
 }
 
-void ABoar::SetAnimalSprite(EAnimalState AnimalState)
+void AFox::SetAnimalSprite(EAnimalState AnimalState)
 {
-    UPaperFlipbook* TemporarySprite = DirectionToBoarSprite[AnimalState];
+    UPaperFlipbook* TemporarySprite = DirectionToFoxSprite[AnimalState];
     if (AnimalFlipbookComponent != nullptr && TemporarySprite != nullptr)
     {
         AnimalFlipbookComponent->SetFlipbook(TemporarySprite);
     }
 }
 
-void ABoar::Die()
+void AFox::Die()
 {
     if(Health <= 0.0f)
     {
@@ -76,3 +75,4 @@ void ABoar::Die()
         SetAnimalSprite(AnimalState);
     }
 }
+

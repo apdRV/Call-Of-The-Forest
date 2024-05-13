@@ -23,18 +23,8 @@ AMob::AMob()
     Health = 100.0f;
     MaxHealth = 100.0f;
     BaseDamage = 10.0f;
-    Speed = 10.0f;
+    Speed = 40.0f;
     triggered = false;
-
-    // устанавливаем behaviourtree
-    // static ConstructorHelpers::FObjectFinder<UBehaviorTree> BTObject(TEXT("/Script/AIModule.BehaviorTree'/Game/AI/AI_Mob.AI_Mob'"));
-    // if (BTObject.Succeeded())
-    // {
-    //     Tree = BTObject.Object;
-    // }
-
-    //AI Properties end
-
 
 
 
@@ -61,6 +51,18 @@ AMob::AMob()
     GetSprite()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Ignore);
     GetSprite()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
     MobSpriteComponent->UpdateSprite(MobState);
+
+    //Properties for correct movement by AIController
+    GetCharacterMovement()->MaxWalkSpeed = Speed;  // Adjust this value as needed
+    GetCharacterMovement()->bOrientRotationToMovement = false;
+    GetCharacterMovement()->RotationRate = FRotator(0.f, 0.f, 0.f);
+    GetCharacterMovement()->bConstrainToPlane = true;
+    GetCharacterMovement()->bSnapToPlaneAtStart = true;
+    GetCharacterMovement()->bIgnoreBaseRotation = true;
+
+    bUseControllerRotationPitch = false;
+    bUseControllerRotationRoll = false;
+    bUseControllerRotationYaw = false;
 
     World = AStaticWorld::GetStaticWorld();
 }
@@ -122,11 +124,6 @@ void AMob::Attack()
 {
 
 }
-
-// UBehaviorTree* AMob::GetBehaviourTree() const
-// {
-//     return Tree;
-// }
 
 void AMob::UpdateMobSprite()
 {

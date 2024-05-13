@@ -52,9 +52,7 @@ private:
 	UFUNCTION(BlueprintCallable, Category = "Moving")
 	void RandomMove();
 
-// public:
-// 	// stuff to continue after location reached
-// 	void OnMoveCompleted(FAIRequestID RequestID, const FPathFollowingResult& Result) override;
+	void OnMoveCompleted(FAIRequestID RequestID, const FPathFollowingResult& Result) override;
 private:
     FTimerHandle TimerHandle;
 };

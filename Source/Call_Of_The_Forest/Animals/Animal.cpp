@@ -38,7 +38,6 @@ AAnimal::AAnimal(){
     GetSprite()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
 
     //Properties for correct movement by AIController
-    GetCharacterMovement()->MaxWalkSpeed = 60.0f;  // Adjust this value as needed
     GetCharacterMovement()->bOrientRotationToMovement = false;
     GetCharacterMovement()->RotationRate = FRotator(0.f, 0.f, 0.f);
     GetCharacterMovement()->bConstrainToPlane = true;
