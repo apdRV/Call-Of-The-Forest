@@ -54,8 +54,8 @@ public:
 	UFUNCTION()
 	void DeleteOverlappingActors(AActor* OtherActor);
 private:
-	UPROPERTY()
-    TArray<AActor*> OverlappingActors;
+	// UPROPERTY()
+    // TArray<AActor*> OverlappingActors;
 	std::map<std::string, std::vector<AActor*>> Actors;
 	static AStaticWorld* World;
 	std::mutex m_mutex;

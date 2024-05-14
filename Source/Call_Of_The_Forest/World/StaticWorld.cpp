@@ -52,6 +52,7 @@ void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState Char
 			if(CharacterState == EMainCharacterState::AttackDown)
 			{
 				if (Tree->GetActorLocation().X < PlayerLocation.X && PlayerLocation.X - Tree->GetActorLocation().X <= 100 && std::abs(Tree->GetActorLocation().Y - PlayerLocation.Y) <= 20){
+					// OverlappingActors.Remove(Tree);
 					DestroyTree(dynamic_cast<ATree1*>(Tree));
 					Actors["Tree"].erase(Actors["Tree"].begin() + i);
 				}
@@ -59,6 +60,7 @@ void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState Char
 			else if(CharacterState == EMainCharacterState::AttackUp)
 			{
 				if (Tree->GetActorLocation().X > PlayerLocation.X && Tree->GetActorLocation().X - PlayerLocation.X <= 20 && std::abs(Tree->GetActorLocation().Y - PlayerLocation.Y) <= 20){
+					// OverlappingActors.Remove(Tree);
 					DestroyTree(dynamic_cast<ATree1*>(Tree));
 					Actors["Tree"].erase(Actors["Tree"].begin() + i);
 				}
@@ -66,6 +68,7 @@ void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState Char
 			else if(CharacterState == EMainCharacterState::AttackRight)
 			{
 				if (Tree->GetActorLocation().Y > PlayerLocation.Y && Tree->GetActorLocation().Y - PlayerLocation.Y <= 27.5 && PlayerLocation.X - Tree->GetActorLocation().X <= 100 && PlayerLocation.X > Tree->GetActorLocation().X){
+					// OverlappingActors.Remove(Tree);
 					DestroyTree(dynamic_cast<ATree1*>(Tree));
 					Actors["Tree"].erase(Actors["Tree"].begin() + i);
 				}
@@ -73,6 +76,7 @@ void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState Char
 			else if(CharacterState == EMainCharacterState::AttackLeft)
 			{
 				if (Tree->GetActorLocation().Y < PlayerLocation.Y && PlayerLocation.Y - Tree->GetActorLocation().Y <= 27.5 && PlayerLocation.X - Tree->GetActorLocation().X <= 100 && PlayerLocation.X > Tree->GetActorLocation().X){
+					// OverlappingActors.Remove(Tree);
 					DestroyTree(dynamic_cast<ATree1*>(Tree));
 					Actors["Tree"].erase(Actors["Tree"].begin() + i);
 				}
@@ -87,48 +91,48 @@ void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState Char
 void AStaticWorld::AddOverlappingActors(AActor* OtherActor)
 {
 	std::unique_lock lock(m_mutex);
-    AMob* Mob = dynamic_cast<AMob*>(OtherActor);
-    if (Mob != nullptr)
-    {
-        Mob->SetTriggered(true);
-        OverlappingActors.Add(OtherActor);
-    }
-    AAnimal* Animal = dynamic_cast<AAnimal*>(OtherActor);
-    if(Animal != nullptr){
-        Animal->SetbIsActive(true);
-        OverlappingActors.Add(OtherActor);
-    }
-    APredator* Predator = dynamic_cast<APredator*>(OtherActor);
-    if(Predator != nullptr){
-        Predator->SetbIsActive(true);
-        OverlappingActors.Add(OtherActor);
-    }
-	ATree1* Tree = dynamic_cast<ATree1*>(OtherActor);
-	if(Tree != nullptr){
-		OverlappingActors.Add(OtherActor);
-	}
+    // AMob* Mob = dynamic_cast<AMob*>(OtherActor);
+    // if (Mob != nullptr)
+    // {
+    //     Mob->SetTriggered(true);
+    //     OverlappingActors.Add(OtherActor);
+    // }
+    // AAnimal* Animal = dynamic_cast<AAnimal*>(OtherActor);
+    // if(Animal != nullptr){
+    //     Animal->SetbIsActive(true);
+    //     OverlappingActors.Add(OtherActor);
+    // }
+    // APredator* Predator = dynamic_cast<APredator*>(OtherActor);
+    // if(Predator != nullptr){
+    //     Predator->SetbIsActive(true);
+    //     OverlappingActors.Add(OtherActor);
+    // }
+	// ATree1* Tree = dynamic_cast<ATree1*>(OtherActor);
+	// if(Tree != nullptr){
+	// 	OverlappingActors.Add(OtherActor);
+	// }
 }
 
 void AStaticWorld::DeleteOverlappingActors(AActor* OtherActor)
 {
 	std::unique_lock lock(m_mutex);
-    AMob* Mob = dynamic_cast<AMob*>(OtherActor);
-    if(Mob != nullptr){
-        Mob->SetTriggered(false);
-		OverlappingActors.Remove(OtherActor);
-    }
-    AAnimal* Animal = dynamic_cast<AAnimal*>(OtherActor);
-    if(Animal != nullptr){
-        Animal->SetbIsActive(false);
-		OverlappingActors.Remove(OtherActor);
-    }
-    APredator* Predator = dynamic_cast<APredator*>(OtherActor);
-    if(Predator != nullptr){
-        Predator->SetbIsActive(false);
-		OverlappingActors.Remove(OtherActor);
-    }
-	ATree1* Tree = dynamic_cast<ATree1*>(OtherActor);
-	if(Tree != nullptr){
-		OverlappingActors.Remove(OtherActor);
-	}
+    // AMob* Mob = dynamic_cast<AMob*>(OtherActor);
+    // if(Mob != nullptr){
+    //     Mob->SetTriggered(false);
+	// 	OverlappingActors.Remove(OtherActor);
+    // }
+    // AAnimal* Animal = dynamic_cast<AAnimal*>(OtherActor);
+    // if(Animal != nullptr){
+    //     Animal->SetbIsActive(false);
+	// 	OverlappingActors.Remove(OtherActor);
+    // }
+    // APredator* Predator = dynamic_cast<APredator*>(OtherActor);
+    // if(Predator != nullptr){
+    //     Predator->SetbIsActive(false);
+	// 	OverlappingActors.Remove(OtherActor);
+    // }
+	// ATree1* Tree = dynamic_cast<ATree1*>(OtherActor);
+	// if(Tree != nullptr){
+	// 	OverlappingActors.Remove(OtherActor);
+	// }
 }

@@ -6,6 +6,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "../Mobs/Mob.h"
+#include "../Tree1.h"
 #include "Components/CapsuleComponent.h"
 
 AMainPaperCharacter::AMainPaperCharacter()
@@ -201,17 +202,56 @@ void AMainPaperCharacter::Die()
 //funtion to deal with other actors
 void AMainPaperCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-    if(World != nullptr)
+    // if(World != nullptr)
+    // {
+    //     World->AddOverlappingActors(OtherActor);
+    // }
+    AMob* Mob = dynamic_cast<AMob*>(OtherActor);
+    if (Mob != nullptr)
     {
-        World->AddOverlappingActors(OtherActor);
+        Mob->SetTriggered(true);
+        OverlappingActors.Add(OtherActor);
     }
+    AAnimal* Animal = dynamic_cast<AAnimal*>(OtherActor);
+    if(Animal != nullptr){
+        Animal->SetbIsActive(true);
+        OverlappingActors.Add(OtherActor);
+    }
+    APredator* Predator = dynamic_cast<APredator*>(OtherActor);
+    if(Predator != nullptr){
+        Predator->SetbIsActive(true);
+        OverlappingActors.Add(OtherActor);
+    }
+	ATree1* Tree = dynamic_cast<ATree1*>(OtherActor);
+	if(Tree != nullptr){
+		OverlappingActors.Add(OtherActor);
+	}
 }
 
 void AMainPaperCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-    if(World != nullptr)
-    {
-        World->DeleteOverlappingActors(OtherActor);
+    // if(World != nullptr)
+    // {
+    //     World->DeleteOverlappingActors(OtherActor);
+    // }
+    AMob* Mob = dynamic_cast<AMob*>(OtherActor);
+    if(Mob != nullptr){
+        Mob->SetTriggered(false);
+		OverlappingActors.Remove(OtherActor);
     }
+    AAnimal* Animal = dynamic_cast<AAnimal*>(OtherActor);
+    if(Animal != nullptr){
+        Animal->SetbIsActive(false);
+		OverlappingActors.Remove(OtherActor);
+    }
+    APredator* Predator = dynamic_cast<APredator*>(OtherActor);
+    if(Predator != nullptr){
+        Predator->SetbIsActive(false);
+		OverlappingActors.Remove(OtherActor);
+    }
+	ATree1* Tree = dynamic_cast<ATree1*>(OtherActor);
+	if(Tree != nullptr){
+		OverlappingActors.Remove(OtherActor);
+	}
 }
 
