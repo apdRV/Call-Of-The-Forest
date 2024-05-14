@@ -47,4 +47,14 @@ public:
 		}
 		return std::vector<AActor*>();
 	}
+
+	//property for overlapping character actors
+	UFUNCTION()
+	void AddOverlappingActors(AActor* OtherActor);
+
+	UFUNCTION()
+	void DeleteOverlappingActors(AActor* OtherActor);
+
+	UPROPERTY(VisibleAnywhere)
+    TArray<AActor*> OverlappingActors;
 };

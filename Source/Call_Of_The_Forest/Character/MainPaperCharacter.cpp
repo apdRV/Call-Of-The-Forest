@@ -199,39 +199,13 @@ void AMainPaperCharacter::Die()
 }
 
 //funtion to deal with other actors
-void AMainPaperCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult){
-    AMob* Mob = dynamic_cast<AMob*>(OtherActor);
-    if (Mob != nullptr)
-    {
-        Mob->SetTriggered(true);
-        OverlappingActors.Add(OtherActor);
-    }
-    AAnimal* Animal = dynamic_cast<AAnimal*>(OtherActor);
-    if(Animal != nullptr){
-        Animal->SetbIsActive(true);
-        OverlappingActors.Add(OtherActor);
-    }
-    APredator* Predator = dynamic_cast<APredator*>(OtherActor);
-    if(Predator != nullptr){
-        Predator->SetbIsActive(true);
-        OverlappingActors.Add(OtherActor);
-    }
+void AMainPaperCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+    World->AddOverlappingActors(OtherActor);
 }
 
 void AMainPaperCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-    AMob* Mob = dynamic_cast<AMob*>(OtherActor);
-    if(Mob != nullptr){
-        Mob->SetTriggered(false);
-    }
-    AAnimal* Animal = dynamic_cast<AAnimal*>(OtherActor);
-    if(Animal != nullptr){
-        Animal->SetbIsActive(false);
-    }
-    APredator* Predator = dynamic_cast<APredator*>(OtherActor);
-    if(Predator != nullptr){
-        Predator->SetbIsActive(false);
-    }
-    OverlappingActors.Remove(OtherActor);
+    World->DeleteOverlappingActors(OtherActor);
 }
 

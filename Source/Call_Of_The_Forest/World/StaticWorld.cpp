@@ -1,6 +1,9 @@
 
 #include "StaticWorld.h"
 #include "../Resources/Wood/Wood.h"
+#include "../Mobs/Mob.h"
+#include "../Animals/Animal.h"
+#include "../Animals/Predator.h"
 #include "../Tree1.h"
 
 AStaticWorld* AStaticWorld::World = nullptr;
@@ -81,3 +84,41 @@ void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState Char
 	}
 }
 
+void AStaticWorld::AddOverlappingActors(AActor* OtherActor)
+{
+	std::unique_lock lock(m_mutex);
+    AMob* Mob = dynamic_cast<AMob*>(OtherActor);
+    if (Mob != nullptr)
+    {
+        Mob->SetTriggered(true);
+        OverlappingActors.Add(OtherActor);
+    }
+    AAnimal* Animal = dynamic_cast<AAnimal*>(OtherActor);
+    if(Animal != nullptr){
+        Animal->SetbIsActive(true);
+        OverlappingActors.Add(OtherActor);
+    }
+    APredator* Predator = dynamic_cast<APredator*>(OtherActor);
+    if(Predator != nullptr){
+        Predator->SetbIsActive(true);
+        OverlappingActors.Add(OtherActor);
+    }
+}
+
+void AStaticWorld::DeleteOverlappingActors(AActor* OtherActor)
+{
+	std::unique_lock lock(m_mutex);
+    AMob* Mob = dynamic_cast<AMob*>(OtherActor);
+    if(Mob != nullptr){
+        Mob->SetTriggered(false);
+    }
+    AAnimal* Animal = dynamic_cast<AAnimal*>(OtherActor);
+    if(Animal != nullptr){
+        Animal->SetbIsActive(false);
+    }
+    APredator* Predator = dynamic_cast<APredator*>(OtherActor);
+    if(Predator != nullptr){
+        Predator->SetbIsActive(false);
+    }
+    OverlappingActors.Remove(OtherActor);
+}
