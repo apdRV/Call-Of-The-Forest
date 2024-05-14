@@ -89,9 +89,6 @@ private:
     class USphereComponent* SphereCollider;
 
 	UPROPERTY(VisibleAnywhere)
-    TArray<AActor*> OverlappingActors;
-
-	UPROPERTY(VisibleAnywhere)
 	float TriggerRadius;
 
 };

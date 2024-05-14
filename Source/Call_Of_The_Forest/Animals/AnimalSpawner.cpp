@@ -26,6 +26,9 @@ void AAnimalSpawner::SpawnAnimals()
         for (int r = -4; r < 4; r++) {
             for (int i = 0; i < 3; i++) {
                 FVector Location = { 0, 0, 12 };
+                if(r == 0 || l == 0){
+                    continue;
+                }
                 Location[0] = l * 500 + FMath::RandRange(0, 500);
                 Location[1] = r * 500 + FMath::RandRange(0, 500);
                 int Animal_type = FMath::RandRange(1, 6);

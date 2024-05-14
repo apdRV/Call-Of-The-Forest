@@ -111,14 +111,16 @@ void AStaticWorld::DeleteOverlappingActors(AActor* OtherActor)
     AMob* Mob = dynamic_cast<AMob*>(OtherActor);
     if(Mob != nullptr){
         Mob->SetTriggered(false);
+		OverlappingActors.Remove(OtherActor);
     }
     AAnimal* Animal = dynamic_cast<AAnimal*>(OtherActor);
     if(Animal != nullptr){
         Animal->SetbIsActive(false);
+		OverlappingActors.Remove(OtherActor);
     }
     APredator* Predator = dynamic_cast<APredator*>(OtherActor);
     if(Predator != nullptr){
         Predator->SetbIsActive(false);
+		OverlappingActors.Remove(OtherActor);
     }
-    OverlappingActors.Remove(OtherActor);
 }

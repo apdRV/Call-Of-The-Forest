@@ -17,9 +17,6 @@ UCLASS()
 class CALL_OF_THE_FOREST_API AStaticWorld : public AActor
 {
 	GENERATED_BODY()
-	std::map<std::string, std::vector<AActor*>> Actors;
-	static AStaticWorld* World;
-	std::mutex m_mutex;
 public:
 	AStaticWorld();
 	~AStaticWorld();
@@ -38,9 +35,11 @@ public:
 		Actors[Type].push_back(Actor);
 	}
 	void PlayerAttack(FVector PlayerLocation, EMainCharacterState CharacterState);	
+
 	static AStaticWorld* GetStaticWorld() {
 		return World;
 	}
+	
 	std::vector<AActor*> GetActor(std::string Type){
 		if(Actors.contains(Type)){
 			return Actors[Type];
@@ -54,7 +53,10 @@ public:
 
 	UFUNCTION()
 	void DeleteOverlappingActors(AActor* OtherActor);
-
-	UPROPERTY(VisibleAnywhere)
+private:
+	UPROPERTY()
     TArray<AActor*> OverlappingActors;
+	std::map<std::string, std::vector<AActor*>> Actors;
+	static AStaticWorld* World;
+	std::mutex m_mutex;
 };
