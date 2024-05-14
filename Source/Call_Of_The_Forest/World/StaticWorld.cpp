@@ -34,59 +34,7 @@ void DestroyTree(ATree1* Tree){
 	Tree->Destroy();
 	World->SpawnActor<AWood>(Location, Rotation, SpawnParams);
 }
-void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState CharacterState) {
-	std::unique_lock lock(m_mutex);
-	if (Actors.find("Tree") == Actors.end()){
-		return;
-	} 
-	//auto Trees = Actors["Tree"];
-	for (int i = 0; i < Actors["Tree"].size(); i++){
-		auto Tree = Actors["Tree"][i];
-		if(Tree != nullptr){
-			if(abs(Tree->GetActorLocation().X - PlayerLocation.X) > 100 || abs(Tree->GetActorLocation().Y - PlayerLocation.Y) > 100){
-				continue;
-			}
-			if(dynamic_cast<ATree1*>(Tree) == nullptr){
-				continue;
-			}
-			if(CharacterState == EMainCharacterState::AttackDown)
-			{
-				if (Tree->GetActorLocation().X < PlayerLocation.X && PlayerLocation.X - Tree->GetActorLocation().X <= 100 && std::abs(Tree->GetActorLocation().Y - PlayerLocation.Y) <= 20){
-					// OverlappingActors.Remove(Tree);
-					DestroyTree(dynamic_cast<ATree1*>(Tree));
-					Actors["Tree"].erase(Actors["Tree"].begin() + i);
-				}
-			}
-			else if(CharacterState == EMainCharacterState::AttackUp)
-			{
-				if (Tree->GetActorLocation().X > PlayerLocation.X && Tree->GetActorLocation().X - PlayerLocation.X <= 20 && std::abs(Tree->GetActorLocation().Y - PlayerLocation.Y) <= 20){
-					// OverlappingActors.Remove(Tree);
-					DestroyTree(dynamic_cast<ATree1*>(Tree));
-					Actors["Tree"].erase(Actors["Tree"].begin() + i);
-				}
-			}
-			else if(CharacterState == EMainCharacterState::AttackRight)
-			{
-				if (Tree->GetActorLocation().Y > PlayerLocation.Y && Tree->GetActorLocation().Y - PlayerLocation.Y <= 27.5 && PlayerLocation.X - Tree->GetActorLocation().X <= 100 && PlayerLocation.X > Tree->GetActorLocation().X){
-					// OverlappingActors.Remove(Tree);
-					DestroyTree(dynamic_cast<ATree1*>(Tree));
-					Actors["Tree"].erase(Actors["Tree"].begin() + i);
-				}
-			}
-			else if(CharacterState == EMainCharacterState::AttackLeft)
-			{
-				if (Tree->GetActorLocation().Y < PlayerLocation.Y && PlayerLocation.Y - Tree->GetActorLocation().Y <= 27.5 && PlayerLocation.X - Tree->GetActorLocation().X <= 100 && PlayerLocation.X > Tree->GetActorLocation().X){
-					// OverlappingActors.Remove(Tree);
-					DestroyTree(dynamic_cast<ATree1*>(Tree));
-					Actors["Tree"].erase(Actors["Tree"].begin() + i);
-				}
-			}
-		}
-		else{
-			continue;
-		}
-	}
-}
+
 void AStaticWorld::MobAttacked(AMob* Mob)
 {
 	if(Mob == nullptr){
@@ -160,12 +108,11 @@ void AStaticWorld::PredatorAttacked(APredator* Predator)
 			break;
 		}
 	}
-	//OverlappingActors.Remove(Predator);
 	Predator->Destroy();
 	//GetWorld()->SpawnActor<AMeat>(Location, Rotation, SpawnParams);
 }
 
-void AStaticWorld::PlayerAttacking(FVector PlayerLocation, EMainCharacterState CharacterState)
+void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState CharacterState)
 {
 	std::unique_lock lock(m_mutex);
 	for(int32 i = 0; i < OverlappingActors.Num(); i++)

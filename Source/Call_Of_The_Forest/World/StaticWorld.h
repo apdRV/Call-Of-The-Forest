@@ -34,7 +34,6 @@ public:
 		}
 		Actors[Type].push_back(Actor);
 	}
-	void PlayerAttack(FVector PlayerLocation, EMainCharacterState CharacterState);	
 
 	static AStaticWorld* GetStaticWorld() {
 		return World;
@@ -46,7 +45,7 @@ public:
 		}
 		return std::vector<AActor*>();
 	}
-	
+
 	// Function if npc are attacked
 	UFUNCTION()
 	void MobAttacked(AMob* Mob);
@@ -56,7 +55,7 @@ public:
 	void PredatorAttacked(APredator* Predator);
 	
 	// Attacking
-	void PlayerAttacking(FVector PlayerLocation, EMainCharacterState CharacterState);
+	void PlayerAttack(FVector PlayerLocation, EMainCharacterState CharacterState);
 	//property for overlapping character actors
 	UFUNCTION()
 	void AddOverlappingActors(AActor* OtherActor);

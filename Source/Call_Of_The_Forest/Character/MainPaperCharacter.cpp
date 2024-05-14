@@ -165,7 +165,7 @@ void AMainPaperCharacter::Attack()
         LastMoveDirection = EMainCharacterState::IdleLeft;
         CharacterState = EMainCharacterState::AttackLeft;
     }
-    World->PlayerAttacking(GetActorLocation(), CharacterState);
+    World->PlayerAttack(GetActorLocation(), CharacterState);
     // CODE FOR ATTACKING
 }
 
