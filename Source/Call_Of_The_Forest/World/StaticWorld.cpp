@@ -103,6 +103,10 @@ void AStaticWorld::AddOverlappingActors(AActor* OtherActor)
         Predator->SetbIsActive(true);
         OverlappingActors.Add(OtherActor);
     }
+	ATree1* Tree = dynamic_cast<ATree1*>(OtherActor);
+	if(Tree != nullptr){
+		OverlappingActors.Add(OtherActor);
+	}
 }
 
 void AStaticWorld::DeleteOverlappingActors(AActor* OtherActor)
@@ -123,4 +127,8 @@ void AStaticWorld::DeleteOverlappingActors(AActor* OtherActor)
         Predator->SetbIsActive(false);
 		OverlappingActors.Remove(OtherActor);
     }
+	ATree1* Tree = dynamic_cast<ATree1*>(OtherActor);
+	if(Tree != nullptr){
+		OverlappingActors.Remove(OtherActor);
+	}
 }

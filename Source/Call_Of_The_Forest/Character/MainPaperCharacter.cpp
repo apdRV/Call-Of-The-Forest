@@ -201,11 +201,17 @@ void AMainPaperCharacter::Die()
 //funtion to deal with other actors
 void AMainPaperCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-    World->AddOverlappingActors(OtherActor);
+    if(World != nullptr)
+    {
+        World->AddOverlappingActors(OtherActor);
+    }
 }
 
 void AMainPaperCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
-    World->DeleteOverlappingActors(OtherActor);
+    if(World != nullptr)
+    {
+        World->DeleteOverlappingActors(OtherActor);
+    }
 }
 

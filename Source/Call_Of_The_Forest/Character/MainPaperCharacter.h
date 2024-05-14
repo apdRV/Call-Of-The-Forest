@@ -90,5 +90,4 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	float TriggerRadius;
-
 };
