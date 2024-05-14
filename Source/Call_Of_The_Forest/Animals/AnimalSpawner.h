@@ -13,6 +13,7 @@
 #include "Predator.h"
 #include "Wolf.h"
 #include "Fox.h"
+#include "Bear.h"
 #include "Math/UnrealMathUtility.h"
 #include "AnimalsAIController.h"
 #include "PredatorAIController.h"

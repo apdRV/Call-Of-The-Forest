@@ -36,7 +36,7 @@ AMainPaperCharacter::AMainPaperCharacter()
     FollowCamera->bUsePawnControlRotation = false;
 
     // Default capsule component properties
-	GetCapsuleComponent()->InitCapsuleSize(10.0f, 10.0f);
+	GetCapsuleComponent()->InitCapsuleSize(11.0f, 11.0f);
     GetCapsuleComponent()->CanCharacterStepUpOn = ECB_No;
     GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
     GetCapsuleComponent()->SetCollisionObjectType(ECollisionChannel::ECC_WorldDynamic);
