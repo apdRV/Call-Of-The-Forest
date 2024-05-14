@@ -46,7 +46,17 @@ public:
 		}
 		return std::vector<AActor*>();
 	}
-
+	
+	// Function if npc are attacked
+	UFUNCTION()
+	void MobAttacked(AMob* Mob);
+	UFUNCTION()
+	void AnimalAttacked(AAnimal* Animal);
+	UFUNCTION()
+	void PredatorAttacked(APredator* Predator);
+	
+	// Attacking
+	void PlayerAttacking(FVector PlayerLocation, EMainCharacterState CharacterState);
 	//property for overlapping character actors
 	UFUNCTION()
 	void AddOverlappingActors(AActor* OtherActor);
