@@ -28,7 +28,7 @@ void AAnimalSpawner::SpawnAnimals()
                 FVector Location = { 0, 0, 12 };
                 Location[0] = l * 500 + FMath::RandRange(0, 500);
                 Location[1] = r * 500 + FMath::RandRange(0, 500);
-                int Animal_type = FMath::RandRange(3, 4);
+                int Animal_type = FMath::RandRange(1, 5);
                 AAnimalsAIController* AIController = nullptr;
                 APredatorAIController* AIPredatorController = nullptr;
                 if(Animal_type == 1){
@@ -61,6 +61,14 @@ void AAnimalSpawner::SpawnAnimals()
                     if(SpawnedWolf && AIPredatorController){
                         AIPredatorController->Possess(SpawnedWolf);
                         UE_LOG(LogTemp, Warning, TEXT("Wolf AIPossesed"));
+                    }
+                }
+                else if(Animal_type == 5){
+                    AIPredatorController = GetWorld()->SpawnActor<APredatorAIController>(APredatorAIController::StaticClass());
+                    AFox* SpawnedFox = GetWorld()->SpawnActor<AFox>(Location, Rotation);
+                    if(SpawnedFox && AIPredatorController){
+                        AIPredatorController->Possess(SpawnedFox);
+                        UE_LOG(LogTemp, Warning, TEXT("Fox AIPossesed"));
                     }
                 }
             }

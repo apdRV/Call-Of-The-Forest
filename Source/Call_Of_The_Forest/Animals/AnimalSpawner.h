@@ -12,6 +12,7 @@
 #include "Deer.h"
 #include "Predator.h"
 #include "Wolf.h"
+#include "Fox.h"
 #include "Math/UnrealMathUtility.h"
 #include "AnimalsAIController.h"
 #include "PredatorAIController.h"

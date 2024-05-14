@@ -5,6 +5,8 @@
 
 APredator::APredator()
 {
+    PrimaryActorTick.bCanEverTick = true;
+
     // Default Properties
     Speed = 60.0f;
     Health = 100.0f;
