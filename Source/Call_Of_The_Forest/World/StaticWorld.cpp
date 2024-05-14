@@ -5,6 +5,7 @@
 #include "../Animals/Animal.h"
 #include "../Animals/Predator.h"
 #include "../Tree1.h"
+#include "ResourcesSpawner.h"
 
 AStaticWorld* AStaticWorld::World = nullptr;
 AStaticWorld::AStaticWorld()
@@ -18,7 +19,7 @@ AStaticWorld::~AStaticWorld()
 {
 	World = nullptr;
 }
-void DestroyTree(ATree1* Tree){
+void AStaticWorld::TreeAttacked(ATree1* Tree){
 	if(Tree == nullptr){
 		return;
 	}
@@ -30,9 +31,20 @@ void DestroyTree(ATree1* Tree){
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.bNoFail = true;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	UWorld* World = Tree->GetWorld();
+	for (int i = 0; i < Actors["Tree"].size(); i++){
+		if(Tree == Actors["Tree"][i])
+		{
+			Actors["Tree"].erase(Actors["Tree"].begin() + i);
+			UE_LOG(LogTemp, Warning, TEXT("Tree deleted"));
+			break;
+		}
+	}
 	Tree->Destroy();
-	World->SpawnActor<AWood>(Location, Rotation, SpawnParams);
+	AResourcesSpawner* ResourceSpawner = dynamic_cast<AResourcesSpawner*>(Actors["ResourcesSpawner"][0]);
+	if(ResourceSpawner != nullptr)
+	{
+		ResourceSpawner->SpawnResource(Location, Rotation, SpawnParams, EResourceType::Wood);
+	}
 }
 
 void AStaticWorld::MobAttacked(AMob* Mob)
@@ -48,17 +60,20 @@ void AStaticWorld::MobAttacked(AMob* Mob)
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.bNoFail = true;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	//UWorld* World = Mob->GetWorld();
 	for (int i = 0; i < Actors["Mob"].size(); i++){
 		if(Mob == Actors["Mob"][i])
 		{
 			Actors["Mob"].erase(Actors["Mob"].begin() + i);
+			UE_LOG(LogTemp, Warning, TEXT("Mob deleted"));
 			break;
 		}
 	}
-	//OverlappingActors.Remove(Mob);
 	Mob->Destroy();
-	//GetWorld()->SpawnActor<AMeat>(Location, Rotation, SpawnParams);
+	AResourcesSpawner* ResourceSpawner = dynamic_cast<AResourcesSpawner*>(Actors["ResourcesSpawner"][0]);
+	if(ResourceSpawner != nullptr)
+	{
+		ResourceSpawner->SpawnResource(Location, Rotation, SpawnParams, EResourceType::Trophy);
+	}
 }
 
 void AStaticWorld::AnimalAttacked(AAnimal* Animal)
@@ -74,17 +89,20 @@ void AStaticWorld::AnimalAttacked(AAnimal* Animal)
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.bNoFail = true;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	//UWorld* World = Animal->GetWorld();
 	for (int i = 0; i < Actors["Animal"].size(); i++){
 		if(Animal == Actors["Animal"][i])
 		{
 			Actors["Animal"].erase(Actors["Animal"].begin() + i);
+			UE_LOG(LogTemp, Warning, TEXT("Animal deleted"));
 			break;
 		}
 	}
-	//OverlappingActors.Remove(Animal);
+	AResourcesSpawner* ResourceSpawner = dynamic_cast<AResourcesSpawner*>(Actors["ResourcesSpawner"][0]);
+	if(ResourceSpawner != nullptr)
+	{
+		ResourceSpawner->SpawnResource(Location, Rotation, SpawnParams, EResourceType::Meat);
+	}
 	Animal->Destroy();
-	//GetWorld()->SpawnActor<AMeat>(Location, Rotation, SpawnParams);
 }
 
 void AStaticWorld::PredatorAttacked(APredator* Predator)
@@ -100,16 +118,20 @@ void AStaticWorld::PredatorAttacked(APredator* Predator)
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.bNoFail = true;
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-	//UWorld* World = Predator->GetWorld();
 	for (int i = 0; i < Actors["Predator"].size(); i++){
 		if(Predator == Actors["Predator"][i])
 		{
 			Actors["Predator"].erase(Actors["Predator"].begin() + i);
+			UE_LOG(LogTemp, Warning, TEXT("Predator deleted"));
 			break;
 		}
 	}
+	AResourcesSpawner* ResourceSpawner = dynamic_cast<AResourcesSpawner*>(Actors["ResourcesSpawner"][0]);
+	if(ResourceSpawner != nullptr)
+	{
+		ResourceSpawner->SpawnResource(Location, Rotation, SpawnParams, EResourceType::Meat);
+	}
 	Predator->Destroy();
-	//GetWorld()->SpawnActor<AMeat>(Location, Rotation, SpawnParams);
 }
 
 void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState CharacterState)
@@ -148,10 +170,7 @@ void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState Char
 					}
 					else if(Tree != nullptr)
 					{
-						OverlappingActors.Remove(Tree);
-						DestroyTree(Tree);
-						//НАДО УДАЛИТЬ ДЕРЕВО ИЗ ОБЩЕЙ МАПЫ
-						//Actors["Tree"].erase(Actors["Tree"].begin() + i);
+						TreeAttacked(Tree);
 					}
 				}
 			}
@@ -172,10 +191,7 @@ void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState Char
 					}
 					else if(Tree != nullptr)
 					{
-						OverlappingActors.Remove(Tree);
-						DestroyTree(Tree);
-						//НАДО УДАЛИТЬ ДЕРЕВО ИЗ ОБЩЕЙ МАПЫ
-						//Actors["Tree"].erase(Actors["Tree"].begin() + i);
+						TreeAttacked(Tree);
 					}
 				}
 			}
@@ -196,10 +212,7 @@ void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState Char
 					}
 					else if(Tree != nullptr)
 					{
-						OverlappingActors.Remove(Tree);
-						DestroyTree(Tree);
-						//НАДО УДАЛИТЬ ДЕРЕВО ИЗ ОБЩЕЙ МАПЫ
-						//Actors["Tree"].erase(Actors["Tree"].begin() + i);
+						TreeAttacked(Tree);
 					}
 				}
 			}
@@ -220,10 +233,7 @@ void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState Char
 					}
 					else if(Tree != nullptr)
 					{
-						OverlappingActors.Remove(Tree);
-						DestroyTree(Tree);
-						//НАДО УДАЛИТЬ ДЕРЕВО ИЗ ОБЩЕЙ МАПЫ
-						//Actors["Tree"].erase(Actors["Tree"].begin() + i);
+						TreeAttacked(Tree);
 					}
 				}
 			}

@@ -206,26 +206,6 @@ void AMainPaperCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AA
     {
         World->AddOverlappingActors(OtherActor);
     }
-    // AMob* Mob = dynamic_cast<AMob*>(OtherActor);
-    // if (Mob != nullptr)
-    // {
-    //     Mob->SetTriggered(true);
-    //     OverlappingActors.Add(OtherActor);
-    // }
-    // AAnimal* Animal = dynamic_cast<AAnimal*>(OtherActor);
-    // if(Animal != nullptr){
-    //     Animal->SetbIsActive(true);
-    //     OverlappingActors.Add(OtherActor);
-    // }
-    // APredator* Predator = dynamic_cast<APredator*>(OtherActor);
-    // if(Predator != nullptr){
-    //     Predator->SetbIsActive(true);
-    //     OverlappingActors.Add(OtherActor);
-    // }
-	// ATree1* Tree = dynamic_cast<ATree1*>(OtherActor);
-	// if(Tree != nullptr){
-	// 	OverlappingActors.Add(OtherActor);
-	// }
 }
 
 void AMainPaperCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
@@ -234,24 +214,5 @@ void AMainPaperCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AAct
     {
         World->DeleteOverlappingActors(OtherActor);
     }
-    // AMob* Mob = dynamic_cast<AMob*>(OtherActor);
-    // if(Mob != nullptr){
-    //     Mob->SetTriggered(false);
-	// 	OverlappingActors.Remove(OtherActor);
-    // }
-    // AAnimal* Animal = dynamic_cast<AAnimal*>(OtherActor);
-    // if(Animal != nullptr){
-    //     Animal->SetbIsActive(false);
-	// 	OverlappingActors.Remove(OtherActor);
-    // }
-    // APredator* Predator = dynamic_cast<APredator*>(OtherActor);
-    // if(Predator != nullptr){
-    //     Predator->SetbIsActive(false);
-	// 	OverlappingActors.Remove(OtherActor);
-    // }
-	// ATree1* Tree = dynamic_cast<ATree1*>(OtherActor);
-	// if(Tree != nullptr){
-	// 	OverlappingActors.Remove(OtherActor);
-	// }
 }
 

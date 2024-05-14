@@ -53,6 +53,9 @@ public:
 	void AnimalAttacked(AAnimal* Animal);
 	UFUNCTION()
 	void PredatorAttacked(APredator* Predator);
+
+	UFUNCTION()
+	void TreeAttacked(ATree1* Tree);
 	
 	// Attacking
 	void PlayerAttack(FVector PlayerLocation, EMainCharacterState CharacterState);
