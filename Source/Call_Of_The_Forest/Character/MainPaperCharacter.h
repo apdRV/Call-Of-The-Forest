@@ -91,6 +91,6 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	float TriggerRadius;
 
-	UPROPERTY()
-    TArray<AActor*> OverlappingActors;
+	// UPROPERTY()
+    // TArray<AActor*> OverlappingActors;
 };

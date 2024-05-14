@@ -27,7 +27,7 @@ ARabbit::ARabbit(){
 void ARabbit::BeginPlay(){
     Super::BeginPlay();
     if (World != nullptr) {
-        World->AddActor("Rabbit", this);
+        World->AddActor("Animal", this);
         UE_LOG(LogTemp, Warning, TEXT("World is not a null, added rabbit"));
     } else {
         UE_LOG(LogTemp, Warning, TEXT("World is null"));

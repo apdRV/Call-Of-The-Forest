@@ -39,7 +39,7 @@ AFox::AFox()
 void AFox::BeginPlay(){
     Super::BeginPlay();
     if (World != nullptr) {
-        World->AddActor("Fox", this);
+        World->AddActor("Predator", this);
         UE_LOG(LogTemp, Warning, TEXT("World is not a null, added fox"));
     } else {
         UE_LOG(LogTemp, Warning, TEXT("World is null"));

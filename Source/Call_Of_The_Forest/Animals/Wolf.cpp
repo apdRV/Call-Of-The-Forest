@@ -39,7 +39,7 @@ AWolf::AWolf()
 void AWolf::BeginPlay(){
     Super::BeginPlay();
     if (World != nullptr) {
-        World->AddActor("Wolf", this);
+        World->AddActor("Predator", this);
         UE_LOG(LogTemp, Warning, TEXT("World is not a null, added wolf"));
     } else {
         UE_LOG(LogTemp, Warning, TEXT("World is null"));

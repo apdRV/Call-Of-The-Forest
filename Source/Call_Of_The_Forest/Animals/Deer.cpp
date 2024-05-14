@@ -31,7 +31,7 @@ ADeer::ADeer(){
 void ADeer::BeginPlay(){
     Super::BeginPlay();
     if (World != nullptr) {
-        World->AddActor("Deer", this);
+        World->AddActor("Animal", this);
         UE_LOG(LogTemp, Warning, TEXT("World is not a null, Deer added"));
     } else {
         UE_LOG(LogTemp, Warning, TEXT("World is null"));

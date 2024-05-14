@@ -31,7 +31,7 @@ ABoar::ABoar(){
 void ABoar::BeginPlay(){
     Super::BeginPlay();
     if (World != nullptr) {
-        World->AddActor("Boar", this);
+        World->AddActor("Animal", this);
         UE_LOG(LogTemp, Warning, TEXT("World is not a null, Boar rabbit"));
     } else {
         UE_LOG(LogTemp, Warning, TEXT("World is null"));
