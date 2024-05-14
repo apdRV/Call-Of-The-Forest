@@ -24,7 +24,7 @@ AMob::AMob()
     MaxHealth = 100.0f;
     BaseDamage = 10.0f;
     Speed = 40.0f;
-    triggered = false;
+    bIsTriggered = false;
 
 
 
@@ -141,6 +141,16 @@ void AMob::UpdateMobSprite()
     MobSpriteComponent->UpdateSprite(MobState);
 }
 
+void AMob::Attacked(float Value)
+{
+    Health-=Value;
+    bIsTriggered = true;
+    if(Health <= 0.0f)
+    {
+        bIsDead = true;
+        Die();
+    }
+}
 void AMob::Die()
 {
     if(Health <= 0.0f)
@@ -153,13 +163,18 @@ void AMob::Die()
 }
 
 
-bool AMob::GetTriggered()
+bool AMob::GetbIsTriggered()
 {
-    return triggered;
+    return bIsTriggered;
 }
 
-void AMob::SetTriggered(bool Value)
+void AMob::SetbIsTriggered(bool Value)
 {
-    triggered = Value;
+    bIsTriggered = Value;
+}
+
+bool AMob::GetbIsDead()
+{
+    return bIsDead;
 }
 

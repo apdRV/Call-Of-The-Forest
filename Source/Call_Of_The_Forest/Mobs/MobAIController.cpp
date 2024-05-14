@@ -28,7 +28,7 @@ void AMobAIController::BeginPlay()
 void AMobAIController::Tick(float Delta)
 {
     Super::Tick(Delta);
-    if(m_Mob != nullptr && m_Mob->GetTriggered()){
+    if(m_Mob != nullptr && m_Mob->GetbIsTriggered()){
         MoveToTarget();
     }
 }

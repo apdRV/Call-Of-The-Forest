@@ -53,10 +53,16 @@ public:
   	void SetbIsActive(bool Value);
 
 	UFUNCTION()
+	void Attacked(float Value);
+	
+	UFUNCTION()
 	virtual void Die();
 
 	UFUNCTION()
 	void SetupOwner(UPaperFlipbookComponent* m_owner);
+
+	UFUNCTION()
+	bool GetbIsDead();
 
 
 protected:

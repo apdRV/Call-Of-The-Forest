@@ -93,6 +93,16 @@ void APredator::UpdatePredatorState()
     UpdatePredatorSprite();
 }
 
+void APredator::Attacked(float Value)
+{
+    Health-=Value;
+    bIsTriggered = true;
+    if(Health <= 0.0f)
+    {
+        bIsDead = true;
+        Die();
+    }
+}
 void APredator::Die()
 {
 }
@@ -115,4 +125,9 @@ bool APredator::GetbIsTriggered()
 void APredator::SetbIsTriggered(bool Value)
 {
     bIsTriggered = Value;
+}
+
+bool APredator::GetbIsDead()
+{
+    return bIsDead;
 }

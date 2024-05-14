@@ -42,6 +42,9 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
 	uint8 bIsAttacking;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
+	float Damage;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AnimationCharacter | Config")
 	EMainCharacterState CharacterState;
 

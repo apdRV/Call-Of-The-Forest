@@ -44,10 +44,16 @@ public:
       MobState = NewState;
   }
   UFUNCTION(BlueprintCallable, Category = "Trigger")
-  bool GetTriggered();
+  bool GetbIsTriggered();
 
   UFUNCTION(BlueprintCallable, Category = "Trigger")
-  void SetTriggered(bool Value);
+  void SetbIsTriggered(bool Value);
+
+  UFUNCTION()
+  void Attacked(float Value);
+
+  UFUNCTION()
+  bool GetbIsDead();
 
 protected:
   virtual void BeginPlay() override;
@@ -79,6 +85,9 @@ protected:
   UPROPERTY(EditAnywhere, Category = "State")
   bool bIsMoving;
 
+  UPROPERTY()
+  bool bIsTriggered;
+
   UPROPERTY(EditAnywhere, Category = "Health")
   float MaxHealth;
 
@@ -102,7 +111,6 @@ protected:
   void Die();
 
 private:
-  UPROPERTY()
-  bool triggered;
+
 
 };

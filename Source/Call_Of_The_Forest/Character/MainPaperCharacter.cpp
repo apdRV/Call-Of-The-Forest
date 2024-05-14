@@ -17,6 +17,7 @@ AMainPaperCharacter::AMainPaperCharacter()
 	bIsMoving = false;
     bIsDead = false;
     bIsAttacking = 0;
+    Damage = 50.0f;
     Health = 100.0f;
     CharacterState = EMainCharacterState::IdleDown;
     LastMoveDirection = EMainCharacterState::IdleDown;
@@ -165,7 +166,7 @@ void AMainPaperCharacter::Attack()
         LastMoveDirection = EMainCharacterState::IdleLeft;
         CharacterState = EMainCharacterState::AttackLeft;
     }
-    World->PlayerAttack(GetActorLocation(), CharacterState);
+    World->PlayerAttack(GetActorLocation(), CharacterState, Damage);
     // CODE FOR ATTACKING
 }
 

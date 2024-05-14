@@ -53,6 +53,9 @@ public:
 	void UpdatePredatorState();
 
 	UFUNCTION()
+	void Attacked(float Value);
+
+	UFUNCTION()
 	virtual void Die();
 
 	UFUNCTION()
@@ -66,6 +69,9 @@ public:
 
 	UFUNCTION()
 	void SetbIsTriggered(bool Value);
+
+	UFUNCTION()
+	bool GetbIsDead();
 
 
 protected:

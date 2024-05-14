@@ -82,6 +82,16 @@ void AAnimal::SetbIsActive(bool Value)
     bIsActive = Value;
 }
 
+void AAnimal::Attacked(float Value)
+{
+    Health -= Value;
+    if(Health <= 0.0f)
+    {
+        bIsDead = true;
+        Die();
+    }
+}
+
 void AAnimal::UpdateAnimalState()
 {
     FVector Velocity = GetVelocity();
@@ -102,4 +112,7 @@ void AAnimal::Die()
 {
 }
 
-
+bool AAnimal::GetbIsDead()
+{
+    return bIsDead;
+}
