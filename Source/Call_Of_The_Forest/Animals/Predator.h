@@ -44,15 +44,6 @@ public:
 	virtual void BeginPlay() override;
 
 	UFUNCTION()
-	virtual void UpdatePredatorSprite();
-
-	UFUNCTION()
-	void SetupOwner(UPaperFlipbookComponent* m_owner);
-
-	UFUNCTION()
-	void UpdatePredatorState();
-
-	UFUNCTION()
 	void Attacked(float Value);
 
 	UFUNCTION()
@@ -72,6 +63,15 @@ public:
 
 	UFUNCTION()
 	bool GetbIsDead();
+
+	UFUNCTION()
+	float GetRadius();
+
+	UFUNCTION()
+	void SetRadius(float Value);
+
+	UFUNCTION()
+	void SetSpeed(float Value);
 
 
 protected:
@@ -108,7 +108,17 @@ protected:
 	UPROPERTY()
 	bool bIsActive;
 
+	UPROPERTY()
+	float bRadius;
 
+	UFUNCTION()
+	virtual void UpdatePredatorSprite();
+
+	UFUNCTION()
+	void SetupOwner(UPaperFlipbookComponent* m_owner);
+
+	UFUNCTION()
+	void UpdatePredatorState();
 
 private:
 

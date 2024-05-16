@@ -30,6 +30,11 @@ void UMobFlipbookComponent::UpdateSprite(EMobState State)
     UPaperFlipbook* TemporarySprite = DirectionToSprite[State];
     if (MobSprite != nullptr && TemporarySprite != nullptr)
     {
+        if(State == EMobState::DieLeftDown || State == EMobState::DieRightUp)
+        {
+            //MobSprite->SetPlaybackSpeed(0.5f);
+            UE_LOG(LogTemp, Warning, TEXT("Die Animation"));
+        }
         MobSprite->SetFlipbook(TemporarySprite);
     }
 }

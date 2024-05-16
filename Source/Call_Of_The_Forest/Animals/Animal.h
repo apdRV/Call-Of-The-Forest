@@ -53,6 +53,9 @@ public:
   	void SetbIsActive(bool Value);
 
 	UFUNCTION()
+	bool GetbIsAttacked();
+
+	UFUNCTION()
 	void Attacked(float Value);
 	
 	UFUNCTION()
@@ -63,6 +66,12 @@ public:
 
 	UFUNCTION()
 	bool GetbIsDead();
+
+	UFUNCTION()
+	float GetRadius();
+
+	UFUNCTION()
+	void SetRadius(float Value);
 
 
 protected:
@@ -88,10 +97,16 @@ protected:
 	bool bIsDead;
 
 	UPROPERTY()
-	bool bIsAttacking;
+	bool bIsAttacked;
 
 	UPROPERTY()
 	bool bIsActive;
+
+	UPROPERTY()
+	float bRadius;
+
+	UFUNCTION()
+	void SetSpeed(float Value);
 
 private:
 	

@@ -55,6 +55,15 @@ public:
   UFUNCTION()
   bool GetbIsDead();
 
+  UFUNCTION()
+  void SetSpeed(float Value);
+
+  UFUNCTION()
+  float GetRadius();
+
+  UFUNCTION()
+  void SetRadius(float Value);
+
 protected:
   virtual void BeginPlay() override;
 
@@ -91,6 +100,9 @@ protected:
   UPROPERTY(EditAnywhere, Category = "Health")
   float MaxHealth;
 
+  UPROPERTY()
+  float bRadius;
+
   UFUNCTION(BlueprintCallable, Category = "Movement")
   void MoveForwardBackward(float Value);
 
@@ -109,6 +121,7 @@ protected:
 
   UFUNCTION(BlueprintCallable, Category = "State")
   void Die();
+
 
 private:
 

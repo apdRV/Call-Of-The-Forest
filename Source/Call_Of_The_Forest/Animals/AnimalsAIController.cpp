@@ -9,6 +9,7 @@ AAnimalsAIController::AAnimalsAIController()
     World = AStaticWorld::GetStaticWorld();
     m_Animal = nullptr;
     wait_time = 0;
+    SearchRadius = 100.0f;
 }
 
 void AAnimalsAIController::BeginPlay()
@@ -20,18 +21,19 @@ void AAnimalsAIController::BeginPlay()
 void AAnimalsAIController::Tick(float Delta)
 {
     Super::Tick(Delta);
-    if(m_Animal != nullptr && wait_time > 100.0f && m_Animal->GetbIsActive()){
+    if(m_Animal != nullptr && wait_time > 50.0f && m_Animal->GetbIsActive() && !m_Animal->GetbIsDead()){
         RandomMove();
         wait_time = 0;
         UE_LOG(LogTemp, Warning, TEXT("Call Random Move"));
     }
-    wait_time = (wait_time > 100.0f) ? wait_time : wait_time + 1;
+    wait_time = (wait_time > 50.0f) ? wait_time : wait_time + 1;
 }
 
 void AAnimalsAIController::OnPossess(APawn* InPawn)
 {
     Super::OnPossess(InPawn);
     m_Animal = dynamic_cast<AAnimal*>(InPawn);
+    SearchRadius = m_Animal->GetRadius();
     if(m_Animal == nullptr){
         UE_LOG(LogTemp, Warning, TEXT("Animal is null"));
     }
@@ -51,7 +53,8 @@ void AAnimalsAIController::RandomMove()
     }
 
     FNavLocation NavLocation;
-    bool bLocationValid = NavArea->GetRandomReachablePointInRadius(m_Animal->GetActorLocation(), 300.0f, NavLocation);
+    SearchRadius = m_Animal->GetRadius();
+    bool bLocationValid = NavArea->GetRandomReachablePointInRadius(m_Animal->GetActorLocation(), SearchRadius, NavLocation);
     if(bLocationValid){
         MoveToLocation(NavLocation.Location);
     }
@@ -61,7 +64,7 @@ void AAnimalsAIController::GenerateRandomLocation()
 {
     FNavLocation Location{};
     if(m_Animal != nullptr){
-        NavArea->GetRandomReachablePointInRadius(m_Animal->GetActorLocation(), 200.0f, Location);
+        NavArea->GetRandomReachablePointInRadius(m_Animal->GetActorLocation(), SearchRadius, Location);
     }
     RandomLocation = Location.Location;
 }

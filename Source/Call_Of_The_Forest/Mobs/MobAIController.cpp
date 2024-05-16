@@ -82,15 +82,9 @@ void AMobAIController::MoveToTarget()
     if(TargetMainCharacter == nullptr){
         TargetMainCharacter = FindTarget();
     }
-    if(TargetMainCharacter != nullptr){
+    if(TargetMainCharacter != nullptr && !m_Mob->GetbIsDead()){
         NavArea = FNavigationSystem::GetCurrent<UNavigationSystemV1>(this);
-        //FVector TargetLocation = TargetMainCharacter->GetActorLocation();
-        // FVector CurrentLocation = m_Mob->GetActorLocation();
-        // FVector Direction = (TargetLocation - CurrentLocation).GetSafeNormal();
         MoveToActor(TargetMainCharacter, 2.0f);
-        // m_Mob->MoveForwardBackward(Direction.X);
-        // m_Mob->MoveRightLeft(Direction.Y);
-        //attacking
         
     } else {
         UE_LOG(LogTemp, Warning, TEXT("No_target_found"));

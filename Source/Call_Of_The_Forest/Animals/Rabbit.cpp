@@ -44,8 +44,8 @@ void ARabbit::Tick(float Deltatime)
 
 void ARabbit::UpdateAnimalSprite()
 {
-    if(Health <= 0.0f){
-        Die();
+    if(GetbIsDead()){
+        return;
     }
     else if(GetVelocity().IsNearlyZero() && (!bIsDead))
     {
@@ -70,5 +70,6 @@ void ARabbit::Die()
         bIsDead = true;
         AnimalState = (LastAnimalState == EAnimalState::IdleLeftDown) ? EAnimalState::DieLeftDown : EAnimalState::DieRightUp;
         SetAnimalSprite(AnimalState);
+        SetSpeed(0.0f);
     }
 }

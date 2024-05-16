@@ -34,6 +34,9 @@ private:
 
 	UPROPERTY()
 	class APredator *m_Predator;
+
+	UPROPERTY()
+	class AMainPaperCharacter *TargetMainCharacter;
 	
 	UPROPERTY()
 	int wait_time;
@@ -44,14 +47,21 @@ private:
 	UPROPERTY()
 	FVector RandomLocation = FVector();
 
+	UPROPERTY()
+	float SearchRadius;
+
+	UFUNCTION()
+	AMainPaperCharacter* FindTarget();
+
 	UFUNCTION(BlueprintCallable, Category = "Moving")
 	void GenerateRandomLocation();
+
+	UFUNCTION()
+	void MoveToTarget();
 
 	UFUNCTION(BlueprintCallable, Category = "Moving")
 	void RandomMove();
 
 	void OnMoveCompleted(FAIRequestID RequestID, const FPathFollowingResult& Result) override;
-private:
-    FTimerHandle TimerHandle;
 	
 };

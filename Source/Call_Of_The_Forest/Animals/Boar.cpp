@@ -4,7 +4,7 @@
 #include "Boar.h"
 
 ABoar::ABoar(){
-    Speed = 100.0f;
+    Speed = 50.0f;
     GetCharacterMovement()->MaxWalkSpeed = Speed;  // Adjust this value as needed
     Health = 200.0f;
     bIsDead = false;
@@ -48,8 +48,8 @@ void ABoar::Tick(float Deltatime)
 
 void ABoar::UpdateAnimalSprite()
 {
-    if(Health <= 0.0f){
-        Die();
+    if(GetbIsDead()){
+        return;
     }
     else if(GetVelocity().IsNearlyZero() && (!bIsDead))
     {
@@ -74,5 +74,6 @@ void ABoar::Die()
         bIsDead = true;
         AnimalState = (LastAnimalState == EAnimalState::IdleLeftDown) ? EAnimalState::DieLeftDown : EAnimalState::DieRightUp;
         SetAnimalSprite(AnimalState);
+        SetSpeed(0.0f);
     }
 }

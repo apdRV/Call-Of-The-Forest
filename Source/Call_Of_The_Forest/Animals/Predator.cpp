@@ -16,6 +16,9 @@ APredator::APredator()
     bIsTriggered = false;
     bIsActive = false;
 
+    //Walking Radius
+    bRadius = 400.0f;
+
     //Default State
     PredatorState = EPredatorState::IdleRightUp;
     LastPredatorState = EPredatorState::IdleRightUp;
@@ -97,12 +100,14 @@ void APredator::Attacked(float Value)
 {
     Health-=Value;
     bIsTriggered = true;
+    SetSpeed(100.0f);
     if(Health <= 0.0f)
     {
         bIsDead = true;
         Die();
     }
 }
+
 void APredator::Die()
 {
 }
@@ -130,4 +135,20 @@ void APredator::SetbIsTriggered(bool Value)
 bool APredator::GetbIsDead()
 {
     return bIsDead;
+}
+
+void APredator::SetSpeed(float Value)
+{
+    Speed = Value;
+    GetCharacterMovement()->MaxWalkSpeed = Speed;
+}
+
+float APredator::GetRadius()
+{
+    return bRadius;
+}
+
+void APredator::SetRadius(float Value)
+{
+    bRadius = Value;
 }

@@ -25,6 +25,7 @@ AMob::AMob()
     BaseDamage = 10.0f;
     Speed = 40.0f;
     bIsTriggered = false;
+    bRadius = 100.0f;
 
 
 
@@ -70,7 +71,10 @@ AMob::AMob()
 void AMob::Tick(float Deltatime)
 {
     Super::Tick(Deltatime);
-    UpdateMobSprite();
+    if(!bIsDead)
+    {
+        UpdateMobSprite();
+    }
 }
 
 void AMob::BeginPlay()
@@ -128,6 +132,12 @@ void AMob::Attack()
 void AMob::UpdateMobSprite()
 {
     FVector Velocity = GetVelocity();
+    if(MobState == EMobState::DieLeftDown || MobState == EMobState::DieRightUp)
+    {
+        LastMobState = (MobState == EMobState::DieLeftDown) ? EMobState::DieLeftDown : EMobState::DieRightUp;
+        MobState = LastMobState;
+        return;
+    }
 
     if (Velocity.SizeSquared() > 0.0f)
     {
@@ -147,7 +157,6 @@ void AMob::Attacked(float Value)
     bIsTriggered = true;
     if(Health <= 0.0f)
     {
-        bIsDead = true;
         Die();
     }
 }
@@ -156,9 +165,8 @@ void AMob::Die()
     if(Health <= 0.0f)
     {
         bIsDead = true;
-        MobState = (LastMobState == EMobState::IdleLeftDown) ? EMobState::DieLeftDown : EMobState::DieRightUp;
+        MobState = (LastMobState == EMobState::IdleLeftDown || LastMobState == EMobState::LeftDown) ? EMobState::DieLeftDown : EMobState::DieRightUp;
         MobSpriteComponent->UpdateSprite(MobState);
-
     }
 }
 
@@ -178,3 +186,18 @@ bool AMob::GetbIsDead()
     return bIsDead;
 }
 
+void AMob::SetSpeed(float Value)
+{
+    Speed = Value;
+    GetCharacterMovement()->MaxWalkSpeed = Speed;
+}
+
+float AMob::GetRadius()
+{
+    return bRadius;
+}
+
+void AMob::SetRadius(float Value)
+{
+    bRadius = Value;
+}

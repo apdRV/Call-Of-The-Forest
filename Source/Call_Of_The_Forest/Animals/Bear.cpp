@@ -7,7 +7,7 @@ ABear::ABear()
 {
     Speed = 40.0f;
     GetCharacterMovement()->MaxWalkSpeed = Speed;  // Adjust this value as needed
-    Health = 100.0f;
+    Health = 200.0f;
     bIsDead = false;
 
     GetSprite()->SetRelativeScale3D(FVector(1.2f, 1.2f, 1.2f));

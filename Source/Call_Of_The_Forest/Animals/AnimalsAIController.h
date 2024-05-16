@@ -40,6 +40,9 @@ private:
 	int wait_time;
 
 	UPROPERTY()
+	float SearchRadius;
+
+	UPROPERTY()
 	class UNavigationSystemV1* NavArea;
 
 	UPROPERTY()

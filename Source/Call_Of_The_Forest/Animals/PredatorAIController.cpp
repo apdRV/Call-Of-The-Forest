@@ -9,6 +9,7 @@ APredatorAIController::APredatorAIController()
     World = AStaticWorld::GetStaticWorld();
     m_Predator = nullptr;
     wait_time = 0;
+    SearchRadius = 100.0f;
 }
 
 void APredatorAIController::BeginPlay()
@@ -20,12 +21,17 @@ void APredatorAIController::BeginPlay()
 void APredatorAIController::Tick(float Deltatime)
 {
     Super::Tick(Deltatime);
-    if(m_Predator != nullptr && wait_time > 100.0f && m_Predator->GetbIsActive()){
+    if(m_Predator != nullptr && wait_time > 50.0f && m_Predator->GetbIsActive() && !m_Predator->GetbIsTriggered() && !m_Predator->GetbIsDead()){
         RandomMove();
         wait_time = 0;
         UE_LOG(LogTemp, Warning, TEXT("Call Random Move"));
     }
-    wait_time = (wait_time > 100.0f) ? wait_time : wait_time + 1;
+    else if(m_Predator != nullptr && m_Predator->GetbIsTriggered() && !m_Predator->GetbIsDead())
+    {
+        MoveToTarget();
+
+    }
+    wait_time = (wait_time > 50.0f) ? wait_time : wait_time + 1;
 }
 
 void APredatorAIController::OnPossess(APawn* InPawn)
@@ -51,7 +57,8 @@ void APredatorAIController::RandomMove()
     }
 
     FNavLocation NavLocation;
-    bool bLocationValid = NavArea->GetRandomReachablePointInRadius(m_Predator->GetActorLocation(), 300.0f, NavLocation);
+    SearchRadius = m_Predator->GetRadius();
+    bool bLocationValid = NavArea->GetRandomReachablePointInRadius(m_Predator->GetActorLocation(), SearchRadius, NavLocation);
     if(bLocationValid){
         MoveToLocation(NavLocation.Location);
     }
@@ -69,4 +76,47 @@ void APredatorAIController::GenerateRandomLocation()
 void APredatorAIController::OnMoveCompleted(FAIRequestID RequestID, const FPathFollowingResult& Result)
 {
     Super::OnMoveCompleted(RequestID, Result);
+}
+
+AMainPaperCharacter* APredatorAIController::FindTarget()
+{
+    AMainPaperCharacter* NearestPlayer;
+    FVector MobLocation = m_Predator->GetActorLocation();
+    FVector NearestActorLocation;
+    AMainPaperCharacter* NearestCharacter = nullptr;
+    float NearestDistance;
+    std::vector<AActor*> copy_array_of_main_characters = World->GetActor("MainCharacter");
+    if(copy_array_of_main_characters.size() == 0){
+        UE_LOG(LogTemp, Warning, TEXT("No_main_characters_in_area"));
+        return NearestCharacter;
+    }
+    else{
+        NearestActorLocation = copy_array_of_main_characters[0]->GetActorLocation();
+        NearestDistance = FVector::DistSquared(NearestActorLocation, MobLocation);
+        NearestCharacter = Cast<AMainPaperCharacter>(copy_array_of_main_characters[0]);
+    }
+    for(auto &i : copy_array_of_main_characters){
+        FVector CurrentActorLocation = i->GetActorLocation();
+        float Distance = FVector::DistSquared(CurrentActorLocation, MobLocation);
+        if(Distance > NearestDistance){
+            NearestDistance = Distance;
+            NearestActorLocation = CurrentActorLocation;
+            NearestCharacter = Cast<AMainPaperCharacter>(i);
+        }
+    }
+    return NearestCharacter;
+}
+
+void APredatorAIController::MoveToTarget()
+{
+    if(TargetMainCharacter == nullptr){
+        TargetMainCharacter = FindTarget();
+    }
+    if(TargetMainCharacter != nullptr){
+        NavArea = FNavigationSystem::GetCurrent<UNavigationSystemV1>(this);
+        MoveToActor(TargetMainCharacter, 2.0f);
+        
+    } else {
+        UE_LOG(LogTemp, Warning, TEXT("No_target_found"));
+    }
 }

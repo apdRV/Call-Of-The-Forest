@@ -9,8 +9,11 @@ AAnimal::AAnimal(){
     Speed = 0.05f;
     Health = 100.0f;
     bIsDead = false;
-    bIsAttacking = false;
+    bIsAttacked = false;
     bIsActive = false;
+
+    //Walking Radius
+    bRadius = 300.0f;
 
     AnimalState = EAnimalState::IdleRightUp;
     LastAnimalState = EAnimalState::IdleRightUp;
@@ -85,9 +88,11 @@ void AAnimal::SetbIsActive(bool Value)
 void AAnimal::Attacked(float Value)
 {
     Health -= Value;
+    bIsAttacked = true;
+    SetSpeed(100.0f);
+    SetRadius(400.0f);
     if(Health <= 0.0f)
     {
-        bIsDead = true;
         Die();
     }
 }
@@ -115,4 +120,25 @@ void AAnimal::Die()
 bool AAnimal::GetbIsDead()
 {
     return bIsDead;
+}
+
+void AAnimal::SetSpeed(float Value)
+{
+    Speed = Value;
+    GetCharacterMovement()->MaxWalkSpeed = Speed;
+}
+
+float AAnimal::GetRadius()
+{
+    return bRadius;
+}
+
+void AAnimal::SetRadius(float Value)
+{
+    bRadius = Value;
+}
+
+bool AAnimal::GetbIsAttacked()
+{
+    return bIsAttacked;
 }

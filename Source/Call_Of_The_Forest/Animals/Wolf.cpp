@@ -5,7 +5,7 @@
 
 AWolf::AWolf()
 {
-    Speed = 100.0f;
+    Speed = 40.0f;
     GetCharacterMovement()->MaxWalkSpeed = Speed;  // Adjust this value as needed
     Health = 100.0f;
     bIsDead = false;

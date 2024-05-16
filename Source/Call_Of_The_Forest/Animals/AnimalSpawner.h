@@ -19,6 +19,15 @@
 #include "PredatorAIController.h"
 #include "AnimalSpawner.generated.h"
 
+enum class EAnimalType{
+	Rabbit,
+	Boar,
+	Deer,
+	Wolf,
+	Fox,
+	Bear
+};
+
 UCLASS()
 class CALL_OF_THE_FOREST_API AAnimalSpawner : public AActor
 {
@@ -32,6 +41,6 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	void SpawnAnimals();
-
+	EAnimalType GenerateRandomAnimal();
 
 };

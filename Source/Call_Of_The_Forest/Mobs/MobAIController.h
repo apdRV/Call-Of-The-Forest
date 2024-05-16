@@ -54,7 +54,6 @@ private:
   UFUNCTION(BlueprintCallable, Category = "Moving")
 	void SearchForPlayer();
 
-
   UFUNCTION(BlueprintCallable, Category = "Moving")
   AMainPaperCharacter* FindTarget();
 
