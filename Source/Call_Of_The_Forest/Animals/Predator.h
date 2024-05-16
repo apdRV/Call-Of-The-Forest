@@ -112,6 +112,9 @@ protected:
 	float bRadius;
 
 	UFUNCTION()
+	void Attack();
+
+	UFUNCTION()
 	virtual void UpdatePredatorSprite();
 
 	UFUNCTION()

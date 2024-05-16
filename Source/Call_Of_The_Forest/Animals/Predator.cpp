@@ -108,6 +108,11 @@ void APredator::Attacked(float Value)
     }
 }
 
+void APredator::Attack()
+{
+    
+}
+
 void APredator::Die()
 {
 }
