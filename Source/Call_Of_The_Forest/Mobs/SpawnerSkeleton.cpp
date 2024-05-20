@@ -1,11 +1,12 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "SkeletonSpawner.h"
+#include "SpawnerSkeleton.h"
 #include "MobAIController.h"
+#include "MSkeleton.h"
 #include <cmath>
 
-void ASkeletonSpawner::SpawnSkeletons()
+void ASpawnerSkeleton::SpawnSkeletons()
 {
     FRotator Rotation(0, 0, 0);
     for (int l = -2; l < 2; l++) {
@@ -16,7 +17,7 @@ void ASkeletonSpawner::SpawnSkeletons()
                 Location[1] = r * 500 + FMath::RandRange(0, 500);
                 if (FMath::Abs(Location[0]) > 20 && FMath::Abs(Location[1]) > 20) {
                     AController* AIController = GetWorld()->SpawnActor<AMobAIController>(AMobAIController::StaticClass());
-                    AMob* SpawnedMob = GetWorld()->SpawnActor<AMob>(Location, Rotation);
+                    AMob* SpawnedMob = GetWorld()->SpawnActor<AMSkeleton>(Location, Rotation);
                     if(SpawnedMob && AIController){
                             AIController->Possess(SpawnedMob);    
                         }
@@ -29,9 +30,8 @@ void ASkeletonSpawner::SpawnSkeletons()
 }
 
 
-void ASkeletonSpawner::BeginPlay()
+void ASpawnerSkeleton::BeginPlay()
 {
     Super::BeginPlay();
     SpawnSkeletons();
 }
-

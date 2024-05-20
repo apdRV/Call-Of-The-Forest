@@ -16,13 +16,13 @@ AMob::AMob()
     // Set spawn state
     bIsMoving = false;
     bIsDead = false;
-    bIsAttacking = 0;
+    bIsAttacking = 20;
     MobState = EMobState::IdleRightUp;
     LastMobState = EMobState::IdleRightUp;
 
     Health = 100.0f;
     MaxHealth = 100.0f;
-    BaseDamage = 10.0f;
+    BaseDamage = 1.0f;
     Speed = 40.0f;
     bIsTriggered = false;
     bRadius = 100.0f;
@@ -42,19 +42,18 @@ AMob::AMob()
     GetSprite()->SetRelativeRotation(FRotator(0.0f, 90.0f, -90.0f));
     GetSprite()->SetRelativeScale3D(FVector(1.0f, 1.0f, 1.0f));
 
-    MobSpriteComponent = CreateDefaultSubobject<UMobFlipbookComponent>(TEXT("MobSpriteComponent"));
-    MobSpriteComponent->SetupAttachment(RootComponent);
-    MobSpriteComponent->SetupOwner(GetSprite());
+    MobFlipbookComponent = CreateDefaultSubobject<UPaperFlipbookComponent>(TEXT("MobSpriteComponent"));
+    MobFlipbookComponent->SetupAttachment(RootComponent);
+    SetupOwner(GetSprite());
     GetSprite()->CanCharacterStepUpOn = ECB_No;
     GetSprite()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
     GetSprite()->SetCollisionObjectType(ECollisionChannel::ECC_WorldDynamic);
     GetSprite()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
     GetSprite()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Ignore);
     GetSprite()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
-    MobSpriteComponent->UpdateSprite(MobState);
 
     //Properties for correct movement by AIController
-    GetCharacterMovement()->MaxWalkSpeed = Speed;  // Adjust this value as needed
+    GetCharacterMovement()->MaxWalkSpeed = Speed;
     GetCharacterMovement()->bOrientRotationToMovement = false;
     GetCharacterMovement()->RotationRate = FRotator(0.f, 0.f, 0.f);
     GetCharacterMovement()->bConstrainToPlane = true;
@@ -71,10 +70,6 @@ AMob::AMob()
 void AMob::Tick(float Deltatime)
 {
     Super::Tick(Deltatime);
-    if(!bIsDead)
-    {
-        UpdateMobSprite();
-    }
 }
 
 void AMob::BeginPlay()
@@ -129,9 +124,12 @@ void AMob::Attack()
 
 }
 
-void AMob::UpdateMobSprite()
+void AMob::UpdateMobState()
 {
     FVector Velocity = GetVelocity();
+    if(MobState == EMobState::AttackLeftDown || MobState == EMobState::AttackRightUp && bIsAttacking > 0.0f)
+    {
+    }
     if(MobState == EMobState::DieLeftDown || MobState == EMobState::DieRightUp)
     {
         LastMobState = (MobState == EMobState::DieLeftDown) ? EMobState::DieLeftDown : EMobState::DieRightUp;
@@ -148,7 +146,7 @@ void AMob::UpdateMobSprite()
     {
         MobState = LastMobState;
     }
-    MobSpriteComponent->UpdateSprite(MobState);
+    UpdateMobSprite();
 }
 
 void AMob::Attacked(float Value)
@@ -160,16 +158,26 @@ void AMob::Attacked(float Value)
         Die();
     }
 }
+
 void AMob::Die()
 {
     if(Health <= 0.0f)
     {
         bIsDead = true;
         MobState = (LastMobState == EMobState::IdleLeftDown || LastMobState == EMobState::LeftDown) ? EMobState::DieLeftDown : EMobState::DieRightUp;
-        MobSpriteComponent->UpdateSprite(MobState);
+        SetMobSprite(MobState);
     }
 }
 
+void AMob::SetMobSprite(EMobState NewMobState)
+{
+    
+}
+
+void AMob::SetupOwner(UPaperFlipbookComponent *m_owner)
+{
+    MobFlipbookComponent = m_owner;
+}
 
 bool AMob::GetbIsTriggered()
 {
@@ -201,3 +209,31 @@ void AMob::SetRadius(float Value)
 {
     bRadius = Value;
 }
+
+float AMob::GetSpeed()
+{
+    return Speed;
+}
+
+EMobState AMob::GetMobState(){
+    return MobState;
+}
+
+EMobState AMob::GetLastMobState(){
+    return LastMobState;
+}
+
+void AMob::SetMobState(EMobState NewState){
+    MobState = NewState;
+}
+
+void AMob::UpdateMobSprite()
+{
+
+}
+
+float AMob::GetBaseDamage()
+{
+    return BaseDamage;
+}
+

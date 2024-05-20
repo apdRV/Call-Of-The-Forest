@@ -11,6 +11,7 @@
 #include "../Animals/Animal.h"
 #include "../Animals/Predator.h"
 #include "MainCharacterSpriteComponent.h"
+#include "../World/AttackedDerivedDeclaration.h"
 #include "MainPaperCharacter.generated.h"
 /**
  * 
@@ -69,6 +70,9 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "Attacking")
 	void Attack();
 
+	UFUNCTION()
+	void Attacked(float Value);
+
 	UFUNCTION(BlueprintCallable, Category = "Animation")
 	void UpdateCharacterSprite();
 
@@ -93,4 +97,8 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	float TriggerRadius;
+
+	//Access to protected members for attacking system
+	friend class AttackedActor;
+	friend class AttackingActor;
 };

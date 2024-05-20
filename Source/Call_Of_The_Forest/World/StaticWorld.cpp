@@ -8,7 +8,7 @@
 #include "ResourcesSpawner.h"
 
 AStaticWorld* AStaticWorld::World = nullptr;
-AStaticWorld::AStaticWorld()
+AStaticWorld::AStaticWorld() : ClassToMakeDamage(), ClassToGetDamage()
 {
 	if (World == nullptr){
 		World = this;
@@ -308,4 +308,14 @@ void AStaticWorld::DeleteOverlappingActors(AActor* OtherActor)
 	if(Tree != nullptr){
 		OverlappingActors.Remove(OtherActor);
 	}
+}
+
+void AStaticWorld::MobIsAttacking(AMainPaperCharacter* MainCharacter, AMob* Mob)
+{
+	if(FVector::Dist(MainCharacter->GetActorLocation(), Mob->GetActorLocation()) <= 100.0f)
+	{
+		ClassToMakeDamage.MakeDamage(Mob, MainCharacter);
+		// UE_LOG(LogTemp, Warning, TEXT("Called Damage"));
+	}
+	// UE_LOG(LogTemp, Warning, TEXT("Called mobIsAttacking"));
 }

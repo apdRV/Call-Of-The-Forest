@@ -11,6 +11,7 @@
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "../World/StaticWorld.h"
+#include "../World/AttackedDerivedDeclaration.h"
 #include "Predator.generated.h"
 
 /**
@@ -124,6 +125,9 @@ protected:
 	void UpdatePredatorState();
 
 private:
+	//Access to protected members for attacking system
+	friend class AttackedActor;
+	friend class AttackingActor;
 
 
 };

@@ -1,10 +1,14 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "MobFlipbookComponent.h"
+#include "MSkeleton.h"
 
-UMobFlipbookComponent::UMobFlipbookComponent(){
-    MobSprite = CreateDefaultSubobject<UPaperFlipbookComponent>(FName("Mob_spawn_sprite"));
+AMSkeleton::AMSkeleton()
+{
+    Speed = 50.0f;
+    GetCharacterMovement()->MaxWalkSpeed = Speed;  // Adjust this value as needed
+    Health = 100.0f;
+    bIsDead = false;
 
     static ConstructorHelpers::FObjectFinder<UPaperFlipbook> LeftDown(TEXT("/Script/Paper2D.PaperFlipbook'/Game/AnimatedSprites/MobAnimation/SkeletonAnimation/LeftDown/LeftDown.LeftDown'"));
     static ConstructorHelpers::FObjectFinder<UPaperFlipbook> RightUp(TEXT("/Script/Paper2D.PaperFlipbook'/Game/AnimatedSprites/MobAnimation/SkeletonAnimation/RightUp/RightUp.RightUp'"));
@@ -15,31 +19,52 @@ UMobFlipbookComponent::UMobFlipbookComponent(){
     static ConstructorHelpers::FObjectFinder<UPaperFlipbook> DieLeftDown(TEXT("/Script/Paper2D.PaperFlipbook'/Game/AnimatedSprites/MobAnimation/SkeletonAnimation/DieLeftDown/DieLeftDown.DieLeftDown'"));
     static ConstructorHelpers::FObjectFinder<UPaperFlipbook> DieRightUp(TEXT("/Script/Paper2D.PaperFlipbook'/Game/AnimatedSprites/MobAnimation/SkeletonAnimation/DieRightUp/DieRightUp.DieRightUp'"));
 
-    DirectionToSprite.Add(EMobState::LeftDown, LeftDown.Object);
-    DirectionToSprite.Add(EMobState::RightUp, RightUp.Object);
-    DirectionToSprite.Add(EMobState::IdleLeftDown, IdleLeftDown.Object);
-    DirectionToSprite.Add(EMobState::IdleRightUp, IdleRightUp.Object);
-    DirectionToSprite.Add(EMobState::AttackLeftDown, AttackLeftDown.Object);
-    DirectionToSprite.Add(EMobState::AttackRightUp, AttackRightUp.Object);
-    DirectionToSprite.Add(EMobState::DieLeftDown, DieLeftDown.Object);
-    DirectionToSprite.Add(EMobState::DieRightUp, DieRightUp.Object);
+    DirectionToSkeletonSprite.Add(EMobState::LeftDown, LeftDown.Object);
+    DirectionToSkeletonSprite.Add(EMobState::RightUp, RightUp.Object);
+    DirectionToSkeletonSprite.Add(EMobState::IdleLeftDown, IdleLeftDown.Object);
+    DirectionToSkeletonSprite.Add(EMobState::IdleRightUp, IdleRightUp.Object);
+    DirectionToSkeletonSprite.Add(EMobState::AttackLeftDown, AttackLeftDown.Object);
+    DirectionToSkeletonSprite.Add(EMobState::AttackRightUp, AttackRightUp.Object);
+    DirectionToSkeletonSprite.Add(EMobState::DieLeftDown, DieLeftDown.Object);
+    DirectionToSkeletonSprite.Add(EMobState::DieRightUp, DieRightUp.Object);
 }
 
-void UMobFlipbookComponent::UpdateSprite(EMobState State)
+void AMSkeleton::BeginPlay()
 {
-    UPaperFlipbook* TemporarySprite = DirectionToSprite[State];
-    if (MobSprite != nullptr && TemporarySprite != nullptr)
-    {
-        if(State == EMobState::DieLeftDown || State == EMobState::DieRightUp)
-        {
-            //MobSprite->SetPlaybackSpeed(0.5f);
-            UE_LOG(LogTemp, Warning, TEXT("Die Animation"));
-        }
-        MobSprite->SetFlipbook(TemporarySprite);
+    Super::BeginPlay();
+    if (World != nullptr) {
+        World->AddActor("Mob", this);
+        UE_LOG(LogTemp, Warning, TEXT("World is not a null, added skeleton"));
+    } else {
+        UE_LOG(LogTemp, Warning, TEXT("World is null"));
     }
+
+    UE_LOG(LogTemp, Warning, TEXT("SkeletonSpawned"));
 }
 
-void UMobFlipbookComponent::SetupOwner(UPaperFlipbookComponent *Owner)
+void AMSkeleton::Tick(float Deltatime)
 {
-    MobSprite = Owner;
+    Super::Tick(Deltatime);
+    UpdateMobState();
+}
+
+void AMSkeleton::UpdateMobSprite()
+{
+    if(GetbIsDead()){
+        return;
+    }
+    else if(GetVelocity().IsNearlyZero() && (!bIsDead))
+    {
+        MobState = LastMobState;
+    }
+    SetMobSprite(MobState);
+}
+
+void AMSkeleton::SetMobSprite(EMobState MobState)
+{
+    UPaperFlipbook* TemporarySprite = DirectionToSkeletonSprite[MobState];
+    if (MobFlipbookComponent != nullptr && TemporarySprite != nullptr)
+    {
+        MobFlipbookComponent->SetFlipbook(TemporarySprite);
+    }
 }

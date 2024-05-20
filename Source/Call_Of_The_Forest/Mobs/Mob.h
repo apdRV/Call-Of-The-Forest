@@ -6,14 +6,29 @@
 #include "../Character/MainPaperCharacter.h"
 #include "../World/StaticWorld.h"
 #include "BehaviorTree/BehaviorTree.h"
-#include "MobFlipbookComponent.h"
+#include "PaperFlipbookComponent.h"
+#include "PaperFlipbookActor.h"
+#include "PaperFlipbook.h"
 #include "Components/SphereComponent.h"
 #include "PaperCharacter.h"
+#include "../World/AttackedDerivedDeclaration.h"
 #include "Mob.generated.h"
 
 /**
  *
  */
+UENUM(BlueprintType, Category = "State")
+enum class EMobState : uint8{
+	LeftDown,
+	RightUp,
+	IdleLeftDown,
+	IdleRightUp,
+	AttackLeftDown,
+	AttackRightUp,
+	DieLeftDown,
+	DieRightUp
+};
+
 
 UCLASS()
 class CALL_OF_THE_FOREST_API AMob : public APaperCharacter {
@@ -23,26 +38,20 @@ public:
   AMob();
   virtual void Tick(float Deltatime) override;
   virtual void SetupPlayerInputComponent(class UInputComponent *PlayerInputComponent) override;
+  virtual void BeginPlay() override;
 
   UFUNCTION()
-  float GetSpeed(){
-    return Speed;
-  }
+  float GetSpeed();
 
   UFUNCTION()
-  EMobState GetMobState(){
-    return MobState;
-  }
+  EMobState GetMobState();
 
   UFUNCTION()
-  EMobState GetLastMobState(){
-    return LastMobState;
-  }
+  EMobState GetLastMobState();
 
   UFUNCTION()
-  void SetMobState(EMobState NewState){
-      MobState = NewState;
-  }
+  void SetMobState(EMobState NewState);
+  
   UFUNCTION(BlueprintCallable, Category = "Trigger")
   bool GetbIsTriggered();
 
@@ -64,9 +73,13 @@ public:
   UFUNCTION()
   void SetRadius(float Value);
 
+  UFUNCTION()
+  float GetBaseDamage();
 protected:
-  virtual void BeginPlay() override;
 
+	UFUNCTION()
+	void SetupOwner(UPaperFlipbookComponent* m_owner);
+  
   UPROPERTY()
   AStaticWorld *World;
 
@@ -113,17 +126,24 @@ protected:
   void Attack();
 
   UFUNCTION(BlueprintCallable, Category = "Animation")
-  void UpdateMobSprite();
+  void UpdateMobState();
 
-  // properties for animation
-  UPROPERTY(EditAnywhere, Category = "Components")
-  class UMobFlipbookComponent *MobSpriteComponent;
+  UFUNCTION()
+  virtual void UpdateMobSprite();
+
+  UFUNCTION()
+  virtual void SetMobSprite(EMobState NewMobState);
+
+	UPROPERTY()
+	UPaperFlipbookComponent* MobFlipbookComponent;
 
   UFUNCTION(BlueprintCallable, Category = "State")
   void Die();
 
 
 private:
-
+	//Access to protected members for attacking system
+	friend class AttackedActor;
+	friend class AttackingActor;
 
 };

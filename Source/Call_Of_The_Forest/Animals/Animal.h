@@ -11,6 +11,7 @@
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "../World/StaticWorld.h"
+#include "../World/AttackedDerivedDeclaration.h"
 #include "Animal.generated.h"
 
 /**
@@ -41,12 +42,6 @@ public:
 	virtual void BeginPlay() override;
 
 	UFUNCTION()
-	virtual void UpdateAnimalSprite();
-
-	UFUNCTION()
-	void UpdateAnimalState();
-
-	UFUNCTION()
   	bool GetbIsActive();
 
   	UFUNCTION()
@@ -57,9 +52,6 @@ public:
 
 	UFUNCTION()
 	void Attacked(float Value);
-	
-	UFUNCTION()
-	virtual void Die();
 
 	UFUNCTION()
 	void SetupOwner(UPaperFlipbookComponent* m_owner);
@@ -73,6 +65,8 @@ public:
 	UFUNCTION()
 	void SetRadius(float Value);
 
+	UFUNCTION()
+	void SetSpeed(float Value);
 
 protected:
 	UPROPERTY()
@@ -106,8 +100,16 @@ protected:
 	float bRadius;
 
 	UFUNCTION()
-	void SetSpeed(float Value);
+	virtual void Die();
+
+	UFUNCTION()
+	virtual void UpdateAnimalSprite();
+
+	UFUNCTION()
+	void UpdateAnimalState();
 
 private:
+	//Access to protected members for attacking system
+	friend class AttackedActor; 
 	
 };

@@ -58,7 +58,7 @@ private:
   AMainPaperCharacter* FindTarget();
 
   UFUNCTION(BlueprintCallable, Category = "Moving")
-  void TriggerAttack(FVector TargetLocation, FVector CurrentLocation);
+  void TriggerAttack();
 
   UFUNCTION(BlueprintCallable, Category = "Moving")
   void MoveToTarget();

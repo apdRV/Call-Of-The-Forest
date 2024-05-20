@@ -2,7 +2,6 @@
 
 
 #include "MobAIController.h"
-#include "MobFlipbookComponent.h"
 #include "NavigationSystem.h"
 
 AMobAIController::AMobAIController()
@@ -30,6 +29,7 @@ void AMobAIController::Tick(float Delta)
     Super::Tick(Delta);
     if(m_Mob != nullptr && m_Mob->GetbIsTriggered()){
         MoveToTarget();
+        TriggerAttack();
     }
 }
 
@@ -71,8 +71,17 @@ AMainPaperCharacter* AMobAIController::FindTarget(){
     return NearestCharacter;
 }
 
-void AMobAIController::TriggerAttack(FVector TargetLocation,FVector CurrentLocation)
+void AMobAIController::TriggerAttack()
 {
+    if(TargetMainCharacter == nullptr)
+    {
+        TargetMainCharacter = FindTarget();
+    }
+    if(TargetMainCharacter != nullptr)
+    {
+        World->MobIsAttacking(TargetMainCharacter, m_Mob);
+    }
+    // UE_LOG(LogTemp, Warning, TEXT("Called TriggerAttack"));
 
     //m_Mob->Attack();
 }

@@ -187,6 +187,16 @@ void AMainPaperCharacter::UpdateCharacterSprite()
 
 }
 
+void AMainPaperCharacter::Attacked(float Value)
+{
+    Health-=Value;
+    UE_LOG(LogTemp, Warning, TEXT("Called Attacked in MainPaperCharacter"));
+    if(Health <= 0.0f)
+    {
+        Die();
+    }
+}
+
 // When the character dies
 void AMainPaperCharacter::Die()
 {

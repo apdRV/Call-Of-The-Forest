@@ -8,7 +8,8 @@
 #include <mutex>
 #include <vector>
 #include <algorithm>
-#include <algorithm>
+#include "AttackingActor.h"
+#include "AttackedActor.h"
 #include "../Character/MainCharacterSpriteComponent.h"
 #include "GameFramework/Actor.h"
 #include "StaticWorld.generated.h"
@@ -58,6 +59,10 @@ public:
 
 	UFUNCTION()
 	void TreeAttacked(ATree1* Tree, float Damage);
+
+	//testing attacking from mob to character
+	UFUNCTION()
+	void MobIsAttacking(AMainPaperCharacter* MainCharacter, AMob* Mob);
 	
 	// Attacking
 	void PlayerAttack(FVector PlayerLocation, EMainCharacterState CharacterState, float Damage);
@@ -73,4 +78,8 @@ private:
 	std::map<std::string, std::vector<AActor*>> Actors;
 	static AStaticWorld* World;
 	std::mutex m_mutex;
+
+	//property for attacking
+	AttackingActor ClassToMakeDamage;
+	AttackedActor ClassToGetDamage;
 };

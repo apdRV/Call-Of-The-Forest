@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Mob.h"
 #include "MobsSpawner.generated.h"
 
 UCLASS()
@@ -15,7 +16,7 @@ public:
 	// Sets default values for this actor's properties
 	explicit AMobsSpawner();
 	explicit AMobsSpawner(int ObjectCount_);
-
+	
 protected:
 
 public:	
