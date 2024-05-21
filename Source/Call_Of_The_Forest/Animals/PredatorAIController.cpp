@@ -10,6 +10,8 @@ APredatorAIController::APredatorAIController()
     m_Predator = nullptr;
     wait_time = 0;
     SearchRadius = 100.0f;
+    bCanAttack = true;
+    AttackInterval = 1.0f;
 }
 
 void APredatorAIController::BeginPlay()
@@ -29,7 +31,7 @@ void APredatorAIController::Tick(float Deltatime)
     else if(m_Predator != nullptr && m_Predator->GetbIsTriggered() && !m_Predator->GetbIsDead())
     {
         MoveToTarget();
-
+        TriggerAttack();
     }
     wait_time = (wait_time > 50.0f) ? wait_time : wait_time + 1;
 }
@@ -62,15 +64,6 @@ void APredatorAIController::RandomMove()
     if(bLocationValid){
         MoveToLocation(NavLocation.Location);
     }
-}
-
-void APredatorAIController::GenerateRandomLocation()
-{
-    FNavLocation Location{};
-    if(m_Predator != nullptr){
-        NavArea->GetRandomReachablePointInRadius(m_Predator->GetActorLocation(), 200.0f, Location);
-    }
-    RandomLocation = Location.Location;
 }
 
 void APredatorAIController::OnMoveCompleted(FAIRequestID RequestID, const FPathFollowingResult& Result)
@@ -119,4 +112,27 @@ void APredatorAIController::MoveToTarget()
     } else {
         UE_LOG(LogTemp, Warning, TEXT("No_target_found"));
     }
+}
+
+void APredatorAIController::TriggerAttack()
+{
+    if(bCanAttack)
+    {
+        if(TargetMainCharacter == nullptr)
+        {
+            TargetMainCharacter = FindTarget();
+        }
+        if(TargetMainCharacter != nullptr)
+        {
+            World->PredatorIsAttacking(TargetMainCharacter, m_Predator);
+            bCanAttack = false;
+            GetWorldTimerManager().SetTimer(TimerHandle, this, &APredatorAIController::ResetAttack, AttackInterval, false);
+        }
+
+    }
+}
+
+void APredatorAIController::ResetAttack()
+{
+    bCanAttack = true;
 }

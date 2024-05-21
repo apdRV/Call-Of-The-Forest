@@ -7,6 +7,7 @@
 #include "Predator.h"
 #include "Math/Vector.h"
 #include "NavigationSystem.h"
+#include "Engine/EngineTypes.h"
 #include "../Character/MainPaperCharacter.h"
 #include "PredatorAIController.generated.h"
 
@@ -29,6 +30,15 @@ protected:
 	virtual void OnPossess(APawn *InPawn) override;
 
 private:
+	UPROPERTY()
+	FTimerHandle TimerHandle;
+
+	UPROPERTY()
+	bool bCanAttack;
+
+	UPROPERTY()
+	float AttackInterval;
+
 	UPROPERTY()
 	class AStaticWorld *World;
 
@@ -53,9 +63,12 @@ private:
 	UFUNCTION()
 	AMainPaperCharacter* FindTarget();
 
-	UFUNCTION(BlueprintCallable, Category = "Moving")
-	void GenerateRandomLocation();
+	UFUNCTION()
+	void TriggerAttack();
 
+	UFUNCTION()
+	void ResetAttack();
+	
 	UFUNCTION()
 	void MoveToTarget();
 

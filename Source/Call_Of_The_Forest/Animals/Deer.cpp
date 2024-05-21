@@ -4,9 +4,9 @@
 #include "Deer.h"
 
 ADeer::ADeer(){
-    Speed = 60.0f;
-    GetCharacterMovement()->MaxWalkSpeed = Speed;  // Adjust this value as needed
-    Health = 200.0f;
+    bSpeed = 60.0f;
+    GetCharacterMovement()->MaxWalkSpeed = bSpeed;  // Adjust this value as needed
+    bHealth = 200.0f;
     bIsDead = false;
 
     GetSprite()->SetRelativeScale3D(FVector(1.25f, 1.25f, 1.25f));
@@ -69,11 +69,11 @@ void ADeer::SetAnimalSprite(EAnimalState AnimalState)
 
 void ADeer::Die()
 {
-    if(Health <= 0.0f)
+    if(bHealth <= 0.0f)
     {
         bIsDead = true;
         AnimalState = (LastAnimalState == EAnimalState::IdleLeftDown) ? EAnimalState::DieLeftDown : EAnimalState::DieRightUp;
         SetAnimalSprite(AnimalState);
-        SetSpeed(0.0f);
+        SetbSpeed(0.0f);
     }
 }

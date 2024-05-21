@@ -7,9 +7,10 @@ AAnimalsAIController::AAnimalsAIController()
 {
     PrimaryActorTick.bCanEverTick = true;
     World = AStaticWorld::GetStaticWorld();
-    m_Animal = nullptr;
-    wait_time = 0;
-    SearchRadius = 100.0f;
+    bAnimal = nullptr;
+    bWaitTime = 3.0f;
+    bCanMove = true;
+    bSearchRadius = 100.0f;
 }
 
 void AAnimalsAIController::BeginPlay()
@@ -21,27 +22,25 @@ void AAnimalsAIController::BeginPlay()
 void AAnimalsAIController::Tick(float Delta)
 {
     Super::Tick(Delta);
-    if(m_Animal != nullptr && wait_time > 50.0f && m_Animal->GetbIsActive() && !m_Animal->GetbIsDead()){
+    if(bAnimal != nullptr && bCanMove && bAnimal->GetbIsActive() && !bAnimal->GetbIsDead()){
         RandomMove();
-        wait_time = 0;
         UE_LOG(LogTemp, Warning, TEXT("Call Random Move"));
     }
-    wait_time = (wait_time > 50.0f) ? wait_time : wait_time + 1;
 }
 
 void AAnimalsAIController::OnPossess(APawn* InPawn)
 {
     Super::OnPossess(InPawn);
-    m_Animal = dynamic_cast<AAnimal*>(InPawn);
-    SearchRadius = m_Animal->GetRadius();
-    if(m_Animal == nullptr){
+    bAnimal = dynamic_cast<AAnimal*>(InPawn);
+    bSearchRadius = bAnimal->GetbRadius();
+    if(bAnimal == nullptr){
         UE_LOG(LogTemp, Warning, TEXT("Animal is null"));
     }
 }
 
 void AAnimalsAIController::RandomMove()
 {
-    if(m_Animal == nullptr){
+    if(bAnimal == nullptr){
         UE_LOG(LogTemp, Warning, TEXT("Animal is null"));
         return;
     }
@@ -53,23 +52,21 @@ void AAnimalsAIController::RandomMove()
     }
 
     FNavLocation NavLocation;
-    SearchRadius = m_Animal->GetRadius();
-    bool bLocationValid = NavArea->GetRandomReachablePointInRadius(m_Animal->GetActorLocation(), SearchRadius, NavLocation);
+    bSearchRadius = bAnimal->GetbRadius();
+    bool bLocationValid = NavArea->GetRandomReachablePointInRadius(bAnimal->GetActorLocation(), bSearchRadius, NavLocation);
     if(bLocationValid){
         MoveToLocation(NavLocation.Location);
+        bCanMove = false;
+        GetWorldTimerManager().SetTimer(TimerHandle, this, &AAnimalsAIController::ResetbCanMove, bWaitTime, false);
     }
-}
-
-void AAnimalsAIController::GenerateRandomLocation()
-{
-    FNavLocation Location{};
-    if(m_Animal != nullptr){
-        NavArea->GetRandomReachablePointInRadius(m_Animal->GetActorLocation(), SearchRadius, Location);
-    }
-    RandomLocation = Location.Location;
 }
 
 void AAnimalsAIController::OnMoveCompleted(FAIRequestID RequestID, const FPathFollowingResult& Result)
 {
     Super::OnMoveCompleted(RequestID, Result);
+}
+
+void AAnimalsAIController::ResetbCanMove()
+{
+    bCanMove = true;
 }

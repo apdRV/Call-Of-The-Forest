@@ -79,7 +79,9 @@ AMainPaperCharacter::AMainPaperCharacter()
 void AMainPaperCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-    UpdateCharacterSprite();
+    if(!bIsDead){
+        UpdateCharacterSprite();
+    }
 }
 
 // Called when the game starts or when spawned
@@ -144,6 +146,12 @@ void AMainPaperCharacter::MoveRightLeft(float Value)
 
 void AMainPaperCharacter::Attack()
 {
+    SetAttackAnimation();
+    World->PlayerAttack(GetActorLocation(), CharacterState, this);
+}
+
+void AMainPaperCharacter::SetAttackAnimation()
+{
     bIsAttacking = 20;
     //Change the character state to attack
     if(CharacterState == EMainCharacterState::IdleDown || CharacterState == EMainCharacterState::Down)
@@ -165,9 +173,7 @@ void AMainPaperCharacter::Attack()
     {
         LastMoveDirection = EMainCharacterState::IdleLeft;
         CharacterState = EMainCharacterState::AttackLeft;
-    }
-    World->PlayerAttack(GetActorLocation(), CharacterState, Damage);
-    // CODE FOR ATTACKING
+    }  
 }
 
 void AMainPaperCharacter::UpdateCharacterSprite()
@@ -227,3 +233,12 @@ void AMainPaperCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AAct
     }
 }
 
+float AMainPaperCharacter::GetDamage()
+{
+    return Damage;
+}
+
+EMainCharacterState AMainPaperCharacter::GetCharacterState()
+{
+    return CharacterState;
+}

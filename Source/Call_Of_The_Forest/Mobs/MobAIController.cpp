@@ -9,6 +9,8 @@ AMobAIController::AMobAIController()
     PrimaryActorTick.bCanEverTick = true;
     World = AStaticWorld::GetStaticWorld();
     m_Mob = nullptr;
+    bCanAttack = true;
+    AttackInterval = 1.0f;
     TargetMainCharacter = nullptr;
     if(World == nullptr){
         UE_LOG(LogTemp, Warning, TEXT("World is null"));
@@ -20,8 +22,6 @@ void AMobAIController::BeginPlay()
 
     NavArea = FNavigationSystem::GetCurrent<UNavigationSystemV1>(this);
 
-    bIsMoving = false;
-	
 }
 
 void AMobAIController::Tick(float Delta)
@@ -73,17 +73,18 @@ AMainPaperCharacter* AMobAIController::FindTarget(){
 
 void AMobAIController::TriggerAttack()
 {
-    if(TargetMainCharacter == nullptr)
-    {
-        TargetMainCharacter = FindTarget();
+    if(bCanAttack){
+        if(TargetMainCharacter == nullptr)
+        {
+            TargetMainCharacter = FindTarget();
+        }
+        if(TargetMainCharacter != nullptr)
+        {
+            World->MobIsAttacking(TargetMainCharacter, m_Mob);
+            bCanAttack = false;
+            GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AMobAIController::ResetAttack, AttackInterval, false);
+        }
     }
-    if(TargetMainCharacter != nullptr)
-    {
-        World->MobIsAttacking(TargetMainCharacter, m_Mob);
-    }
-    // UE_LOG(LogTemp, Warning, TEXT("Called TriggerAttack"));
-
-    //m_Mob->Attack();
 }
 
 void AMobAIController::MoveToTarget()
@@ -94,37 +95,17 @@ void AMobAIController::MoveToTarget()
     if(TargetMainCharacter != nullptr && !m_Mob->GetbIsDead()){
         NavArea = FNavigationSystem::GetCurrent<UNavigationSystemV1>(this);
         MoveToActor(TargetMainCharacter, 2.0f);
-        
     } else {
         UE_LOG(LogTemp, Warning, TEXT("No_target_found"));
     }
 }
 
-
-void AMobAIController::GenerateRandomSearchLocation()
-{
-    FNavLocation Location{};
-	if (IsValid(NavArea) && m_Mob)
-	{
-        NavArea->GetRandomReachablePointInRadius(m_Mob->GetActorLocation(), 50.0f, Location);
-		RandomLocation = Location.Location;
-	} 
-}
-
-
-void AMobAIController::SearchForPlayer()
-{
-	if (IsValid(NavArea) && m_Mob && !bIsMoving)
-	{
-		GenerateRandomSearchLocation();
-		bIsMoving = true;
-        MoveToLocation(RandomLocation);
-	}
-}
-
-
 void AMobAIController::OnMoveCompleted(FAIRequestID RequestID, const FPathFollowingResult& Result)
 {
 	Super::OnMoveCompleted(RequestID, Result);
-    bIsMoving = false;
+}
+
+void AMobAIController::ResetAttack()
+{
+    bCanAttack = true;
 }

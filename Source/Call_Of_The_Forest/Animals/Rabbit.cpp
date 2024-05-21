@@ -4,9 +4,9 @@
 #include "Rabbit.h"
 
 ARabbit::ARabbit(){
-    Speed = 50.0f;
-    GetCharacterMovement()->MaxWalkSpeed = Speed;  // Adjust this value as needed
-    Health = 100.0f;
+    bSpeed = 50.0f;
+    GetCharacterMovement()->MaxWalkSpeed = bSpeed;  // Adjust this value as needed
+    bHealth = 100.0f;
     bIsDead = false;
 
     static ConstructorHelpers::FObjectFinder<UPaperFlipbook> LeftDown(TEXT("/Script/Paper2D.PaperFlipbook'/Game/AnimatedSprites/Animals/Rabbit/WalkingLeftDown/LeftDown.LeftDown'"));
@@ -65,11 +65,11 @@ void ARabbit::SetAnimalSprite(EAnimalState AnimalState)
 
 void ARabbit::Die()
 {
-    if(Health <= 0.0f)
+    if(bHealth <= 0.0f)
     {
         bIsDead = true;
         AnimalState = (LastAnimalState == EAnimalState::IdleLeftDown) ? EAnimalState::DieLeftDown : EAnimalState::DieRightUp;
         SetAnimalSprite(AnimalState);
-        SetSpeed(0.0f);
+        SetbSpeed(0.0f);
     }
 }

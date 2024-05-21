@@ -49,23 +49,27 @@ public:
 
 	// Function if npc are attacked
 	UFUNCTION()
-	void MobAttacked(AMob* Mob, float Damage);
+	void MobDestroy(AMob* Mob);
 
 	UFUNCTION()
-	void AnimalAttacked(AAnimal* Animal, float Damage);
+	void AnimalDestroy(AAnimal* Animal);
 
 	UFUNCTION()
-	void PredatorAttacked(APredator* Predator, float Damage);
+	void PredatorDestroy(APredator* Predator);
 
 	UFUNCTION()
-	void TreeAttacked(ATree1* Tree, float Damage);
+	void TreeDestroy(ATree1* Tree);
 
 	//testing attacking from mob to character
 	UFUNCTION()
 	void MobIsAttacking(AMainPaperCharacter* MainCharacter, AMob* Mob);
+
+	UFUNCTION()
+	void PredatorIsAttacking(AMainPaperCharacter* MainCharacter, APredator* Predator);
 	
 	// Attacking
-	void PlayerAttack(FVector PlayerLocation, EMainCharacterState CharacterState, float Damage);
+	void PlayerAttack(FVector PlayerLocation, EMainCharacterState CharacterState, AMainPaperCharacter* Player);
+
 	//property for overlapping character actors
 	UFUNCTION()
 	void AddOverlappingActors(AActor* OtherActor);

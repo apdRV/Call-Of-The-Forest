@@ -59,9 +59,6 @@ public:
   void SetbIsTriggered(bool Value);
 
   UFUNCTION()
-  void Attacked(float Value);
-
-  UFUNCTION()
   bool GetbIsDead();
 
   UFUNCTION()
@@ -75,7 +72,11 @@ public:
 
   UFUNCTION()
   float GetBaseDamage();
+
 protected:
+
+  UFUNCTION()
+  void Attacked(float Value);
 
 	UFUNCTION()
 	void SetupOwner(UPaperFlipbookComponent* m_owner);

@@ -10,7 +10,7 @@ APredator::APredator()
     // Default Properties
     Speed = 60.0f;
     Health = 100.0f;
-    Damage = 20.0f;
+    Damage = 10.0f;
     bIsDead = false;
     bIsAttacking = false;
     bIsTriggered = false;
@@ -113,6 +113,11 @@ void APredator::Attack()
     
 }
 
+float APredator::GetDamage()
+{
+    return Damage;
+}
+
 void APredator::Die()
 {
 }
@@ -156,4 +161,14 @@ float APredator::GetRadius()
 void APredator::SetRadius(float Value)
 {
     bRadius = Value;
+}
+
+EPredatorState APredator::GetPredatorState()
+{
+    return PredatorState;
+}
+
+void APredator::SetPredatorState(EPredatorState NewState)
+{
+    PredatorState = NewState;
 }

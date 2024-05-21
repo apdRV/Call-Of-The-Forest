@@ -22,7 +22,7 @@ AMob::AMob()
 
     Health = 100.0f;
     MaxHealth = 100.0f;
-    BaseDamage = 1.0f;
+    BaseDamage = 20.0f;
     Speed = 40.0f;
     bIsTriggered = false;
     bRadius = 100.0f;

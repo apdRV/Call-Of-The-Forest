@@ -51,24 +51,22 @@ public:
 	bool GetbIsAttacked();
 
 	UFUNCTION()
-	void Attacked(float Value);
-
-	UFUNCTION()
-	void SetupOwner(UPaperFlipbookComponent* m_owner);
-
-	UFUNCTION()
 	bool GetbIsDead();
 
 	UFUNCTION()
-	float GetRadius();
+	float GetbRadius();
 
 	UFUNCTION()
-	void SetRadius(float Value);
+	void SetbRadius(float Value);
 
 	UFUNCTION()
-	void SetSpeed(float Value);
+	void SetbSpeed(float Value);
+
+	UFUNCTION()
+	void SetupOwner(UPaperFlipbookComponent* bOwner);
 
 protected:
+
 	UPROPERTY()
 	EAnimalState AnimalState;
 
@@ -76,16 +74,10 @@ protected:
 	EAnimalState LastAnimalState;
 
 	UPROPERTY()
-	UPaperFlipbookComponent* AnimalFlipbookComponent;
+	float bSpeed;
 
 	UPROPERTY()
-	AStaticWorld* World;
-
-	UPROPERTY()
-	float Speed;
-
-	UPROPERTY()
-	float Health;
+	float bHealth;
 
 	UPROPERTY()
 	bool bIsDead;
@@ -99,8 +91,11 @@ protected:
 	UPROPERTY()
 	float bRadius;
 
-	UFUNCTION()
-	virtual void Die();
+	UPROPERTY()
+	UPaperFlipbookComponent* AnimalFlipbookComponent;
+
+	UPROPERTY()
+	AStaticWorld* World;
 
 	UFUNCTION()
 	virtual void UpdateAnimalSprite();
@@ -108,8 +103,15 @@ protected:
 	UFUNCTION()
 	void UpdateAnimalState();
 
+	UFUNCTION()
+	void Attacked(float Value);
+
+	UFUNCTION()
+	virtual void Die();
+
 private:
+
 	//Access to protected members for attacking system
 	friend class AttackedActor; 
-	
+	friend class AttackingActor;
 };

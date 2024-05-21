@@ -8,7 +8,7 @@
 #include "ResourcesSpawner.h"
 
 AStaticWorld* AStaticWorld::World = nullptr;
-AStaticWorld::AStaticWorld() : ClassToMakeDamage(), ClassToGetDamage()
+AStaticWorld::AStaticWorld()
 {
 	if (World == nullptr){
 		World = this;
@@ -19,11 +19,8 @@ AStaticWorld::~AStaticWorld()
 {
 	World = nullptr;
 }
-void AStaticWorld::TreeAttacked(ATree1* Tree, float Damage){
-	if(Tree == nullptr){
-		return;
-	}
-	//Tree->Attacked();
+void AStaticWorld::TreeDestroy(ATree1* Tree)
+{
 	FVector Location = Tree->GetActorLocation();
 	Location.X += 10;
 	Location.Z -= 0.4;
@@ -47,218 +44,122 @@ void AStaticWorld::TreeAttacked(ATree1* Tree, float Damage){
 	}
 }
 
-void AStaticWorld::MobAttacked(AMob* Mob, float Damage)
+void AStaticWorld::MobDestroy(AMob* Mob)
 {
-	if(Mob == nullptr){
-		return;
-	}
-	Mob->Attacked(Damage);
-	if(Mob->GetbIsDead())
+	float DelayBeforeDestroy = 1.5f;
+	FTimerHandle TimerHandle;
+	GetWorldTimerManager().SetTimer(TimerHandle, [Mob, this]()
 	{
-		float DelayBeforeDestroy = 1.5f;
-		FTimerHandle TimerHandle;
-		GetWorldTimerManager().SetTimer(TimerHandle, [Mob, this]()
-		{
-			FVector Location = Mob->GetActorLocation();
-			Location.X += 10;
-			Location.Z -= 0.4;
-			FRotator Rotation = {0, 0, 0};
-			FActorSpawnParameters SpawnParams;
-			SpawnParams.bNoFail = true;
-			SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+		FVector Location = Mob->GetActorLocation();
+		Location.X += 10;
+		Location.Z -= 0.4;
+		FRotator Rotation = {0, 0, 0};
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.bNoFail = true;
+		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
-			auto iter = std::find(Actors["Mob"].begin(), Actors["Mob"].end(), Mob);
-			if(iter != Actors["Mob"].end())
-			{
-				Actors["Mob"].erase(iter);
-				UE_LOG(LogTemp, Warning, TEXT("Mob deleted"));
-			}
-			Mob->Destroy();
-			AResourcesSpawner* ResourceSpawner = dynamic_cast<AResourcesSpawner*>(Actors["ResourcesSpawner"][0]);
-			if(ResourceSpawner != nullptr)
-			{
-				ResourceSpawner->SpawnResource(Location, Rotation, SpawnParams, EResourceType::Trophy);
-			}
-		}, DelayBeforeDestroy, false); 
-	}
+		auto iter = std::find(Actors["Mob"].begin(), Actors["Mob"].end(), Mob);
+		if(iter != Actors["Mob"].end())
+		{
+			Actors["Mob"].erase(iter);
+			UE_LOG(LogTemp, Warning, TEXT("Mob deleted"));
+		}
+		Mob->Destroy();
+		AResourcesSpawner* ResourceSpawner = dynamic_cast<AResourcesSpawner*>(Actors["ResourcesSpawner"][0]);
+		if(ResourceSpawner != nullptr)
+		{
+			ResourceSpawner->SpawnResource(Location, Rotation, SpawnParams, EResourceType::Trophy);
+		}
+	}, DelayBeforeDestroy, false); 
 }
 
-void AStaticWorld::AnimalAttacked(AAnimal* Animal, float Damage)
+void AStaticWorld::AnimalDestroy(AAnimal* Animal)
 {
-	if(Animal == nullptr){
-		return;
-	}
-	Animal->Attacked(Damage);
-	if(Animal->GetbIsDead())
+	float DelayBeforeDestroy = 1.5f;
+	FTimerHandle TimerHandle;
+	GetWorldTimerManager().SetTimer(TimerHandle, [Animal, this]()
 	{
-		float DelayBeforeDestroy = 1.5f;
-		FTimerHandle TimerHandle;
-		GetWorldTimerManager().SetTimer(TimerHandle, [Animal, this]()
+		FVector Location = Animal->GetActorLocation();
+		Location.X += 10;
+		Location.Z -= 0.4;
+		FRotator Rotation = {0, 0, 0};
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.bNoFail = true;
+		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+		auto iter = std::find(Actors["Animal"].begin(), Actors["Animal"].end(), Animal);
+		if(iter != Actors["Animal"].end())
 		{
-			FVector Location = Animal->GetActorLocation();
-			Location.X += 10;
-			Location.Z -= 0.4;
-			FRotator Rotation = {0, 0, 0};
-			FActorSpawnParameters SpawnParams;
-			SpawnParams.bNoFail = true;
-			SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+			Actors["Animal"].erase(iter);
+			UE_LOG(LogTemp, Warning, TEXT("Animal deleted"));
+		}
 
-			auto iter = std::find(Actors["Animal"].begin(), Actors["Animal"].end(), Animal);
-			if(iter != Actors["Animal"].end())
-			{
-				Actors["Animal"].erase(iter);
-				UE_LOG(LogTemp, Warning, TEXT("Animal deleted"));
-			}
-
-			Animal->Destroy();
-			AResourcesSpawner* ResourceSpawner = dynamic_cast<AResourcesSpawner*>(Actors["ResourcesSpawner"][0]);
-			if(ResourceSpawner != nullptr)
-			{
-				ResourceSpawner->SpawnResource(Location, Rotation, SpawnParams, EResourceType::Meat);
-			}
-		}, DelayBeforeDestroy, false); 
-	}
+		Animal->Destroy();
+		AResourcesSpawner* ResourceSpawner = dynamic_cast<AResourcesSpawner*>(Actors["ResourcesSpawner"][0]);
+		if(ResourceSpawner != nullptr)
+		{
+			ResourceSpawner->SpawnResource(Location, Rotation, SpawnParams, EResourceType::Meat);
+		}
+	}, DelayBeforeDestroy, false); 
 }
 
-void AStaticWorld::PredatorAttacked(APredator* Predator, float Damage)
+void AStaticWorld::PredatorDestroy(APredator* Predator)
 {
-	if(Predator == nullptr){
-		return;
-	}
-	Predator->Attacked(Damage);
-	if(Predator->GetbIsDead())
+	float DelayBeforeDestroy = 1.5f;
+	FTimerHandle TimerHandle;
+	GetWorldTimerManager().SetTimer(TimerHandle, [Predator, this]()
 	{
-		float DelayBeforeDestroy = 1.5f;
-		FTimerHandle TimerHandle;
-		GetWorldTimerManager().SetTimer(TimerHandle, [Predator, this]()
+		FVector Location = Predator->GetActorLocation();
+		Location.X += 10;
+		Location.Z -= 0.4;
+		FRotator Rotation = {0, 0, 0};
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.bNoFail = true;
+		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+		auto iter = std::find(Actors["Predator"].begin(), Actors["Predator"].end(), Predator);
+		if(iter != Actors["Predator"].end())
 		{
-			FVector Location = Predator->GetActorLocation();
-			Location.X += 10;
-			Location.Z -= 0.4;
-			FRotator Rotation = {0, 0, 0};
-			FActorSpawnParameters SpawnParams;
-			SpawnParams.bNoFail = true;
-			SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+			Actors["Predator"].erase(iter);
+			UE_LOG(LogTemp, Warning, TEXT("Predator deleted"));
+		}
 
-			auto iter = std::find(Actors["Predator"].begin(), Actors["Predator"].end(), Predator);
-			if(iter != Actors["Predator"].end())
-			{
-				Actors["Predator"].erase(iter);
-				UE_LOG(LogTemp, Warning, TEXT("Predator deleted"));
-			}
-
-			Predator->Destroy();
-			AResourcesSpawner* ResourceSpawner = dynamic_cast<AResourcesSpawner*>(Actors["ResourcesSpawner"][0]);
-			if(ResourceSpawner != nullptr)
-			{
-				ResourceSpawner->SpawnResource(Location, Rotation, SpawnParams, EResourceType::Meat);
-			}
-		}, DelayBeforeDestroy, false); 
-	}
+		Predator->Destroy();
+		AResourcesSpawner* ResourceSpawner = dynamic_cast<AResourcesSpawner*>(Actors["ResourcesSpawner"][0]);
+		if(ResourceSpawner != nullptr)
+		{
+			ResourceSpawner->SpawnResource(Location, Rotation, SpawnParams, EResourceType::Meat);
+		}
+	}, DelayBeforeDestroy, false); 
 }
 
-void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState CharacterState, float Damage)
+void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState CharacterState, AMainPaperCharacter* Player)
 {
 	std::unique_lock lock(m_mutex);
 	for(int32 i = 0; i < OverlappingActors.Num(); i++)
 	{
 		auto Actor = OverlappingActors[i];
-		if(Actor != nullptr)
+		ClassToMakeDamage.MainPlayerAttack(Player, Actor);
+		AMob* Mob = dynamic_cast<AMob*>(Actor);
+		AAnimal* Animal = dynamic_cast<AAnimal*>(Actor);
+		APredator* Predator = dynamic_cast<APredator*>(Actor);
+		ATree1* Tree = dynamic_cast<ATree1*>(Actor);
+		if(Mob != nullptr && Mob->GetbIsDead())
 		{
-			if(abs(Actor->GetActorLocation().X - PlayerLocation.X) > 100 || abs(Actor->GetActorLocation().Y - PlayerLocation.Y) > 100)
-			{
-				continue;
-			}
-			AMob* Mob = dynamic_cast<AMob*>(Actor);
-			AAnimal* Animal = dynamic_cast<AAnimal*>(Actor);
-			APredator* Predator = dynamic_cast<APredator*>(Actor);
-			ATree1* Tree = dynamic_cast<ATree1*>(Actor);
-			switch(CharacterState)
-			{
-				case EMainCharacterState::AttackDown:
-					if (Actor->GetActorLocation().X < PlayerLocation.X && abs(PlayerLocation.X - Actor->GetActorLocation().X) <= 30 && std::abs(Actor->GetActorLocation().Y - PlayerLocation.Y) <= 30)
-					{
-						if(Mob != nullptr)
-						{
-							MobAttacked(Mob, Damage);
-						}
-						else if(Animal != nullptr)
-						{
-							AnimalAttacked(Animal, Damage);
-						}
-						else if(Predator != nullptr)
-						{
-							PredatorAttacked(Predator, Damage);
-						}
-						else if(Tree != nullptr)
-						{
-							TreeAttacked(Tree, Damage);
-						}
-					}
-					break;
-				case EMainCharacterState::AttackUp:
-					if (Actor->GetActorLocation().X > PlayerLocation.X && Actor->GetActorLocation().X - PlayerLocation.X <= 30 && std::abs(Actor->GetActorLocation().Y - PlayerLocation.Y) <= 30){
-						if(Mob != nullptr)
-						{
-							MobAttacked(Mob, Damage);
-						}
-						else if(Animal != nullptr)
-						{
-							AnimalAttacked(Animal, Damage);
-						}
-						else if(Predator != nullptr)
-						{
-							PredatorAttacked(Predator, Damage);
-						}
-						else if(Tree != nullptr)
-						{
-							TreeAttacked(Tree, Damage);
-						}
-					}
-					break;
-				case EMainCharacterState::AttackRight:
-					if (Actor->GetActorLocation().Y > PlayerLocation.Y && Actor->GetActorLocation().Y - PlayerLocation.Y <= 30 && std::abs(PlayerLocation.X - Actor->GetActorLocation().X) <= 30 /*&& PlayerLocation.X > Actor->GetActorLocation().X*/){
-						if(Mob != nullptr)
-						{
-							MobAttacked(Mob, Damage);
-						}
-						else if(Animal != nullptr)
-						{
-							AnimalAttacked(Animal, Damage);
-						}
-						else if(Predator != nullptr)
-						{
-							PredatorAttacked(Predator, Damage);
-						}
-						else if(Tree != nullptr)
-						{
-							TreeAttacked(Tree, Damage);
-						}
-					}
-					break;
-				case EMainCharacterState::AttackLeft:
-					if (Actor->GetActorLocation().Y < PlayerLocation.Y && PlayerLocation.Y - Actor->GetActorLocation().Y <= 30 && std::abs(PlayerLocation.X - Actor->GetActorLocation().X) <= 30 /*&& PlayerLocation.X > Actor->GetActorLocation().X*/){
-						if(Mob != nullptr)
-						{
-							MobAttacked(Mob, Damage);
-						}
-						else if(Animal != nullptr)
-						{
-							AnimalAttacked(Animal, Damage);
-						}
-						else if(Predator != nullptr)
-						{
-							PredatorAttacked(Predator, Damage);
-						}
-						else if(Tree != nullptr)
-						{
-							TreeAttacked(Tree, Damage);
-						}
-					}
-					break;
-			}
+			MobDestroy(Mob);
 		}
-
+		else if(Animal != nullptr && Animal->GetbIsDead())
+		{
+			AnimalDestroy(Animal);
+		}
+		else if(Predator != nullptr && Predator->GetbIsDead())
+		{
+			PredatorDestroy(Predator);
+		}
+		else if(Tree != nullptr && Tree->GetbIsDead())
+		{
+			TreeDestroy(Tree);
+		}
 	}
 
 }
@@ -315,7 +216,13 @@ void AStaticWorld::MobIsAttacking(AMainPaperCharacter* MainCharacter, AMob* Mob)
 	if(FVector::Dist(MainCharacter->GetActorLocation(), Mob->GetActorLocation()) <= 100.0f)
 	{
 		ClassToMakeDamage.MakeDamage(Mob, MainCharacter);
-		// UE_LOG(LogTemp, Warning, TEXT("Called Damage"));
 	}
-	// UE_LOG(LogTemp, Warning, TEXT("Called mobIsAttacking"));
+}
+
+void AStaticWorld::PredatorIsAttacking(AMainPaperCharacter* MainCharacter, APredator* Predator)
+{
+	if(FVector::Dist(MainCharacter->GetActorLocation(), Predator->GetActorLocation()) <= 100.0f)
+	{
+		ClassToMakeDamage.MakeDamage(Predator, MainCharacter);
+	}
 }

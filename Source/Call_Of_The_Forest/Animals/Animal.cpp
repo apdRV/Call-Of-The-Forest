@@ -6,8 +6,8 @@
 AAnimal::AAnimal(){
     PrimaryActorTick.bCanEverTick = true;
 
-    Speed = 0.05f;
-    Health = 100.0f;
+    bSpeed = 0.05f;
+    bHealth = 100.0f;
     bIsDead = false;
     bIsAttacked = false;
     bIsActive = false;
@@ -65,33 +65,17 @@ void AAnimal::BeginPlay()
     Super::BeginPlay();
 }
 
-void AAnimal::SetupOwner(UPaperFlipbookComponent *m_owner)
-{
-    AnimalFlipbookComponent = m_owner;
-}
-
-
 void AAnimal::UpdateAnimalSprite()
 {
 }
 
-bool AAnimal::GetbIsActive()
-{
-    return bIsActive;
-}
-
-void AAnimal::SetbIsActive(bool Value)
-{
-    bIsActive = Value;
-}
-
 void AAnimal::Attacked(float Value)
 {
-    Health -= Value;
+    bHealth -= Value;
     bIsAttacked = true;
-    SetSpeed(100.0f);
-    SetRadius(400.0f);
-    if(Health <= 0.0f)
+    SetbSpeed(100.0f);
+    SetbRadius(400.0f);
+    if(bHealth <= 0.0f)
     {
         Die();
     }
@@ -115,6 +99,22 @@ void AAnimal::UpdateAnimalState()
 
 void AAnimal::Die()
 {
+    
+}
+
+bool AAnimal::GetbIsActive()
+{
+    return bIsActive;
+}
+
+void AAnimal::SetbIsActive(bool Value)
+{
+    bIsActive = Value;
+}
+
+bool AAnimal::GetbIsAttacked()
+{
+    return bIsAttacked;
 }
 
 bool AAnimal::GetbIsDead()
@@ -122,23 +122,23 @@ bool AAnimal::GetbIsDead()
     return bIsDead;
 }
 
-void AAnimal::SetSpeed(float Value)
-{
-    Speed = Value;
-    GetCharacterMovement()->MaxWalkSpeed = Speed;
-}
-
-float AAnimal::GetRadius()
+float AAnimal::GetbRadius()
 {
     return bRadius;
 }
 
-void AAnimal::SetRadius(float Value)
+void AAnimal::SetbRadius(float Value)
 {
     bRadius = Value;
 }
 
-bool AAnimal::GetbIsAttacked()
+void AAnimal::SetbSpeed(float Value)
 {
-    return bIsAttacked;
+    bSpeed = Value;
+    GetCharacterMovement()->MaxWalkSpeed = bSpeed;
+}
+
+void AAnimal::SetupOwner(UPaperFlipbookComponent *bOwner)
+{
+    AnimalFlipbookComponent = bOwner;
 }

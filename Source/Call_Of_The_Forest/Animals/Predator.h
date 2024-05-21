@@ -51,6 +51,9 @@ public:
 	virtual void Die();
 
 	UFUNCTION()
+	float GetDamage();
+
+	UFUNCTION()
   	bool GetbIsActive();
 
   	UFUNCTION()
@@ -73,6 +76,12 @@ public:
 
 	UFUNCTION()
 	void SetSpeed(float Value);
+
+	UFUNCTION()
+	EPredatorState GetPredatorState();
+
+	UFUNCTION()
+	void SetPredatorState(EPredatorState NewState);
 
 
 protected:

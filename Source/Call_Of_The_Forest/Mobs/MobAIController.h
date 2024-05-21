@@ -31,6 +31,15 @@ protected:
 
 private:
   UPROPERTY()
+  FTimerHandle TimerHandle;
+
+  UPROPERTY()
+  bool bCanAttack;
+
+  UPROPERTY()
+  float AttackInterval;
+
+  UPROPERTY()
   class AStaticWorld *World;
 
   UPROPERTY()
@@ -40,19 +49,7 @@ private:
   class AMob *m_Mob;
 
   UPROPERTY()
-  bool bIsMoving;
-
-  UPROPERTY()
   class UNavigationSystemV1* NavArea;
-
-  UPROPERTY()
-  FVector RandomLocation = FVector();
-
-  UFUNCTION(BlueprintCallable, Category = "Moving")
-	void GenerateRandomSearchLocation();
-
-  UFUNCTION(BlueprintCallable, Category = "Moving")
-	void SearchForPlayer();
 
   UFUNCTION(BlueprintCallable, Category = "Moving")
   AMainPaperCharacter* FindTarget();
@@ -62,5 +59,8 @@ private:
 
   UFUNCTION(BlueprintCallable, Category = "Moving")
   void MoveToTarget();
+
+  UFUNCTION()
+  void ResetAttack();
 
 };

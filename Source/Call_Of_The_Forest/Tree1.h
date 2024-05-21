@@ -9,6 +9,7 @@
 #include "PaperSprite.h"
 #include "PaperSpriteComponent.h"
 #include "World/StaticWorld.h"
+#include "World/AttackedDerivedDeclaration.h"
 #include "Tree1.generated.h"
 
 
@@ -24,6 +25,24 @@ class CALL_OF_THE_FOREST_API ATree1: public APaperFlipbookActor
 
   UPROPERTY()
   AStaticWorld* World; 
+  UPROPERTY()
+  bool bIsDead;
+  UPROPERTY()
+  float Health;
+
+  UFUNCTION()
+  void Attacked(float Damage)
+  {
+      Health -= Damage;
+      if (Health <= 0)
+      {
+          bIsDead = true;
+      }
+  }
+
+    friend class AttackingActor;
+    friend class AttackedActor;
+  
   public:
   ATree1() {
       TreeComponent = CreateDefaultSubobject<UPaperFlipbookComponent>(FName("tree"));
@@ -37,6 +56,8 @@ class CALL_OF_THE_FOREST_API ATree1: public APaperFlipbookActor
       TreeComponent->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
       TreeComponent->CanCharacterStepUpOn = ECB_No;
       SetRootComponent(TreeComponent);
+      bIsDead = false;
+      Health = 100;
       World = AStaticWorld::GetStaticWorld();
   }
 
@@ -45,7 +66,10 @@ class CALL_OF_THE_FOREST_API ATree1: public APaperFlipbookActor
       World->AddActor("Tree", this);
   }
 
-  void Attacked(){
+  UFUNCTION()
+  float GetbIsDead()
+  {
+      return bIsDead;
   }
 };
 

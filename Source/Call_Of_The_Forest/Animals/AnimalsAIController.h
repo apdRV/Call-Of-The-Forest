@@ -34,13 +34,19 @@ private:
 	class AStaticWorld *World;
 
 	UPROPERTY()
-	class AAnimal *m_Animal;
-	
-	UPROPERTY()
-	int wait_time;
+	class AAnimal *bAnimal;
 
 	UPROPERTY()
-	float SearchRadius;
+	bool bCanMove;
+
+	UPROPERTY()
+	float bWaitTime;
+
+	UPROPERTY()
+    FTimerHandle TimerHandle;
+
+	UPROPERTY()
+	float bSearchRadius;
 
 	UPROPERTY()
 	class UNavigationSystemV1* NavArea;
@@ -48,14 +54,12 @@ private:
 	UPROPERTY()
 	FVector RandomLocation = FVector();
 
-	UFUNCTION(BlueprintCallable, Category = "Moving")
-	void GenerateRandomLocation();
-
-
-	UFUNCTION(BlueprintCallable, Category = "Moving")
+	UFUNCTION()
 	void RandomMove();
 
+	UFUNCTION()
+	void ResetbCanMove();
+
 	void OnMoveCompleted(FAIRequestID RequestID, const FPathFollowingResult& Result) override;
-private:
-    FTimerHandle TimerHandle;
+
 };

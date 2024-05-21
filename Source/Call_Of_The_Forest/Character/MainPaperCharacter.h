@@ -27,6 +27,12 @@ public:
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	UFUNCTION()
+	float GetDamage();
+
+	UFUNCTION()
+	EMainCharacterState GetCharacterState();
+
 protected:
     UPROPERTY()
 	AStaticWorld* World;
@@ -90,6 +96,9 @@ protected:
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Animation)
     class UMainCharacterSpriteComponent* MainCharacterSpriteComponent;
+
+	UFUNCTION()
+	void SetAttackAnimation();
 
 private:
 	UPROPERTY(VisibleAnywhere)
