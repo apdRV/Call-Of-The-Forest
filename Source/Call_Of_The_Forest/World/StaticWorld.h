@@ -47,19 +47,6 @@ public:
 		return std::vector<AActor*>();
 	}
 
-	// Function if npc are attacked
-	UFUNCTION()
-	void MobDestroy(AMob* Mob);
-
-	UFUNCTION()
-	void AnimalDestroy(AAnimal* Animal);
-
-	UFUNCTION()
-	void PredatorDestroy(APredator* Predator);
-
-	UFUNCTION()
-	void TreeDestroy(ATree1* Tree);
-
 	//testing attacking from mob to character
 	UFUNCTION()
 	void MobIsAttacking(AMainPaperCharacter* MainCharacter, AMob* Mob);
@@ -76,7 +63,22 @@ public:
 
 	UFUNCTION()
 	void DeleteOverlappingActors(AActor* OtherActor);
+
 private:
+
+	// Function if npc are attacked
+	UFUNCTION()
+	void MobDestroy(AMob* Mob);
+
+	UFUNCTION()
+	void AnimalDestroy(AAnimal* Animal);
+
+	UFUNCTION()
+	void PredatorDestroy(APredator* Predator);
+
+	UFUNCTION()
+	void TreeDestroy(ATree1* Tree);
+	
 	UPROPERTY()
     TArray<AActor*> OverlappingActors;
 	std::map<std::string, std::vector<AActor*>> Actors;

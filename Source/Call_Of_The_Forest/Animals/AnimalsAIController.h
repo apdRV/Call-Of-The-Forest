@@ -51,9 +51,6 @@ private:
 	UPROPERTY()
 	class UNavigationSystemV1* NavArea;
 
-	UPROPERTY()
-	FVector RandomLocation = FVector();
-
 	UFUNCTION()
 	void RandomMove();
 

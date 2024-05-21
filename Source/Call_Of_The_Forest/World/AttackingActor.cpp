@@ -15,32 +15,32 @@ void AttackingActor::MakeDamage(AActor* AttackingActor, AActor* AttackedActor)
     AMainPaperCharacter* MainCharacterAttacked = dynamic_cast<AMainPaperCharacter*>(AttackedActor);
     if(MainCharacterAttacked != nullptr && MobAttacking != nullptr)
     {
-        if((MobAttacking->GetMobState() == EMobState::IdleLeftDown || MobAttacking->GetMobState() == EMobState::LeftDown) && MainCharacterAttacked->GetActorLocation().Y <= MobAttacking->GetActorLocation().Y && 
-        (MobAttacking->GetActorLocation().Y - MainCharacterAttacked->GetActorLocation().Y) <= 30.0f && FMath::Abs(MobAttacking->GetActorLocation().X - MainCharacterAttacked->GetActorLocation().X) <= 30.0f)
+        if((MobAttacking->GetMobState() == EMobState::IdleLeftDown || MobAttacking->GetMobState() == EMobState::LeftDown || MobAttacking->GetMobState() == EMobState::AttackLeftDown) && MainCharacterAttacked->GetActorLocation().Y <= MobAttacking->GetActorLocation().Y && 
+        (MobAttacking->GetActorLocation().Y - MainCharacterAttacked->GetActorLocation().Y) <= 35.0f && FMath::Abs(MobAttacking->GetActorLocation().X - MainCharacterAttacked->GetActorLocation().X) <= 35.0f)
         {
-            MobAttacking->SetMobState(EMobState::AttackLeftDown);
+            MobAttacking->SetAttackAnimation();
             MainCharacterAttacked->Attacked(MobAttacking->GetBaseDamage());
         }
-        else if((MobAttacking->GetMobState() == EMobState::IdleRightUp || MobAttacking->GetMobState() == EMobState::RightUp) && MainCharacterAttacked->GetActorLocation().Y >= MobAttacking->GetActorLocation().Y && 
-        (MainCharacterAttacked->GetActorLocation().Y - MobAttacking->GetActorLocation().Y) <= 30.0f && FMath::Abs(MobAttacking->GetActorLocation().X - MainCharacterAttacked->GetActorLocation().X) <= 30.0f)
+        else if((MobAttacking->GetMobState() == EMobState::IdleRightUp || MobAttacking->GetMobState() == EMobState::RightUp || MobAttacking->GetMobState() == EMobState::AttackRightUp) && MainCharacterAttacked->GetActorLocation().Y >= MobAttacking->GetActorLocation().Y && 
+        (MainCharacterAttacked->GetActorLocation().Y - MobAttacking->GetActorLocation().Y) <= 35.0f && FMath::Abs(MobAttacking->GetActorLocation().X - MainCharacterAttacked->GetActorLocation().X) <= 35.0f)
         {
-            MobAttacking->SetMobState(EMobState::AttackRightUp);
+            MobAttacking->SetAttackAnimation();
             MainCharacterAttacked->Attacked(MobAttacking->GetBaseDamage());
         }
     }
     else if(MainCharacterAttacked != nullptr && PredatorAttacking != nullptr)
     {
         if((PredatorAttacking->GetPredatorState() == EPredatorState::IdleLeftDown || PredatorAttacking->GetPredatorState() == EPredatorState::LeftDown) && MainCharacterAttacked->GetActorLocation().Y <= PredatorAttacking->GetActorLocation().Y && 
-        (PredatorAttacking->GetActorLocation().Y - MainCharacterAttacked->GetActorLocation().Y) <= 30.0f && FMath::Abs(PredatorAttacking->GetActorLocation().X - MainCharacterAttacked->GetActorLocation().X) <= 30.0f)
+        (PredatorAttacking->GetActorLocation().Y - MainCharacterAttacked->GetActorLocation().Y) <= 35.0f && FMath::Abs(PredatorAttacking->GetActorLocation().X - MainCharacterAttacked->GetActorLocation().X) <= 35.0f)
         {
-            PredatorAttacking->SetPredatorState(EPredatorState::AttackingLeftDown);
-            MainCharacterAttacked->Attacked(PredatorAttacking->GetDamage());
+            PredatorAttacking->SetAttackAnimation();
+            MainCharacterAttacked->Attacked(PredatorAttacking->GetbDamage());
         }
         else if((PredatorAttacking->GetPredatorState() == EPredatorState::IdleRightUp || PredatorAttacking->GetPredatorState() == EPredatorState::RightUp) && MainCharacterAttacked->GetActorLocation().Y >= PredatorAttacking->GetActorLocation().Y && 
-        (MainCharacterAttacked->GetActorLocation().Y - PredatorAttacking->GetActorLocation().Y) <= 30.0f && FMath::Abs(PredatorAttacking->GetActorLocation().X - MainCharacterAttacked->GetActorLocation().X) <= 30.0f)
+        (MainCharacterAttacked->GetActorLocation().Y - PredatorAttacking->GetActorLocation().Y) <= 35.0f && FMath::Abs(PredatorAttacking->GetActorLocation().X - MainCharacterAttacked->GetActorLocation().X) <= 35.0f)
         {
-            PredatorAttacking->SetPredatorState(EPredatorState::AttackingRightUp);
-            MainCharacterAttacked->Attacked(PredatorAttacking->GetDamage());
+            PredatorAttacking->SetAttackAnimation();
+            MainCharacterAttacked->Attacked(PredatorAttacking->GetbDamage());
         }
     }
 }

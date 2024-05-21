@@ -15,13 +15,19 @@ class CALL_OF_THE_FOREST_API AFox : public APredator
 	GENERATED_BODY()
 public:
 	AFox();
-	virtual void BeginPlay() override;
-	virtual void Tick(float DeltaTime) override;
-	virtual void UpdatePredatorSprite() override;
-	virtual void Die() override;
-	void SetPredatorSprite(EPredatorState PredatorState);
 
-protected:
+	virtual void BeginPlay() override;
+
+	virtual void Tick(float DeltaTime) override;
+
+private:
+
+	virtual void UpdatePredatorSprite() override;
+
+	virtual void Die() override;
+
+	void SetPredatorSprite(EPredatorState PredatorState);
+	
 	UPROPERTY()
 	TMap<EPredatorState, UPaperFlipbook*> DirectionToFoxSprite;
 	

@@ -15,13 +15,19 @@ class CALL_OF_THE_FOREST_API ABear : public APredator
 	GENERATED_BODY()
 public:
 	ABear();
+
 	virtual void BeginPlay() override;
+
 	virtual void Tick(float DeltaTime) override;
+
+private:
+
 	virtual void UpdatePredatorSprite() override;
-	virtual void Die() override;
+
 	void SetPredatorSprite(EPredatorState PredatorState);
 
-protected:
+	virtual void Die() override;
+	
 	UPROPERTY()
 	TMap<EPredatorState, UPaperFlipbook*> DirectionToBearSprite;
 

@@ -16,7 +16,7 @@ AMainPaperCharacter::AMainPaperCharacter()
     // Default character properties
 	bIsMoving = false;
     bIsDead = false;
-    bIsAttacking = 0;
+    bIsAttacking = false;
     Damage = 50.0f;
     Health = 100.0f;
     CharacterState = EMainCharacterState::IdleDown;
@@ -152,7 +152,7 @@ void AMainPaperCharacter::Attack()
 
 void AMainPaperCharacter::SetAttackAnimation()
 {
-    bIsAttacking = 20;
+    bIsAttacking = true;
     //Change the character state to attack
     if(CharacterState == EMainCharacterState::IdleDown || CharacterState == EMainCharacterState::Down)
     {
@@ -173,14 +173,27 @@ void AMainPaperCharacter::SetAttackAnimation()
     {
         LastMoveDirection = EMainCharacterState::IdleLeft;
         CharacterState = EMainCharacterState::AttackLeft;
-    }  
+    }
+    if(!bIsDead)
+    {
+        MainCharacterSpriteComponent->UpdateSprite(CharacterState);
+    }
+    GetWorldTimerManager().SetTimer(AttackTimerHandle, this, &AMainPaperCharacter::EndAttackAnimation, 0.4f, false);
+}
+
+void AMainPaperCharacter::EndAttackAnimation()
+{
+    CharacterState = LastMoveDirection;
+    bIsAttacking = false;
+    UpdateCharacterSprite();
+
 }
 
 void AMainPaperCharacter::UpdateCharacterSprite()
 {
-    if((bIsAttacking != 0) && (!bIsDead))
+    if((bIsAttacking) && (!bIsDead))
     {
-        bIsAttacking--;
+        return;
     }
     else if(Health <= 0.0f){
         Die();

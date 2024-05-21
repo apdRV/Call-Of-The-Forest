@@ -12,6 +12,7 @@
 #include "Components/SphereComponent.h"
 #include "PaperCharacter.h"
 #include "../World/AttackedDerivedDeclaration.h"
+#include "Engine/EngineTypes.h"
 #include "Mob.generated.h"
 
 /**
@@ -103,7 +104,7 @@ protected:
   bool bIsDead;
 
   UPROPERTY(EditAnywhere, Category = "State")
-  uint8 bIsAttacking;
+  bool bIsAttacking;
 
   UPROPERTY(EditAnywhere, Category = "State")
   bool bIsMoving;
@@ -134,6 +135,15 @@ protected:
 
   UFUNCTION()
   virtual void SetMobSprite(EMobState NewMobState);
+
+  UFUNCTION()
+  void SetAttackAnimation();
+
+  UFUNCTION()
+  void EndAttackAnimation();
+
+	UPROPERTY()
+  FTimerHandle AttackTimerHandle;
 
 	UPROPERTY()
 	UPaperFlipbookComponent* MobFlipbookComponent;

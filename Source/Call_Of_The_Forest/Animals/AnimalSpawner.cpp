@@ -7,7 +7,7 @@
 AAnimalSpawner::AAnimalSpawner()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 }
 
@@ -16,8 +16,8 @@ void AAnimalSpawner::BeginPlay()
 {
 	Super::BeginPlay();
 	SpawnAnimals();
-	
 }
+
 EAnimalType AAnimalSpawner::GenerateRandomAnimal()
 {
     int32 Animal_type = FMath::RandRange(1, 6);
@@ -44,6 +44,7 @@ EAnimalType AAnimalSpawner::GenerateRandomAnimal()
     }
 
 }
+
 void AAnimalSpawner::SpawnAnimals()
 {
     FRotator Rotation(0, 0, 0);

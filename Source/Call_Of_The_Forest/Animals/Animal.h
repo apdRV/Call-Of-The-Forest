@@ -98,10 +98,10 @@ protected:
 	AStaticWorld* World;
 
 	UFUNCTION()
-	virtual void UpdateAnimalSprite();
+	void UpdateAnimalState();
 
 	UFUNCTION()
-	void UpdateAnimalState();
+	virtual void UpdateAnimalSprite();
 
 	UFUNCTION()
 	void Attacked(float Value);
@@ -113,5 +113,6 @@ private:
 
 	//Access to protected members for attacking system
 	friend class AttackedActor; 
+	
 	friend class AttackingActor;
 };

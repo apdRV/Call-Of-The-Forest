@@ -65,22 +65,6 @@ void AAnimal::BeginPlay()
     Super::BeginPlay();
 }
 
-void AAnimal::UpdateAnimalSprite()
-{
-}
-
-void AAnimal::Attacked(float Value)
-{
-    bHealth -= Value;
-    bIsAttacked = true;
-    SetbSpeed(100.0f);
-    SetbRadius(400.0f);
-    if(bHealth <= 0.0f)
-    {
-        Die();
-    }
-}
-
 void AAnimal::UpdateAnimalState()
 {
     FVector Velocity = GetVelocity();
@@ -95,6 +79,22 @@ void AAnimal::UpdateAnimalState()
         AnimalState = LastAnimalState;
     }
     UpdateAnimalSprite();
+}
+
+void AAnimal::UpdateAnimalSprite()
+{
+}
+
+void AAnimal::Attacked(float Value)
+{
+    bHealth -= Value;
+    bIsAttacked = true;
+    SetbSpeed(100.0f);
+    SetbRadius(400.0f);
+    if(bHealth <= 0.0f)
+    {
+        Die();
+    }
 }
 
 void AAnimal::Die()

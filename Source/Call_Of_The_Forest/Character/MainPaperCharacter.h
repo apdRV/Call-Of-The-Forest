@@ -12,6 +12,7 @@
 #include "../Animals/Predator.h"
 #include "MainCharacterSpriteComponent.h"
 #include "../World/AttackedDerivedDeclaration.h"
+#include "Engine/EngineTypes.h"
 #include "MainPaperCharacter.generated.h"
 /**
  * 
@@ -47,7 +48,10 @@ protected:
 	bool bIsDead;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
-	uint8 bIsAttacking;
+	bool bIsAttacking;
+
+	UPROPERTY()
+	FTimerHandle AttackTimerHandle;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
 	float Damage;
@@ -99,6 +103,9 @@ protected:
 
 	UFUNCTION()
 	void SetAttackAnimation();
+
+	UFUNCTION()
+	void EndAttackAnimation();
 
 private:
 	UPROPERTY(VisibleAnywhere)

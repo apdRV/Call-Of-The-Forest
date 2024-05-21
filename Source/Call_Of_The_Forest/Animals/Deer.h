@@ -15,13 +15,19 @@ class CALL_OF_THE_FOREST_API ADeer : public AAnimal
 	GENERATED_BODY()
 public:
 	ADeer();
-	virtual void UpdateAnimalSprite() override;
-	virtual void Die() override;
-	virtual void BeginPlay() override;
+
 	virtual void Tick(float DeltaTime) override;
+
+	virtual void BeginPlay() override;
+
+private:
+
+	virtual void UpdateAnimalSprite() override;
+
 	void SetAnimalSprite(EAnimalState AnimalState);
 
-protected:
+	virtual void Die() override;
+
 	UPROPERTY()
 	TMap<EAnimalState, UPaperFlipbook*> DirectionToDeerSprite;	
 };

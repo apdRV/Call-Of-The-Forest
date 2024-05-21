@@ -8,9 +8,9 @@ APredator::APredator()
     PrimaryActorTick.bCanEverTick = true;
 
     // Default Properties
-    Speed = 60.0f;
-    Health = 100.0f;
-    Damage = 10.0f;
+    bSpeed = 60.0f;
+    bHealth = 100.0f;
+    bDamage = 10.0f;
     bIsDead = false;
     bIsAttacking = false;
     bIsTriggered = false;
@@ -75,14 +75,55 @@ void APredator::UpdatePredatorSprite()
 
 }
 
-void APredator::SetupOwner(UPaperFlipbookComponent* m_owner)
+void APredator::Attacked(float Value)
 {
-    PredatorFlipbookComponent = m_owner;
+    bHealth-=Value;
+    bIsTriggered = true;
+    SetbSpeed(100.0f);
+    if(bHealth <= 0.0f)
+    {
+        Die();
+    }
+}
+
+void APredator::SetAttackAnimation()
+{
+    bIsAttacking = true;
+    if(PredatorState == EPredatorState::IdleLeftDown || PredatorState == EPredatorState::LeftDown)
+    {
+        PredatorState = EPredatorState::AttackingLeftDown;
+    }
+    else if(PredatorState == EPredatorState::IdleRightUp || PredatorState == EPredatorState::RightUp)
+    {
+        PredatorState = EPredatorState::AttackingRightUp;
+    }
+    UpdatePredatorSprite();
+    GetWorldTimerManager().SetTimer(AttackTimerHandle, this, &APredator::EndAttackAnimation, 1.0f, false);
+}
+
+void APredator::EndAttackAnimation()
+{
+    PredatorState = LastPredatorState;
+    bIsAttacking = false;
+    UpdatePredatorSprite();
+
 }
 
 void APredator::UpdatePredatorState()
 {
+    if(bIsAttacking)
+    {
+        return;
+    }
+
     FVector Velocity = GetVelocity();
+
+    if(PredatorState == EPredatorState::DieRightUp || PredatorState == EPredatorState::DieLeftDown)
+    {
+        LastPredatorState = (PredatorState == EPredatorState::DieLeftDown) ? EPredatorState::DieLeftDown : EPredatorState::DieRightUp;
+        PredatorState = LastPredatorState;
+        return;
+    }
 
     if (Velocity.SizeSquared() > 0.0f)
     {
@@ -96,30 +137,18 @@ void APredator::UpdatePredatorState()
     UpdatePredatorSprite();
 }
 
-void APredator::Attacked(float Value)
+void APredator::SetupOwner(UPaperFlipbookComponent* m_owner)
 {
-    Health-=Value;
-    bIsTriggered = true;
-    SetSpeed(100.0f);
-    if(Health <= 0.0f)
-    {
-        bIsDead = true;
-        Die();
-    }
-}
-
-void APredator::Attack()
-{
-    
-}
-
-float APredator::GetDamage()
-{
-    return Damage;
+    PredatorFlipbookComponent = m_owner;
 }
 
 void APredator::Die()
 {
+}
+
+float APredator::GetbDamage()
+{
+    return bDamage;
 }
 
 bool APredator::GetbIsActive()
@@ -147,20 +176,20 @@ bool APredator::GetbIsDead()
     return bIsDead;
 }
 
-void APredator::SetSpeed(float Value)
-{
-    Speed = Value;
-    GetCharacterMovement()->MaxWalkSpeed = Speed;
-}
-
-float APredator::GetRadius()
+float APredator::GetbRadius()
 {
     return bRadius;
 }
 
-void APredator::SetRadius(float Value)
+void APredator::SetbRadius(float Value)
 {
     bRadius = Value;
+}
+
+void APredator::SetbSpeed(float Value)
+{
+    bSpeed = Value;
+    GetCharacterMovement()->MaxWalkSpeed = bSpeed;
 }
 
 EPredatorState APredator::GetPredatorState()

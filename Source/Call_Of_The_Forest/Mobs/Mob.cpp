@@ -16,7 +16,7 @@ AMob::AMob()
     // Set spawn state
     bIsMoving = false;
     bIsDead = false;
-    bIsAttacking = 20;
+    bIsAttacking = false;
     MobState = EMobState::IdleRightUp;
     LastMobState = EMobState::IdleRightUp;
 
@@ -126,10 +126,13 @@ void AMob::Attack()
 
 void AMob::UpdateMobState()
 {
-    FVector Velocity = GetVelocity();
-    if(MobState == EMobState::AttackLeftDown || MobState == EMobState::AttackRightUp && bIsAttacking > 0.0f)
+    if(bIsAttacking)
     {
+        return;
     }
+    
+    FVector Velocity = GetVelocity();
+    
     if(MobState == EMobState::DieLeftDown || MobState == EMobState::DieRightUp)
     {
         LastMobState = (MobState == EMobState::DieLeftDown) ? EMobState::DieLeftDown : EMobState::DieRightUp;
@@ -137,7 +140,7 @@ void AMob::UpdateMobState()
         return;
     }
 
-    if (Velocity.SizeSquared() > 0.0f)
+    else if (Velocity.SizeSquared() > 0.0f)
     {
         MobState = (Velocity.Y > 0.0f) ? EMobState::RightUp : EMobState::LeftDown;
         LastMobState = (MobState == EMobState::RightUp) ? EMobState::IdleRightUp : EMobState::IdleLeftDown;
@@ -146,6 +149,28 @@ void AMob::UpdateMobState()
     {
         MobState = LastMobState;
     }
+    UpdateMobSprite();
+}
+
+void AMob::SetAttackAnimation()
+{
+    bIsAttacking = true;
+    if(MobState == EMobState::IdleLeftDown || MobState == EMobState::LeftDown)
+    {
+        MobState = EMobState::AttackLeftDown;
+    }
+    else if(MobState == EMobState::IdleRightUp || MobState == EMobState::RightUp)
+    {
+        MobState = EMobState::AttackRightUp;
+    }
+    UpdateMobSprite();
+    GetWorldTimerManager().SetTimer(AttackTimerHandle, this, &AMob::EndAttackAnimation, 1.0f, false);
+}
+
+void AMob::EndAttackAnimation()
+{
+    MobState = LastMobState;
+    bIsAttacking = false;
     UpdateMobSprite();
 }
 

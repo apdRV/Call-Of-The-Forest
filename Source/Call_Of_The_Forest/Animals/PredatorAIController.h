@@ -34,19 +34,25 @@ private:
 	FTimerHandle TimerHandle;
 
 	UPROPERTY()
+	bool bCanMove;
+
+	UPROPERTY()
+	float bWaitTime;
+
+	UPROPERTY()
 	bool bCanAttack;
 
 	UPROPERTY()
-	float AttackInterval;
+	float bAttackInterval;
 
 	UPROPERTY()
 	class AStaticWorld *World;
 
 	UPROPERTY()
-	class APredator *m_Predator;
+	class APredator *bPredator;
 
 	UPROPERTY()
-	class AMainPaperCharacter *TargetMainCharacter;
+	class AMainPaperCharacter *bTargetMainCharacter;
 	
 	UPROPERTY()
 	int wait_time;
@@ -68,11 +74,14 @@ private:
 
 	UFUNCTION()
 	void ResetAttack();
+
+	UFUNCTION()
+	void ResetbCanMove();
 	
 	UFUNCTION()
 	void MoveToTarget();
 
-	UFUNCTION(BlueprintCallable, Category = "Moving")
+	UFUNCTION()
 	void RandomMove();
 
 	void OnMoveCompleted(FAIRequestID RequestID, const FPathFollowingResult& Result) override;

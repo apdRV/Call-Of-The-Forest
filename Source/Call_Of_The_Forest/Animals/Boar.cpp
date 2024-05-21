@@ -5,7 +5,7 @@
 
 ABoar::ABoar(){
     bSpeed = 50.0f;
-    GetCharacterMovement()->MaxWalkSpeed = bSpeed;  // Adjust this value as needed
+    GetCharacterMovement()->MaxWalkSpeed = bSpeed;
     bHealth = 200.0f;
     bIsDead = false;
 

@@ -5,7 +5,7 @@
 
 ADeer::ADeer(){
     bSpeed = 60.0f;
-    GetCharacterMovement()->MaxWalkSpeed = bSpeed;  // Adjust this value as needed
+    GetCharacterMovement()->MaxWalkSpeed = bSpeed;
     bHealth = 200.0f;
     bIsDead = false;
 
@@ -26,10 +26,16 @@ ADeer::ADeer(){
     DirectionToDeerSprite.Add(EAnimalState::DieRightUp, DieRightUp.Object);
 }
 
-
+void ADeer::Tick(float Deltatime)
+{
+    Super::Tick(Deltatime);
+    UpdateAnimalState();
+}
 
 void ADeer::BeginPlay(){
+
     Super::BeginPlay();
+
     if (World != nullptr) {
         World->AddActor("Animal", this);
         UE_LOG(LogTemp, Warning, TEXT("World is not a null, Deer added"));
@@ -38,12 +44,6 @@ void ADeer::BeginPlay(){
     }
 
     UE_LOG(LogTemp, Warning, TEXT("Deer Spawned"));
-}
-
-void ADeer::Tick(float Deltatime)
-{
-    Super::Tick(Deltatime);
-    UpdateAnimalState();
 }
 
 void ADeer::UpdateAnimalSprite()

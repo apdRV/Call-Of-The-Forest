@@ -53,10 +53,6 @@ void AMSkeleton::UpdateMobSprite()
     if(GetbIsDead()){
         return;
     }
-    else if(GetVelocity().IsNearlyZero() && (!bIsDead))
-    {
-        MobState = LastMobState;
-    }
     SetMobSprite(MobState);
 }
 

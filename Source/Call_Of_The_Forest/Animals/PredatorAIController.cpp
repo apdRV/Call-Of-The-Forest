@@ -7,11 +7,12 @@ APredatorAIController::APredatorAIController()
 {
     PrimaryActorTick.bCanEverTick = true;
     World = AStaticWorld::GetStaticWorld();
-    m_Predator = nullptr;
-    wait_time = 0;
+    bPredator = nullptr;
+    bWaitTime = 3.0f;
+    bCanMove = true;
     SearchRadius = 100.0f;
     bCanAttack = true;
-    AttackInterval = 1.0f;
+    bAttackInterval = 1.0f;
 }
 
 void APredatorAIController::BeginPlay()
@@ -23,31 +24,29 @@ void APredatorAIController::BeginPlay()
 void APredatorAIController::Tick(float Deltatime)
 {
     Super::Tick(Deltatime);
-    if(m_Predator != nullptr && wait_time > 50.0f && m_Predator->GetbIsActive() && !m_Predator->GetbIsTriggered() && !m_Predator->GetbIsDead()){
+    if(bPredator != nullptr && bCanMove && bPredator->GetbIsActive() && !bPredator->GetbIsTriggered() && !bPredator->GetbIsDead()){
         RandomMove();
-        wait_time = 0;
         UE_LOG(LogTemp, Warning, TEXT("Call Random Move"));
     }
-    else if(m_Predator != nullptr && m_Predator->GetbIsTriggered() && !m_Predator->GetbIsDead())
+    else if(bPredator != nullptr && bPredator->GetbIsTriggered() && !bPredator->GetbIsDead())
     {
         MoveToTarget();
         TriggerAttack();
     }
-    wait_time = (wait_time > 50.0f) ? wait_time : wait_time + 1;
 }
 
 void APredatorAIController::OnPossess(APawn* InPawn)
 {
     Super::OnPossess(InPawn);
-    m_Predator = dynamic_cast<APredator*>(InPawn);
-    if(m_Predator == nullptr){
+    bPredator = dynamic_cast<APredator*>(InPawn);
+    if(bPredator == nullptr){
         UE_LOG(LogTemp, Warning, TEXT("Predator is null"));
     }
 }
 
 void APredatorAIController::RandomMove()
 {
-    if(m_Predator == nullptr){
+    if(bPredator == nullptr){
         UE_LOG(LogTemp, Warning, TEXT("Predator is null"));
         return;
     }
@@ -59,10 +58,12 @@ void APredatorAIController::RandomMove()
     }
 
     FNavLocation NavLocation;
-    SearchRadius = m_Predator->GetRadius();
-    bool bLocationValid = NavArea->GetRandomReachablePointInRadius(m_Predator->GetActorLocation(), SearchRadius, NavLocation);
+    SearchRadius = bPredator->GetbRadius();
+    bool bLocationValid = NavArea->GetRandomReachablePointInRadius(bPredator->GetActorLocation(), SearchRadius, NavLocation);
     if(bLocationValid){
         MoveToLocation(NavLocation.Location);
+        bCanMove = false;
+        GetWorldTimerManager().SetTimer(TimerHandle, this, &APredatorAIController::ResetbCanMove, bWaitTime, false);
     }
 }
 
@@ -74,7 +75,7 @@ void APredatorAIController::OnMoveCompleted(FAIRequestID RequestID, const FPathF
 AMainPaperCharacter* APredatorAIController::FindTarget()
 {
     AMainPaperCharacter* NearestPlayer;
-    FVector MobLocation = m_Predator->GetActorLocation();
+    FVector MobLocation = bPredator->GetActorLocation();
     FVector NearestActorLocation;
     AMainPaperCharacter* NearestCharacter = nullptr;
     float NearestDistance;
@@ -102,12 +103,12 @@ AMainPaperCharacter* APredatorAIController::FindTarget()
 
 void APredatorAIController::MoveToTarget()
 {
-    if(TargetMainCharacter == nullptr){
-        TargetMainCharacter = FindTarget();
+    if(bTargetMainCharacter == nullptr){
+        bTargetMainCharacter = FindTarget();
     }
-    if(TargetMainCharacter != nullptr){
+    if(bTargetMainCharacter != nullptr){
         NavArea = FNavigationSystem::GetCurrent<UNavigationSystemV1>(this);
-        MoveToActor(TargetMainCharacter, 2.0f);
+        MoveToActor(bTargetMainCharacter, 2.0f);
         
     } else {
         UE_LOG(LogTemp, Warning, TEXT("No_target_found"));
@@ -118,15 +119,15 @@ void APredatorAIController::TriggerAttack()
 {
     if(bCanAttack)
     {
-        if(TargetMainCharacter == nullptr)
+        if(bTargetMainCharacter == nullptr)
         {
-            TargetMainCharacter = FindTarget();
+            bTargetMainCharacter = FindTarget();
         }
-        if(TargetMainCharacter != nullptr)
+        if(bTargetMainCharacter != nullptr)
         {
-            World->PredatorIsAttacking(TargetMainCharacter, m_Predator);
+            World->PredatorIsAttacking(bTargetMainCharacter, bPredator);
             bCanAttack = false;
-            GetWorldTimerManager().SetTimer(TimerHandle, this, &APredatorAIController::ResetAttack, AttackInterval, false);
+            GetWorldTimerManager().SetTimer(TimerHandle, this, &APredatorAIController::ResetAttack, bAttackInterval, false);
         }
 
     }
@@ -135,4 +136,9 @@ void APredatorAIController::TriggerAttack()
 void APredatorAIController::ResetAttack()
 {
     bCanAttack = true;
+}
+
+void APredatorAIController::ResetbCanMove()
+{
+    bCanMove = true;
 }

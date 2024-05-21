@@ -15,13 +15,19 @@ class CALL_OF_THE_FOREST_API AWolf : public APredator
 	GENERATED_BODY()
 public:
 	AWolf();
+
 	virtual void BeginPlay() override;
+	
 	virtual void Tick(float DeltaTime) override;
+
+private:
+
 	virtual void UpdatePredatorSprite() override;
+
 	virtual void Die() override;
+
 	void SetPredatorSprite(EPredatorState PredatorState);
 
-protected:
 	UPROPERTY()
 	TMap<EPredatorState, UPaperFlipbook*> DirectionToWolfSprite;
 };

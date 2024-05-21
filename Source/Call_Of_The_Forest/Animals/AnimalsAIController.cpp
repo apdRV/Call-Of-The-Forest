@@ -24,7 +24,7 @@ void AAnimalsAIController::Tick(float Delta)
     Super::Tick(Delta);
     if(bAnimal != nullptr && bCanMove && bAnimal->GetbIsActive() && !bAnimal->GetbIsDead()){
         RandomMove();
-        UE_LOG(LogTemp, Warning, TEXT("Call Random Move"));
+        // UE_LOG(LogTemp, Warning, TEXT("Call Random Move"));
     }
 }
 

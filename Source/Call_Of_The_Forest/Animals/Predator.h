@@ -12,6 +12,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "../World/StaticWorld.h"
 #include "../World/AttackedDerivedDeclaration.h"
+#include "Engine/EngineTypes.h"
 #include "Predator.generated.h"
 
 /**
@@ -45,13 +46,7 @@ public:
 	virtual void BeginPlay() override;
 
 	UFUNCTION()
-	void Attacked(float Value);
-
-	UFUNCTION()
-	virtual void Die();
-
-	UFUNCTION()
-	float GetDamage();
+	float GetbDamage();
 
 	UFUNCTION()
   	bool GetbIsActive();
@@ -69,20 +64,19 @@ public:
 	bool GetbIsDead();
 
 	UFUNCTION()
-	float GetRadius();
+	float GetbRadius();
 
 	UFUNCTION()
-	void SetRadius(float Value);
+	void SetbRadius(float Value);
 
 	UFUNCTION()
-	void SetSpeed(float Value);
+	void SetbSpeed(float Value);
 
 	UFUNCTION()
 	EPredatorState GetPredatorState();
 
 	UFUNCTION()
 	void SetPredatorState(EPredatorState NewState);
-
 
 protected:
 	UPROPERTY()
@@ -98,19 +92,22 @@ protected:
 	AStaticWorld* World;
 
 	UPROPERTY()
-	float Speed;
+	float bSpeed;
 
 	UPROPERTY()
-	float Health;
+	float bHealth;
 
 	UPROPERTY()
-	float Damage;
+	float bDamage;
 
 	UPROPERTY()
 	bool bIsDead;
 
 	UPROPERTY()
 	bool bIsAttacking;
+
+	UPROPERTY()
+	FTimerHandle AttackTimerHandle;
 
 	UPROPERTY()
 	bool bIsTriggered;
@@ -122,16 +119,25 @@ protected:
 	float bRadius;
 
 	UFUNCTION()
-	void Attack();
+	void Attacked(float Value);
+
+	UFUNCTION()
+	void SetAttackAnimation();
+
+	UFUNCTION()
+	void EndAttackAnimation();
 
 	UFUNCTION()
 	virtual void UpdatePredatorSprite();
 
 	UFUNCTION()
-	void SetupOwner(UPaperFlipbookComponent* m_owner);
+	void UpdatePredatorState();
 
 	UFUNCTION()
-	void UpdatePredatorState();
+	void SetupOwner(UPaperFlipbookComponent* m_owner);
+	
+	UFUNCTION()
+	virtual void Die();
 
 private:
 	//Access to protected members for attacking system

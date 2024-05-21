@@ -5,9 +5,9 @@
 
 AFox::AFox()
 {
-    Speed = 40.0f;
-    GetCharacterMovement()->MaxWalkSpeed = Speed;  // Adjust this value as needed
-    Health = 100.0f;
+    bSpeed = 40.0f;
+    GetCharacterMovement()->MaxWalkSpeed = bSpeed;  // Adjust this value as needed
+    bHealth = 100.0f;
     bIsDead = false;
 
     GetSprite()->SetRelativeScale3D(FVector(1.0f, 1.0f, 1.0f));
@@ -40,12 +40,12 @@ void AFox::BeginPlay(){
     Super::BeginPlay();
     if (World != nullptr) {
         World->AddActor("Predator", this);
-        UE_LOG(LogTemp, Warning, TEXT("World is not a null, added fox"));
+        // UE_LOG(LogTemp, Warning, TEXT("World is not a null, added fox"));
     } else {
         UE_LOG(LogTemp, Warning, TEXT("World is null"));
     }
 
-    UE_LOG(LogTemp, Warning, TEXT("FoxSpawned"));
+    // UE_LOG(LogTemp, Warning, TEXT("FoxSpawned"));
 }
 
 void AFox::Tick(float Deltatime)
@@ -56,12 +56,9 @@ void AFox::Tick(float Deltatime)
 
 void AFox::UpdatePredatorSprite()
 {
-    if(Health <= 0.0f){
-        Die();
-    }
-    else if(GetVelocity().IsNearlyZero() && (!bIsDead))
+    if(bIsDead)
     {
-        PredatorState = LastPredatorState;
+        return;
     }
     SetPredatorSprite(PredatorState);
 }
@@ -81,7 +78,7 @@ void AFox::SetPredatorSprite(EPredatorState PredatorState)
 
 void AFox::Die()
 {
-    if(Health <= 0.0f)
+    if(bHealth <= 0.0f)
     {
         bIsDead = true;
         PredatorState = (LastPredatorState == EPredatorState::IdleLeftDown) ? EPredatorState::DieLeftDown : EPredatorState::DieRightUp;
