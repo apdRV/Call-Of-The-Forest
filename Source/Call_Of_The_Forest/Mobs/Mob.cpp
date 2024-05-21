@@ -164,7 +164,7 @@ void AMob::SetAttackAnimation()
         MobState = EMobState::AttackRightUp;
     }
     UpdateMobSprite();
-    GetWorldTimerManager().SetTimer(AttackTimerHandle, this, &AMob::EndAttackAnimation, 1.0f, false);
+    GetWorldTimerManager().SetTimer(AttackTimerHandle, this, &AMob::EndAttackAnimation, 0.4f, false);
 }
 
 void AMob::EndAttackAnimation()
