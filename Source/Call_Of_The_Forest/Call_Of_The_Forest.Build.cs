@@ -8,7 +8,17 @@ public class Call_Of_The_Forest : ModuleRules
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
+		PublicDependencyModuleNames.AddRange(new string[] 
+		{ 
+			"Core",
+			"CoreUObject", 
+			"Engine", 
+			"InputCore",
+			"AIModule",
+			"GameplayTasks",
+			"NavigationSystem",
+			"EnhancedInput"
+		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] { "SQLiteCore", "SQLiteSupport" });
 
