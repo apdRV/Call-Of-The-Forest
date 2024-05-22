@@ -178,7 +178,7 @@ void AMainPaperCharacter::SetAttackAnimation()
     {
         MainCharacterSpriteComponent->UpdateSprite(CharacterState);
     }
-    GetWorldTimerManager().SetTimer(AttackTimerHandle, this, &AMainPaperCharacter::EndAttackAnimation, 0.4f, false);
+    GetWorldTimerManager().SetTimer(AttackTimerHandle, this, &AMainPaperCharacter::EndAttackAnimation, 0.2f, false);
 }
 
 void AMainPaperCharacter::EndAttackAnimation()
@@ -254,4 +254,9 @@ float AMainPaperCharacter::GetDamage()
 EMainCharacterState AMainPaperCharacter::GetCharacterState()
 {
     return CharacterState;
+}
+
+bool AMainPaperCharacter::GetbIsDead()
+{
+    return bIsDead;
 }

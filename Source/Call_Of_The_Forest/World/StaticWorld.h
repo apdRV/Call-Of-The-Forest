@@ -47,14 +47,13 @@ public:
 		return std::vector<AActor*>();
 	}
 
-	//testing attacking from mob to character
+	//Attack functions
 	UFUNCTION()
 	void MobIsAttacking(AMainPaperCharacter* MainCharacter, AMob* Mob);
 
 	UFUNCTION()
 	void PredatorIsAttacking(AMainPaperCharacter* MainCharacter, APredator* Predator);
 	
-	// Attacking
 	void PlayerAttack(FVector PlayerLocation, EMainCharacterState CharacterState, AMainPaperCharacter* Player);
 
 	//property for overlapping character actors

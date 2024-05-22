@@ -34,6 +34,9 @@ public:
 	UFUNCTION()
 	EMainCharacterState GetCharacterState();
 
+	UFUNCTION()
+	bool GetbIsDead();
+
 protected:
     UPROPERTY()
 	AStaticWorld* World;

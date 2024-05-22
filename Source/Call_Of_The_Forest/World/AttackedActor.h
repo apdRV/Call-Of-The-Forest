@@ -9,5 +9,5 @@ public:
     AttackedActor() : AttackBase(){};
 
     virtual void TakeDamage(AActor* AttackedActor, AActor* AttackingActor) override;
-
+    void TakeDamageNpc(AActor* AttackedActor, AActor* AttackingActor);
 };

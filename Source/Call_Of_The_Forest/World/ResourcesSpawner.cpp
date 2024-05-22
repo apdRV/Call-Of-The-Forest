@@ -3,16 +3,13 @@
 
 #include "ResourcesSpawner.h"
 
-// Sets default values
 AResourcesSpawner::AResourcesSpawner()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	World = AStaticWorld::GetStaticWorld();
 
 }
 
-// Called when the game starts or when spawned
 void AResourcesSpawner::BeginPlay()
 {
 	Super::BeginPlay();

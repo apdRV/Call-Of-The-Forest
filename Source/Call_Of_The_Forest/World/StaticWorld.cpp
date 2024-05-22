@@ -140,6 +140,7 @@ void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState Char
 	{
 		auto Actor = OverlappingActors[i];
 		ClassToMakeDamage.MainPlayerAttack(Player, Actor);
+		ClassToGetDamage.TakeDamageNpc(Actor, Player);
 		AMob* Mob = dynamic_cast<AMob*>(Actor);
 		AAnimal* Animal = dynamic_cast<AAnimal*>(Actor);
 		APredator* Predator = dynamic_cast<APredator*>(Actor);
@@ -216,6 +217,7 @@ void AStaticWorld::MobIsAttacking(AMainPaperCharacter* MainCharacter, AMob* Mob)
 	if(FVector::Dist(MainCharacter->GetActorLocation(), Mob->GetActorLocation()) <= 100.0f)
 	{
 		ClassToMakeDamage.MakeDamage(Mob, MainCharacter);
+		ClassToGetDamage.TakeDamage(MainCharacter, Mob);
 	}
 }
 
@@ -224,5 +226,6 @@ void AStaticWorld::PredatorIsAttacking(AMainPaperCharacter* MainCharacter, APred
 	if(FVector::Dist(MainCharacter->GetActorLocation(), Predator->GetActorLocation()) <= 100.0f)
 	{
 		ClassToMakeDamage.MakeDamage(Predator, MainCharacter);
+		ClassToGetDamage.TakeDamage(MainCharacter, Predator);
 	}
 }

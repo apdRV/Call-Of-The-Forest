@@ -25,11 +25,11 @@ class CALL_OF_THE_FOREST_API AResourcesSpawner : public AActor
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
+
 	AResourcesSpawner();
 
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	
 	void SpawnResource(FVector Location, FRotator Rotation, FActorSpawnParameters SpawnParams, EResourceType Resource);
 
 	UPROPERTY()

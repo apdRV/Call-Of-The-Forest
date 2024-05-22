@@ -98,7 +98,7 @@ void APredator::SetAttackAnimation()
         PredatorState = EPredatorState::AttackingRightUp;
     }
     UpdatePredatorSprite();
-    GetWorldTimerManager().SetTimer(AttackTimerHandle, this, &APredator::EndAttackAnimation, 0.4f, false);
+    GetWorldTimerManager().SetTimer(AttackTimerHandle, this, &APredator::EndAttackAnimation, 0.6f, false);
 }
 
 void APredator::EndAttackAnimation()
