@@ -5,8 +5,6 @@
 #include "MainPaperCharacter.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
-#include "../Mobs/Mob.h"
-#include "../Tree1.h"
 #include "Components/CapsuleComponent.h"
 
 AMainPaperCharacter::AMainPaperCharacter()
@@ -16,8 +14,7 @@ AMainPaperCharacter::AMainPaperCharacter()
     // Default character properties
 	bIsMoving = false;
     bIsDead = false;
-    bIsAttacking = false;
-    Damage = 50.0f;
+    bIsAttacking = 0;
     Health = 100.0f;
     CharacterState = EMainCharacterState::IdleDown;
     LastMoveDirection = EMainCharacterState::IdleDown;
@@ -26,7 +23,7 @@ AMainPaperCharacter::AMainPaperCharacter()
     CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
     CameraBoom->SetupAttachment(RootComponent);
 	CameraBoom->SetRelativeRotation(FRotator(-90.0f, 180.0f, 180.0f));
-    CameraBoom->TargetArmLength = 200.f; // расстояние от камеры до игрока
+    CameraBoom->TargetArmLength = 100.f; // расстояние от камеры до игрока
     CameraBoom->bInheritPitch = false;
     CameraBoom->bInheritYaw = false;
     CameraBoom->bInheritRoll = false;
@@ -38,14 +35,8 @@ AMainPaperCharacter::AMainPaperCharacter()
     FollowCamera->bUsePawnControlRotation = false;
 
     // Default capsule component properties
-	GetCapsuleComponent()->InitCapsuleSize(11.0f, 11.0f);
-    GetCapsuleComponent()->CanCharacterStepUpOn = ECB_No;
-    GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
-    GetCapsuleComponent()->SetCollisionObjectType(ECollisionChannel::ECC_WorldDynamic);
-    GetCapsuleComponent()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
-    GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Overlap);
-    GetCapsuleComponent()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Overlap);
-    
+	GetCapsuleComponent()->InitCapsuleSize(10.0f, 10.0f);
+
     // Default sprite component properties
     GetSprite()->SetRelativeRotation(FRotator(0.0f, 90.0f, -90.0f));
     GetSprite()->SetRelativeScale3D(FVector(1.0f, 1.0f, 1.0f));
@@ -53,35 +44,15 @@ AMainPaperCharacter::AMainPaperCharacter()
     MainCharacterSpriteComponent = CreateDefaultSubobject<UMainCharacterSpriteComponent>(TEXT("MainCharacterSpriteComponent"));
     MainCharacterSpriteComponent->SetupAttachment(RootComponent);
     MainCharacterSpriteComponent->SetupOwner(GetSprite());
-    GetSprite()->CanCharacterStepUpOn = ECB_No;
-    GetSprite()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-    GetSprite()->SetCollisionObjectType(ECollisionChannel::ECC_WorldDynamic);
-    GetSprite()->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Block);
-    GetSprite()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Visibility, ECollisionResponse::ECR_Ignore);
-    GetSprite()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
     MainCharacterSpriteComponent->UpdateSprite(CharacterState);
-
-    //World properties
     World = AStaticWorld::GetStaticWorld();
-
-    // Properties for Sphere
-    TriggerRadius = 100.0f;
-    SphereCollider = CreateDefaultSubobject<USphereComponent>(TEXT("SphereCollider"));
-    SphereCollider->InitSphereRadius(TriggerRadius); // radius to trigger mobs
-    SphereCollider->SetCollisionProfileName(TEXT("OverlapAll"));
-    SphereCollider->SetupAttachment(RootComponent);
-
-    SphereCollider->OnComponentBeginOverlap.AddDynamic(this, &AMainPaperCharacter::OnOverlapBegin);
-    SphereCollider->OnComponentEndOverlap.AddDynamic(this, &AMainPaperCharacter::OnOverlapEnd);
 }
 
 // Called every frame
 void AMainPaperCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-    if(!bIsDead){
-        UpdateCharacterSprite();
-    }
+    UpdateCharacterSprite();
 }
 
 // Called when the game starts or when spawned
@@ -90,9 +61,8 @@ void AMainPaperCharacter::BeginPlay()
     Super::BeginPlay();
     if (World != nullptr) {
         World->AddActor("MainCharacter", this);
-        UE_LOG(LogTemp, Warning, TEXT("Add MainCharacter"));
     } else {
-        UE_LOG(LogTemp, Warning, TEXT("World is null"));
+        UE_LOG(LogTemp, Warning, TEXT("World is null, cannot add main character"));
     }
 }
 
@@ -146,13 +116,7 @@ void AMainPaperCharacter::MoveRightLeft(float Value)
 
 void AMainPaperCharacter::Attack()
 {
-    SetAttackAnimation();
-    World->PlayerAttack(GetActorLocation(), CharacterState, this);
-}
-
-void AMainPaperCharacter::SetAttackAnimation()
-{
-    bIsAttacking = true;
+    bIsAttacking = 20;
     //Change the character state to attack
     if(CharacterState == EMainCharacterState::IdleDown || CharacterState == EMainCharacterState::Down)
     {
@@ -174,26 +138,15 @@ void AMainPaperCharacter::SetAttackAnimation()
         LastMoveDirection = EMainCharacterState::IdleLeft;
         CharacterState = EMainCharacterState::AttackLeft;
     }
-    if(!bIsDead)
-    {
-        MainCharacterSpriteComponent->UpdateSprite(CharacterState);
-    }
-    GetWorldTimerManager().SetTimer(AttackTimerHandle, this, &AMainPaperCharacter::EndAttackAnimation, 0.2f, false);
-}
-
-void AMainPaperCharacter::EndAttackAnimation()
-{
-    CharacterState = LastMoveDirection;
-    bIsAttacking = false;
-    UpdateCharacterSprite();
-
+    World->PlayerAttack(GetActorLocation(), CharacterState);
+    // CODE FOR ATTACKING
 }
 
 void AMainPaperCharacter::UpdateCharacterSprite()
 {
-    if((bIsAttacking) && (!bIsDead))
+    if((bIsAttacking != 0) && (!bIsDead))
     {
-        return;
+        bIsAttacking--;
     }
     else if(Health <= 0.0f){
         Die();
@@ -204,16 +157,6 @@ void AMainPaperCharacter::UpdateCharacterSprite()
     }
     MainCharacterSpriteComponent->UpdateSprite(CharacterState);
 
-}
-
-void AMainPaperCharacter::Attacked(float Value)
-{
-    Health-=Value;
-    UE_LOG(LogTemp, Warning, TEXT("Called Attacked in MainPaperCharacter"));
-    if(Health <= 0.0f)
-    {
-        Die();
-    }
 }
 
 // When the character dies
@@ -229,34 +172,3 @@ void AMainPaperCharacter::Die()
     }
 }
 
-//funtion to deal with other actors
-void AMainPaperCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
-{
-    if(World != nullptr)
-    {
-        World->AddOverlappingActors(OtherActor);
-    }
-}
-
-void AMainPaperCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
-{
-    if(World != nullptr)
-    {
-        World->DeleteOverlappingActors(OtherActor);
-    }
-}
-
-float AMainPaperCharacter::GetDamage()
-{
-    return Damage;
-}
-
-EMainCharacterState AMainPaperCharacter::GetCharacterState()
-{
-    return CharacterState;
-}
-
-bool AMainPaperCharacter::GetbIsDead()
-{
-    return bIsDead;
-}
