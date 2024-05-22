@@ -16,7 +16,7 @@ class CALL_OF_THE_FOREST_API AStoneSpawner : public ASpawner
 {
 	GENERATED_BODY()
 public:
-	AStoneSpawner(): ASpawner(10) {}
+	AStoneSpawner(): ASpawner(0) {}
 	void SpawnStone();
 protected:
 	// Called when the game starts or when spawned

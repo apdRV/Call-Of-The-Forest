@@ -4,7 +4,7 @@
 #include "../Mobs/Mob.h"
 #include "../Animals/Animal.h"
 #include "../Animals/Predator.h"
-#include "../Tree1.h"
+#include "../Spawners/Tree1.h"
 
 void AttackedActor::TakeDamage(AActor* AttackedActor, AActor* AttackingActor)
 {
