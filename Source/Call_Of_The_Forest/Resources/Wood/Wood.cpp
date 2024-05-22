@@ -10,7 +10,7 @@ AWood::AWood()
 
     WoodComponent->SetFlipbook(WoodSprite.Get());
     SetRootComponent(WoodComponent);
-    SetActorRotation(FRotator(0, 0, 90));
+    SetActorRotation(FRotator(0, 90, -90));
 	SetActorRelativeScale3D(FVector(1.0, 2.0, 1.0));
 
     ItemID = FName("2");

@@ -10,7 +10,7 @@ AMeat::AMeat()
 
     MeatComponent->SetFlipbook(MeatSprite.Get());
     SetRootComponent(MeatComponent);
-    SetActorRotation(FRotator(0, 180, 90));
+    SetActorRotation(FRotator(0, 90, -90));
 	SetActorRelativeScale3D(FVector(0.5, 1.0, 0.5));
 
     ItemID = FName("4");

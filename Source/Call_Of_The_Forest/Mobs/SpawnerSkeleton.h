@@ -14,7 +14,7 @@ class CALL_OF_THE_FOREST_API ASpawnerSkeleton : public AMobsSpawner
 {
 	GENERATED_BODY()
 public:
-  ASpawnerSkeleton() : AMobsSpawner(0) {}
+  ASpawnerSkeleton() : AMobsSpawner(2) {}
   void SpawnSkeletons();
 
 protected:
