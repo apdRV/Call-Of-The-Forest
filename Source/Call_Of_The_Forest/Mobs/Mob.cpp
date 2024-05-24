@@ -22,7 +22,7 @@ AMob::AMob()
 
     Health = 100.0f;
     MaxHealth = 100.0f;
-    BaseDamage = 20.0f;
+    BaseDamage = 5.0f;
     Speed = 40.0f;
     bIsTriggered = false;
     bRadius = 100.0f;
@@ -164,7 +164,7 @@ void AMob::SetAttackAnimation()
         MobState = EMobState::AttackRightUp;
     }
     UpdateMobSprite();
-    GetWorldTimerManager().SetTimer(AttackTimerHandle, this, &AMob::EndAttackAnimation, 0.4f, false);
+    GetWorldTimerManager().SetTimer(AttackTimerHandle, this, &AMob::EndAttackAnimation, 0.8f, false);
 }
 
 void AMob::EndAttackAnimation()
@@ -189,7 +189,7 @@ void AMob::Die()
     if(Health <= 0.0f)
     {
         bIsDead = true;
-        MobState = (LastMobState == EMobState::IdleLeftDown || LastMobState == EMobState::LeftDown) ? EMobState::DieLeftDown : EMobState::DieRightUp;
+        MobState = (LastMobState == EMobState::IdleLeftDown || LastMobState == EMobState::LeftDown || LastMobState == EMobState::AttackLeftDown) ? EMobState::DieLeftDown : EMobState::DieRightUp;
         SetMobSprite(MobState);
     }
 }

@@ -81,7 +81,7 @@ void AWolf::Die()
     if(bHealth <= 0.0f)
     {
         bIsDead = true;
-        PredatorState = (LastPredatorState == EPredatorState::IdleLeftDown) ? EPredatorState::DieLeftDown : EPredatorState::DieRightUp;
+        PredatorState = (LastPredatorState == EPredatorState::IdleLeftDown || LastPredatorState == EPredatorState::LeftDown || LastPredatorState == EPredatorState::AttackingLeftDown) ? EPredatorState::DieLeftDown : EPredatorState::DieRightUp;
         SetPredatorSprite(PredatorState);
     }
 }

@@ -10,7 +10,7 @@ APredator::APredator()
     // Default Properties
     bSpeed = 60.0f;
     bHealth = 100.0f;
-    bDamage = 10.0f;
+    bDamage = 5.0f;
     bIsDead = false;
     bIsAttacking = false;
     bIsTriggered = false;

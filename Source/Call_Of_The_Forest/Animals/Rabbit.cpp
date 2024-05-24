@@ -68,7 +68,7 @@ void ARabbit::Die()
     if(bHealth <= 0.0f)
     {
         bIsDead = true;
-        AnimalState = (LastAnimalState == EAnimalState::IdleLeftDown) ? EAnimalState::DieLeftDown : EAnimalState::DieRightUp;
+        AnimalState = (LastAnimalState == EAnimalState::IdleLeftDown || LastAnimalState == EAnimalState::LeftDown) ? EAnimalState::DieLeftDown : EAnimalState::DieRightUp;
         SetAnimalSprite(AnimalState);
         SetbSpeed(0.0f);
     }
