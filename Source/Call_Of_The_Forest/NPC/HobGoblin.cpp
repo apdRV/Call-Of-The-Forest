@@ -26,6 +26,16 @@ void AHobGoblin::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+    ACharacter* Hero = Cast<AMainPaperCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));;
+    if (Hero)
+    {
+        float DistanceToHero = FVector::Dist(Hero->GetActorLocation(), GetActorLocation());
+        if (DistanceToHero < 2)
+        {
+            RunAwayFromHero(Hero);
+        }
+    }
+
 }
 
 // Called to bind functionality to input

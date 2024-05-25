@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Kismet/GameplayStatics.h"
+#include "NavigationSystem.h"
 #include "GameFramework/Character.h"
 #include "HobGoblin.generated.h"
 
@@ -35,4 +37,15 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ExitInteraction();
 
+	UFUNCTION(BlueprintCallable)
+	void RunAwayFromHero(ACharacter* Hero){
+    if (Hero)
+    {
+        FVector Direction = GetActorLocation() - Hero->GetActorLocation();
+        Direction.Normalize();
+
+        FVector Destination = GetActorLocation() + Direction * 20;
+        UAIBlueprintHelperLibrary::SimpleMoveToLocation(GetController(), Destination);
+    }
+}
 };
