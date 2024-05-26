@@ -133,6 +133,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State") 
 	float TrophyQuantity = 0;
 
+	UFUNCTION()
+	void EatMeat();
+
 private:
 	UPROPERTY(VisibleAnywhere)
     class USphereComponent* SphereCollider;

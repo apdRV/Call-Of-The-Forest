@@ -113,6 +113,8 @@ void AMainPaperCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
     //can make action, but 
     PlayerInputComponent->BindAxis("PickUpItem", this, &AMainPaperCharacter::PickUpItem);
 
+    PlayerInputComponent->BindAction("EatMeat", IE_Pressed, this, &AMainPaperCharacter::EatMeat);
+
     PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMainPaperCharacter::Attack);
 }
 
@@ -272,4 +274,14 @@ EMainCharacterState AMainPaperCharacter::GetCharacterState()
 bool AMainPaperCharacter::GetbIsDead()
 {
     return bIsDead;
+}
+
+void AMainPaperCharacter::EatMeat(){
+    if (MeatQuantity > 0){
+        Health += 10.0f;
+        if(Health > 100.0f){
+            Health = 100.0f;
+        }
+        MeatQuantity--;
+    }
 }
