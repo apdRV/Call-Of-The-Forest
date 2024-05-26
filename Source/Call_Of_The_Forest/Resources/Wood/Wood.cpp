@@ -1,5 +1,4 @@
 #include "Wood.h"
-#include "../../Inventory/InventoryController.h"
 #include "Templates/Casts.h"
 
 AWood::AWood()
@@ -13,25 +12,6 @@ AWood::AWood()
     SetActorRotation(FRotator(0, 90, -90));
 	SetActorRelativeScale3D(FVector(1.0, 2.0, 1.0));
 
-    ItemID = FName("2");
-
-    Super::Name = "Wood";
-    Super::Action = "pickup";
-}
-
-void AWood::Interact_Implementation(APlayerController* Controller)
-{
-    Super::Interact_Implementation(Controller);
-
-    AInventoryController* IController = Cast<AInventoryController>(Controller);
-    if(IController->AddItemToInventoryByID(ItemID))
-        Destroy();
-}
-
-
-void AWood::BeginPlay()
-{
-    Super::BeginPlay();
-
+    Value = 1 + std::rand() % 2;
 }
 

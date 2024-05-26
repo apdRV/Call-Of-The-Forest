@@ -11,21 +11,6 @@
 #include "Components/TextRenderComponent.h"
 #include "ResourceBase.generated.h"
 
-USTRUCT(BlueprintType)
-struct FResourceData
-{
-	GENERATED_BODY()
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	TSubclassOf<AResourceBase> Class;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
-	class UPaperSprite* Image{nullptr};
-
-	UPROPERTY(BlueprintReadOnly)
-	FString Name;
-
-};
 
 UCLASS()
 class CALL_OF_THE_FOREST_API AResourceBase : public APaperFlipbookActor
@@ -33,35 +18,19 @@ class CALL_OF_THE_FOREST_API AResourceBase : public APaperFlipbookActor
 	GENERATED_BODY()
 
 public:	
-	AResourceBase(){
+	AResourceBase();
 
-	Name = "Interactable";
-	Action = "Interact";
-	};
+	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION(BlueprintNativeEvent)
-	void Interact(APlayerController* Controller);
-	virtual void Interact_Implementation(APlayerController* Controller);
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Resource")
+	class USphereComponent* PickupSphere;
 
-	UPROPERTY(EditDefaultsOnly)
-	FString Name;
+	void OnPickup(class AMainPaperCharacter* Player);
 
-	UPROPERTY(EditDefaultsOnly)
-	FString Action;
-
-	UFUNCTION(BlueprintCallable, Category = "Pickup")
-	FString GetInteractText() const;
+	UFUNCTION()
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
 protected:
 	virtual void BeginPlay() override;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Trigger)
-	class UCapsuleComponent* TriggerCapsule;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Tooltip)
-	class UTextRenderComponent* Tooltip;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Config)
-	FResourceData Data;
 
 };

@@ -2,7 +2,6 @@
 
 
 #include "Stone.h"
-#include "../../Inventory/InventoryController.h"
 #include "Templates/Casts.h"
 
 
@@ -17,24 +16,6 @@ AStone::AStone()
     SetActorRotation(FRotator(0, 90, -90));
 	SetActorRelativeScale3D(FVector(0.5, 1.0, 0.5));
 
-    ItemID = FName("1");
-
-    Super::Name = "Stone";
-    Super::Action = "pickup";
+    Value = 1 + std::rand() % 2;
 }
 
-void AStone::Interact_Implementation(APlayerController* Controller)
-{
-    Super::Interact_Implementation(Controller);
-
-    AInventoryController* IController = Cast<AInventoryController>(Controller);
-    if(IController->AddItemToInventoryByID(ItemID))
-        Destroy();
-}
-
-
-void AStone::BeginPlay()
-{
-    Super::BeginPlay();
-
-}

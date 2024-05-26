@@ -118,6 +118,9 @@ public:
 	UFUNCTION()
 	void EndAttackAnimation();
 
+	UPROPERTY(VisibleANywhere, BlueprintReadOnly, Category = "Resource")
+	class USphereComponent* InteractionSphere;
+
 private:
 	UPROPERTY(VisibleAnywhere)
     class USphereComponent* SphereCollider;
