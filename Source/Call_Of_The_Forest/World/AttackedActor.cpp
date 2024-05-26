@@ -11,7 +11,7 @@ void AttackedActor::TakeDamage(AActor* AttackedActor, AActor* AttackingActor)
     AMob* MobAttacking = dynamic_cast<AMob*>(AttackingActor);
     APredator* PredatorAttacking = dynamic_cast<APredator*>(AttackingActor);
     AMainPaperCharacter* MainCharacterAttacked = dynamic_cast<AMainPaperCharacter*>(AttackedActor);
-    if(MainCharacterAttacked != nullptr && MobAttacking != nullptr && !MainCharacterAttacked->GetbIsDead())
+    if(MainCharacterAttacked != nullptr && MobAttacking != nullptr && !MainCharacterAttacked->GetbIsDead() && !MobAttacking->GetbIsDead())
     {
         if((MobAttacking->GetMobState() == EMobState::IdleLeftDown || MobAttacking->GetMobState() == EMobState::LeftDown || MobAttacking->GetMobState() == EMobState::AttackLeftDown) && MainCharacterAttacked->GetActorLocation().Y <= MobAttacking->GetActorLocation().Y && 
         (MobAttacking->GetActorLocation().Y - MainCharacterAttacked->GetActorLocation().Y) <= 35.0f && FMath::Abs(MobAttacking->GetActorLocation().X - MainCharacterAttacked->GetActorLocation().X) <= 35.0f)
@@ -26,7 +26,7 @@ void AttackedActor::TakeDamage(AActor* AttackedActor, AActor* AttackingActor)
             return;
         }
     }
-    else if(MainCharacterAttacked != nullptr && PredatorAttacking != nullptr && !MainCharacterAttacked->GetbIsDead())
+    else if(MainCharacterAttacked != nullptr && PredatorAttacking != nullptr && !MainCharacterAttacked->GetbIsDead() && !PredatorAttacking->GetbIsDead())
     {
         if((PredatorAttacking->GetPredatorState() == EPredatorState::IdleLeftDown || PredatorAttacking->GetPredatorState() == EPredatorState::LeftDown || PredatorAttacking->GetPredatorState() == EPredatorState::AttackingLeftDown) && MainCharacterAttacked->GetActorLocation().Y <= PredatorAttacking->GetActorLocation().Y && 
         (PredatorAttacking->GetActorLocation().Y - MainCharacterAttacked->GetActorLocation().Y) <= 35.0f && FMath::Abs(PredatorAttacking->GetActorLocation().X - MainCharacterAttacked->GetActorLocation().X) <= 35.0f)

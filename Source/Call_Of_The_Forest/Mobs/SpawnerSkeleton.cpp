@@ -15,7 +15,7 @@ void ASpawnerSkeleton::SpawnSkeletons()
                 FVector Location = { 0, 0, 12 };
                 Location[0] = l * 500 + FMath::RandRange(0, 500);
                 Location[1] = r * 500 + FMath::RandRange(0, 500);
-                if (FMath::Abs(Location[0]) > 20 && FMath::Abs(Location[1]) > 20) {
+                if (FMath::Abs(Location[0]) > 50 && FMath::Abs(Location[1]) > 50) {
                     AController* AIController = GetWorld()->SpawnActor<AMobAIController>(AMobAIController::StaticClass());
                     AMob* SpawnedMob = GetWorld()->SpawnActor<AMSkeleton>(Location, Rotation);
                     if(SpawnedMob && AIController){
