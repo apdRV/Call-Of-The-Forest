@@ -5,7 +5,6 @@
 #include "InventoryGameState.h"
 
 AInventoryController::AInventoryController(){
-    InventorySlotLimit = 20;
 }
 
 bool AInventoryController::AddItemToInventoryByID(FName ID){
@@ -14,21 +13,15 @@ bool AInventoryController::AddItemToInventoryByID(FName ID){
     FInventoryItem* ItemToAdd = ItemTable->FindRow<FInventoryItem>(ID, "");
 
     if (ItemToAdd){
-        if (Inventory.Num() < InventorySlotLimit){
             Inventory.Add(*ItemToAdd);
             ReloadInventory();
             return true;
-        }
     }
     return false;
 }
 
     void AInventoryController::Interact()
 {
-    if (CurrentInteractable)
-    {
-        CurrentInteractable->Interact(this);
-    }
 }
 
 void AInventoryController::SetupInputComponent()

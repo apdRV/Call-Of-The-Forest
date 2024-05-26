@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "../ResourceBaseClass/ResourceBase.h"
 #include "PaperFlipbookComponent.h"
+#include <random>
 #include "PaperFlipbook.h"
 #include "TrophyBase.generated.h"
 
@@ -21,12 +22,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "TrophyBase")
     UPaperFlipbookComponent* TrophyBaseComponent;
 
-	void Interact_Implementation(APlayerController* Controller) override;
-
 protected:
-	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FName ItemID;
+	int32 Value;
 	
 };

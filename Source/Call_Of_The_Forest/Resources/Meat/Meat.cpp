@@ -13,24 +13,6 @@ AMeat::AMeat()
     SetActorRotation(FRotator(0, 180, 90));
 	SetActorRelativeScale3D(FVector(0.5, 1.0, 0.5));
 
-    ItemID = FName("4");
-
-    Super::Name = "Meat";
-    Super::Action = "pickup";
-}
-
-void AMeat::Interact_Implementation(APlayerController* Controller)
-{
-    Super::Interact_Implementation(Controller);
-
-    AInventoryController* IController = Cast<AInventoryController>(Controller);
-    if(IController->AddItemToInventoryByID(ItemID))
-        Destroy();
-}
-
-void AMeat::BeginPlay()
-{
-    Super::BeginPlay();
-
+    Value = 1 + std::rand() % 2;
 }
 

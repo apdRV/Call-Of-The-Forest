@@ -18,10 +18,16 @@ class CALL_OF_THE_FOREST_API AMainPaperCharacter : public APaperCharacter
 {
 	GENERATED_BODY()
 
+	UFUNCTION()
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
 public:
 	AMainPaperCharacter();
 	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+	UPROPERTY(VisibleANywhere, BlueprintReadOnly, Category = "Resource")
+	class USphereComponent* InteractionSphere;
 
 protected:
 
@@ -69,7 +75,5 @@ protected:
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Animation)
     class UMainCharacterSpriteComponent* MainCharacterSpriteComponent;
-
-	void CheckForInteractables();
 
 };

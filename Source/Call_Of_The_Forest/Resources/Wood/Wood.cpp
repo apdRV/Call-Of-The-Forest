@@ -13,19 +13,8 @@ AWood::AWood()
     SetActorRotation(FRotator(0, 0, 90));
 	SetActorRelativeScale3D(FVector(0.5, 1.0, 0.5));
 
-    ItemID = FName("No ID");
-
-    Super::Name = "Item";
-    Super::Action = "pickup";
+    Value = 1 + std::rand() % 2;
 }
 
-void AWood::Interact_Implementation(APlayerController* Controller)
-{
-    Super::Interact_Implementation(Controller);
-
-    AInventoryController* IController = Cast<AInventoryController>(Controller);
-    if(IController->AddItemToInventoryByID(ItemID))
-        Destroy();
-}
 
 

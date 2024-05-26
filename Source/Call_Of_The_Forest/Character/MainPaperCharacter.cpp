@@ -47,6 +47,14 @@ AMainPaperCharacter::AMainPaperCharacter()
     MainCharacterSpriteComponent->SetupAttachment(RootComponent);
     MainCharacterSpriteComponent->SetupOwner(GetSprite());
     MainCharacterSpriteComponent->UpdateSprite(CharacterState);
+
+    InteractionSphere = CreateDefaultSubobject<USphereComponent>(TEXT("InteractionSphere"));
+    InteractionSphere->SetSphereRadius(20.f);
+    InteractionSphere->SetCollisionProfileName(TEXT("Trigger"));
+    InteractionSphere->SetupAttachment(RootComponent);
+
+    InteractionSphere->OnComponentBeginOverlap.AddDynamic(this, &AMainPaperCharacter::OnOverlapBegin);
+    
 }
 
 // Called every frame
@@ -54,7 +62,7 @@ void AMainPaperCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
     UpdateCharacterSprite();
-    CheckForInteractables();
+
 }
 
 // Called when the game starts or when spawned
@@ -160,50 +168,13 @@ void AMainPaperCharacter::Die()
     }
 }
 
-void AMainPaperCharacter::CheckForInteractables()
+void AMainPaperCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-    FHitResult HitResult;
-    int32 Range = 10000;
-    FVector StartTrace = FollowCamera->GetComponentLocation();
-    FVector EndTrace = ((FollowCamera->GetForwardVector() + FVector(0.5, 0, 0)) * Range) + StartTrace;
-    FCollisionQueryParams QueryParams;
-    QueryParams.AddIgnoredActor(this);
-
-    AInventoryController* IController = Cast<AInventoryController>(GetController());
-    
-    if (IController){
-        if (GetWorld()->LineTraceSingleByChannel(HitResult, StartTrace, EndTrace, ECC_Visibility, QueryParams))
-        {
-            // Cast the actor to AInteractable
-            AActor* HitActor = HitResult.GetActor();
-if (HitActor)
-{
-    UE_LOG(LogTemp, Warning, TEXT("Hit actor: %s"), *HitActor->GetName());
-    AResourceBase* Interactable = Cast<AResourceBase>(HitActor);
-    if (Interactable)
+    AResourceBase* Resource = Cast<AResourceBase>(OtherActor);
+    if(Resource)
     {
-        UE_LOG(LogTemp, Warning, TEXT("Interactable found: %s"), *Interactable->GetName());
-    }
-    else
-    {
-        UE_LOG(LogTemp, Warning, TEXT("Hit actor is not an AResourceBase"));
+        Resource->OnPickup(this);
     }
 }
-else
-{
-    UE_LOG(LogTemp, Warning, TEXT("No actor hit"));
-}       
-            AResourceBase* Interactable = Cast<AResourceBase>(HitResult.GetActor());
-            // If the cast is successful
-            UE_LOG(LogTemp, Warning, TEXT("CAST HAS: %d"), Interactable == nullptr);
-            if (Interactable)
-            {
-                IController->CurrentInteractable = Interactable;
-                return;
-            }
-        }
 
-        IController->CurrentInteractable = nullptr;
-    }
-}
 

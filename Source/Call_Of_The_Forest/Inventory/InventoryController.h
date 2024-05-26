@@ -26,19 +26,19 @@ public:
     bool AddItemToInventoryByID(FName ID);
 
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-    class AResourceBase* CurrentInteractable;
-
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
     TArray<FInventoryItem> Inventory;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-    int32 Money;
+    int32 Wood;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    int32 InventorySlotLimit;
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+    int32 Meat;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    int32 InventoryWeightLimit;
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+    int32 Stone;
+
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+    int32 Throphy;
 
 protected:
     void Interact();

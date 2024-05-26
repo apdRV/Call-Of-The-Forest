@@ -17,23 +17,19 @@ class CALL_OF_THE_FOREST_API AResourceBase : public APaperFlipbookActor
 	GENERATED_BODY()
 
 public:	
-	AResourceBase(){
+	AResourceBase();
 
-	Name = "Interactable";
-	Action = "Interact";
-	};
+	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION(BlueprintNativeEvent)
-	void Interact(APlayerController* Controller);
-	virtual void Interact_Implementation(APlayerController* Controller);
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Resource")
+	class USphereComponent* PickupSphere;
 
-	UPROPERTY(EditDefaultsOnly)
-	FString Name;
+	void OnPickup(class AMainPaperCharacter* Player);
 
-	UPROPERTY(EditDefaultsOnly)
-	FString Action;
+	UFUNCTION()
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
-	UFUNCTION(BlueprintCallable, Category = "Pickup")
-	FString GetInteractText() const;
+protected:
+	virtual void BeginPlay() override;
 
 };

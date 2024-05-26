@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "../ResourceBaseClass/ResourceBase.h"
 #include "PaperFlipbookComponent.h"
+#include <random>
 #include "PaperFlipbook.h"
 #include "Wood.generated.h"
 
@@ -21,11 +22,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Wood")
     UPaperFlipbookComponent* WoodComponent;
 
-	void Interact_Implementation(APlayerController* Controller) override;
-
 protected:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FName ItemID;
+	int32 Value;
 	
 };
