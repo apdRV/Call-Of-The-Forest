@@ -23,7 +23,5 @@ public:
     UPaperFlipbookComponent* WoodComponent;
 
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 Value;
 	
 };

@@ -13,5 +13,6 @@ AWood::AWood()
 	SetActorRelativeScale3D(FVector(1.0, 2.0, 1.0));
 
     Value = 1 + std::rand() % 2;
+    ResourceName = "Wood";
 }
 

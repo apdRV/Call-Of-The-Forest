@@ -37,6 +37,18 @@ void AResourceBase::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* 
 }
 
 void AResourceBase::OnPickup(AMainPaperCharacter* Player){
+    if (ResourceName == "Wood"){
+        Player->WoodQuantity += Value;
+    }
+    else if (ResourceName == "Stone"){
+        Player->StoneQuantity += Value;
+    }
+    else if (ResourceName == "Trophy"){
+        Player->TrophyQuantity += Value;
+    }
+    else if (ResourceName == "Meat"){
+        Player->MeatQuantity += Value;
+    }
     Destroy();
 }
 

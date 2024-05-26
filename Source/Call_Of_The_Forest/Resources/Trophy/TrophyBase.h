@@ -23,7 +23,4 @@ public:
     UPaperFlipbookComponent* TrophyBaseComponent;
 
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 Value;
-	
 };

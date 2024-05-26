@@ -17,5 +17,6 @@ AStone::AStone()
 	SetActorRelativeScale3D(FVector(0.5, 1.0, 0.5));
 
     Value = 1 + std::rand() % 2;
+    ResourceName = "Stone";
 }
 

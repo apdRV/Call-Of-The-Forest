@@ -23,7 +23,5 @@ public:
     UPaperFlipbookComponent* StoneComponent;
 
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 Value;
 
 };

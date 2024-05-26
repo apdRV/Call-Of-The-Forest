@@ -16,4 +16,5 @@ ATrophyBase::ATrophyBase()
 	SetActorRelativeScale3D(FVector(0.5, 1.0, 0.5));
 
     Value = 1;
+    ResourceName = "Trophy";
 }

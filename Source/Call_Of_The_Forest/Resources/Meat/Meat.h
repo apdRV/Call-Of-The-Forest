@@ -23,7 +23,5 @@ public:
     UPaperFlipbookComponent* MeatComponent;
 
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int32 Value;
 
 };
