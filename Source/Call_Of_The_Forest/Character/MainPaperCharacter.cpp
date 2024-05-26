@@ -73,12 +73,12 @@ AMainPaperCharacter::AMainPaperCharacter()
     SphereCollider->OnComponentBeginOverlap.AddDynamic(this, &AMainPaperCharacter::OnOverlapBegin);
     SphereCollider->OnComponentEndOverlap.AddDynamic(this, &AMainPaperCharacter::OnOverlapEnd);
 
-    InteractionSphere = CreateDefaultSubobject<USphereComponent>(TEXT("InteractionSphere"));
-    InteractionSphere->SetSphereRadius(20.f);
-    InteractionSphere->SetCollisionProfileName(TEXT("Trigger"));
-    InteractionSphere->SetupAttachment(RootComponent);
+    // InteractionSphere = CreateDefaultSubobject<USphereComponent>(TEXT("InteractionSphere"));
+    // InteractionSphere->SetSphereRadius(20.f);
+    // InteractionSphere->SetCollisionProfileName(TEXT("Trigger"));
+    // InteractionSphere->SetupAttachment(RootComponent);
 
-    InteractionSphere->OnComponentBeginOverlap.AddDynamic(this, &AMainPaperCharacter::OnOverlapBegin);
+    // InteractionSphere->OnComponentBeginOverlap.AddDynamic(this, &AMainPaperCharacter::OnOverlapBegin);
 }
 
 // Called every frame
@@ -243,11 +243,11 @@ void AMainPaperCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AA
         World->AddOverlappingActors(OtherActor);
     }
 
-    AResourceBase* Resource = Cast<AResourceBase>(OtherActor);
-    if(Resource)
-    {
-        Resource->OnPickup(this);
-    }
+    // AResourceBase* Resource = Cast<AResourceBase>(OtherActor);
+    // if(Resource)
+    // {
+    //     Resource->OnPickup(this);
+    // }
 }
 
 void AMainPaperCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)

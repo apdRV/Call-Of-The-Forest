@@ -118,8 +118,20 @@ public:
 	UFUNCTION()
 	void EndAttackAnimation();
 
-	UPROPERTY(VisibleANywhere, BlueprintReadOnly, Category = "Resource")
-	class USphereComponent* InteractionSphere;
+	// UPROPERTY(VisibleANywhere, BlueprintReadOnly, Category = "Resource")
+	// class USphereComponent* InteractionSphere;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State") 
+	float WoodQuantity = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State") 
+	float StoneQuantity = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State") 
+	float MeatQuantity = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State") 
+	float TrophyQuantity = 0;
 
 private:
 	UPROPERTY(VisibleAnywhere)
