@@ -9,6 +9,7 @@
 #include "../Resources/Stone/Stone.h"
 #include "../Resources/Trophy/TrophyBase.h"
 #include "../Resources/Wood/Wood.h"
+#include "ASpherePickupActor.h"
 #include "StaticWorld.h"
 #include "ResourcesSpawner.generated.h"
 

@@ -24,9 +24,6 @@ public:
 
 	FName ResourceName = "Default";
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Resource")
-	class USphereComponent* PickupSphere;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 Value;
 

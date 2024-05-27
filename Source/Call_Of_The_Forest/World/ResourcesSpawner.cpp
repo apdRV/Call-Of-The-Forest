@@ -22,23 +22,34 @@ void AResourcesSpawner::BeginPlay()
 
 void AResourcesSpawner::SpawnResource(FVector Location, FRotator Rotation, FActorSpawnParameters SpawnParams, EResourceType Resource)
 {
+
+	AResourceBase* ResourceBase = nullptr;
 	switch(Resource)
 	{
 		case EResourceType::Meat:
-			GetWorld()->SpawnActor<AMeat>(Location, Rotation, SpawnParams);
+			ResourceBase = GetWorld()->SpawnActor<AMeat>(Location, Rotation, SpawnParams);
 			break;
 		case EResourceType::Stone:
-			GetWorld()->SpawnActor<AStone>(Location, Rotation, SpawnParams);
+			ResourceBase = GetWorld()->SpawnActor<AStone>(Location, Rotation, SpawnParams);
 			break;
 		case EResourceType::Trophy:
-			GetWorld()->SpawnActor<ATrophyBase>(Location, Rotation, SpawnParams);
+			ResourceBase = GetWorld()->SpawnActor<ATrophyBase>(Location, Rotation, SpawnParams);
 			break;
 		case EResourceType::Wood:
-			GetWorld()->SpawnActor<AWood>(Location, Rotation, SpawnParams);
+			ResourceBase = GetWorld()->SpawnActor<AWood>(Location, Rotation, SpawnParams);
 			break;
 		default:
 			UE_LOG(LogTemp, Warning, TEXT("Incorrect Type"));
 			break;
+	}
+
+	if (ResourceBase)
+    {
+		AASpherePickupActor* SpherePickup = GetWorld()->SpawnActor<AASpherePickupActor>(Location, Rotation, SpawnParams);
+		if (SpherePickup)
+		{
+			SpherePickup->LinkedResource = ResourceBase;
+		}
 	}
 }
 

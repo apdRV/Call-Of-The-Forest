@@ -9,16 +9,6 @@
 
 AResourceBase::AResourceBase(){
     PrimaryActorTick.bCanEverTick = true;
-
-    PickupSphere = CreateDefaultSubobject<USphereComponent>(TEXT("PickupSphere"));
-    PickupSphere->SetSphereRadius(5.f);
-    PickupSphere->SetCollisionProfileName(TEXT("Trigger"));
-
-    // PickupSphere->SetRelativeLocation(FVector(0.f, 0.f, 0.f));
-    
-    RootComponent = PickupSphere;
-
-    PickupSphere->OnComponentBeginOverlap.AddDynamic(this, &AResourceBase::OnOverlapBegin);
 }
 
 void AResourceBase::BeginPlay(){
