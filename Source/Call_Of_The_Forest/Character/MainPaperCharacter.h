@@ -122,21 +122,28 @@ public:
 	// class USphereComponent* InteractionSphere;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State") 
-	float WoodQuantity = 0;
+	int32 WoodQuantity = 0;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State") 
-	float StoneQuantity = 0;
+	int32 StoneQuantity = 0;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State") 
-	float MeatQuantity = 0;
+	int32 MeatQuantity = 0;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State") 
-	float TrophyQuantity = 0;
+	int32 TrophyQuantity = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State") 
+	int32 SwordLevel = 0;
 
 	UFUNCTION()
 	void EatMeat();
 
+	UFUNCTION()
+	void UpgradeSword();
+
 private:
+
 	UPROPERTY(VisibleAnywhere)
     class USphereComponent* SphereCollider;
 

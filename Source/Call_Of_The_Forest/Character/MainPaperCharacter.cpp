@@ -16,7 +16,7 @@ AMainPaperCharacter::AMainPaperCharacter()
 	bIsMoving = false;
     bIsDead = false;
     bIsAttacking = false;
-    Damage = 50.0f;
+    Damage = 30.0f;
     Health = 100.0f;
     CharacterState = EMainCharacterState::IdleDown;
     LastMoveDirection = EMainCharacterState::IdleDown;
@@ -116,6 +116,8 @@ void AMainPaperCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInput
     PlayerInputComponent->BindAction("EatMeat", IE_Pressed, this, &AMainPaperCharacter::EatMeat);
 
     PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &AMainPaperCharacter::Attack);
+
+    PlayerInputComponent->BindAction("UpgradeSword", IE_Pressed, this, &AMainPaperCharacter::UpgradeSword);
 }
 
 void AMainPaperCharacter::PickUpItem(float Value)
@@ -286,5 +288,43 @@ void AMainPaperCharacter::EatMeat(){
             Health = 100.0f;
         }
         MeatQuantity--;
+    }
+}
+
+void AMainPaperCharacter::UpgradeSword(){
+    switch(SwordLevel)
+    {
+        case 0:
+            if (WoodQuantity >= 100 && StoneQuantity >= 70){
+                Damage += 5;
+                SwordLevel = 1;
+                WoodQuantity -= 100;
+                StoneQuantity -= 70;
+                break;
+            }
+        case 1:
+            if (WoodQuantity >= 200 && StoneQuantity >= 140){
+                Damage += 10;
+                SwordLevel = 2;
+                WoodQuantity -= 200;
+                StoneQuantity -= 140;
+                break;
+            }
+        case 2:
+            if (WoodQuantity >= 300 && StoneQuantity >= 210){
+                Damage += 15;
+                SwordLevel = 3;
+                WoodQuantity -= 300;
+                StoneQuantity -= 210;
+                break;
+            }
+        case 3:
+            if (WoodQuantity >= 400 && StoneQuantity >= 280){
+                Damage += 20;
+                SwordLevel = 3;
+                WoodQuantity -= 400;
+                StoneQuantity -= 280;
+                break;
+            }
     }
 }
