@@ -5,6 +5,7 @@
 #include "../Animals/Animal.h"
 #include "../Animals/Predator.h"
 #include "../Spawners/Tree1.h"
+#include "../Enviroment/EnviromentObject.h"
 #include "ResourcesSpawner.h"
 
 AStaticWorld* AStaticWorld::World = nullptr;
@@ -41,6 +42,35 @@ void AStaticWorld::TreeDestroy(ATree1* Tree)
 	if(ResourceSpawner != nullptr)
 	{
 		ResourceSpawner->SpawnResource(Location, Rotation, SpawnParams, EResourceType::Wood);
+	}
+}
+
+void AStaticWorld::EnviromentObjectDestroy(AEnviromentObject* EnviromentObject)
+{
+	FVector Location = EnviromentObject->GetActorLocation();
+	Location.X += 10;
+	Location.Z -= 0.4;
+	FRotator Rotation = {0, 0, 0};
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.bNoFail = true;
+	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
+
+	auto iter = std::find(Actors["EnviromentObject"].begin(), Actors["EnviromentObject"].end(), EnviromentObject);
+	if(iter != Actors["EnviromentObject"].end())
+	{
+		Actors["EnviromentObject"].erase(iter);
+		UE_LOG(LogTemp, Warning, TEXT("EnviromentObject deleted"));
+	}
+	AResourcesSpawner* ResourceSpawner = dynamic_cast<AResourcesSpawner*>(Actors["ResourcesSpawner"][0]);
+	EEnviromentObjectType Object;
+	if(ResourceSpawner != nullptr)
+	{
+		Object = ResourceSpawner->DetermineObjectType(EnviromentObject);
+	}
+	EnviromentObject->Destroy();
+	if(ResourceSpawner != nullptr)
+	{
+		ResourceSpawner->SpawnEnviromentResource(Location, Rotation, SpawnParams, Object);
 	}
 }
 
@@ -135,6 +165,7 @@ void AStaticWorld::PredatorDestroy(APredator* Predator)
 
 void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState CharacterState, AMainPaperCharacter* Player)
 {
+	UE_LOG(LogTemp, Warning, TEXT("Player attack called"));
 	std::unique_lock lock(m_mutex);
 	for(int32 i = 0; i < OverlappingActors.Num(); i++)
 	{
@@ -145,6 +176,7 @@ void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState Char
 		AAnimal* Animal = dynamic_cast<AAnimal*>(Actor);
 		APredator* Predator = dynamic_cast<APredator*>(Actor);
 		ATree1* Tree = dynamic_cast<ATree1*>(Actor);
+		AEnviromentObject* EnviromentObject = dynamic_cast<AEnviromentObject*>(Actor);
 		if(Mob != nullptr && Mob->GetbIsDead())
 		{
 			MobDestroy(Mob);
@@ -160,6 +192,11 @@ void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState Char
 		else if(Tree != nullptr && Tree->GetbIsDead())
 		{
 			TreeDestroy(Tree);
+		}
+		else if(EnviromentObject != nullptr && EnviromentObject->GetbIsDead())
+		{
+			EnviromentObjectDestroy(EnviromentObject);
+			UE_LOG(LogTemp, Warning, TEXT("Enviromentdestroy called1"));
 		}
 	}
 
@@ -187,6 +224,12 @@ void AStaticWorld::AddOverlappingActors(AActor* OtherActor)
 	if(Tree != nullptr){
 		OverlappingActors.Add(OtherActor);
 	}
+	AEnviromentObject* EnviromentObject = dynamic_cast<AEnviromentObject*>(OtherActor);
+	if(EnviromentObject != nullptr)
+	{
+		OverlappingActors.Add(OtherActor);
+	}
+
 }
 
 void AStaticWorld::DeleteOverlappingActors(AActor* OtherActor)
@@ -208,6 +251,11 @@ void AStaticWorld::DeleteOverlappingActors(AActor* OtherActor)
     }
 	ATree1* Tree = dynamic_cast<ATree1*>(OtherActor);
 	if(Tree != nullptr){
+		OverlappingActors.Remove(OtherActor);
+	}
+	AEnviromentObject* EnviromentObject = dynamic_cast<AEnviromentObject*>(OtherActor);
+	if(EnviromentObject != nullptr)
+	{
 		OverlappingActors.Remove(OtherActor);
 	}
 }

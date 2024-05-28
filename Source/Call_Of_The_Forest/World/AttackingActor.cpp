@@ -42,6 +42,7 @@ void AttackingActor::MakeDamage(AActor* AttackingActor, AActor* AttackedActor)
 
 void AttackingActor::MainPlayerAttack(AActor* AttackingActor, AActor* AttackedActor)
 {
+    UE_LOG(LogTemp, Warning, TEXT("MainPlayerAttack called"));
     AMainPaperCharacter* Player = dynamic_cast<AMainPaperCharacter*>(AttackingActor);
     if(Player != nullptr)
     {

@@ -5,6 +5,7 @@
 #include "../Animals/Animal.h"
 #include "../Animals/Predator.h"
 #include "../Spawners/Tree1.h"
+#include "../Enviroment/EnviromentObject.h"
 
 void AttackedActor::TakeDamage(AActor* AttackedActor, AActor* AttackingActor)
 {
@@ -47,10 +48,12 @@ void AttackedActor::TakeDamageNpc(AActor* AttackedActor, AActor* AttackingActor)
 {
     if(AttackingActor == nullptr || AttackedActor == nullptr)
     {
+        UE_LOG(LogTemp, Warning, TEXT("Attacked actor or attackign actor is nullptr"));
         return;
     }
     if(FVector::Dist(AttackingActor->GetActorLocation(), AttackedActor->GetActorLocation()) > 100.0f)
     {
+        UE_LOG(LogTemp, Warning, TEXT("everything is too far"));
         return;
     }
 
@@ -64,6 +67,7 @@ void AttackedActor::TakeDamageNpc(AActor* AttackedActor, AActor* AttackingActor)
     AAnimal* Animal = dynamic_cast<AAnimal*>(AttackedActor);
     APredator* Predator = dynamic_cast<APredator*>(AttackedActor);
     ATree1* Tree = dynamic_cast<ATree1*>(AttackedActor);
+    AEnviromentObject* EnviromentObject = dynamic_cast<AEnviromentObject*>(AttackedActor);
     FVector PlayerLocation = Player->GetActorLocation();
     switch(Player->GetCharacterState())
     {
@@ -90,6 +94,11 @@ void AttackedActor::TakeDamageNpc(AActor* AttackedActor, AActor* AttackingActor)
                     Tree->Attacked(Player->GetDamage());
                     return;
                 }
+                else if(EnviromentObject != nullptr)
+                {
+                    EnviromentObject->Attacked(Player->GetDamage());
+                    return;
+                }
             }
             break;
         case EMainCharacterState::AttackUp:
@@ -112,6 +121,11 @@ void AttackedActor::TakeDamageNpc(AActor* AttackedActor, AActor* AttackingActor)
                 else if(Tree != nullptr)
                 {
                     Tree->Attacked(Player->GetDamage());
+                    return;
+                }
+                else if(EnviromentObject != nullptr)
+                {
+                    EnviromentObject->Attacked(Player->GetDamage());
                     return;
                 }
             }
@@ -138,6 +152,11 @@ void AttackedActor::TakeDamageNpc(AActor* AttackedActor, AActor* AttackingActor)
                     Tree->Attacked(Player->GetDamage());
                     return;
                 }
+                else if(EnviromentObject != nullptr)
+                {
+                    EnviromentObject->Attacked(Player->GetDamage());
+                    return;
+                }
             }
             break;
         case EMainCharacterState::AttackLeft:
@@ -160,6 +179,11 @@ void AttackedActor::TakeDamageNpc(AActor* AttackedActor, AActor* AttackingActor)
                 else if(Tree != nullptr)
                 {
                     Tree->Attacked(Player->GetDamage());
+                    return;
+                }
+                else if(EnviromentObject != nullptr)
+                {
+                    EnviromentObject->Attacked(Player->GetDamage());
                     return;
                 }
             }

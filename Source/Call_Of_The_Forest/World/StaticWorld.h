@@ -77,6 +77,9 @@ private:
 
 	UFUNCTION()
 	void TreeDestroy(ATree1* Tree);
+
+	UFUNCTION()
+	void EnviromentObjectDestroy(AEnviromentObject* EnviromentObject);
 	
 	UPROPERTY()
     TArray<AActor*> OverlappingActors;
