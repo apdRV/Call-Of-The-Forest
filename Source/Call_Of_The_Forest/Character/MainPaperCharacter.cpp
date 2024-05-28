@@ -155,7 +155,10 @@ void AMainPaperCharacter::MoveRightLeft(float Value)
 void AMainPaperCharacter::Attack()
 {
     SetAttackAnimation();
-    World->PlayerAttack(GetActorLocation(), CharacterState, this);
+    if(World != nullptr)
+    {
+        World->PlayerAttack(GetActorLocation(), CharacterState, this);
+    }
 }
 
 void AMainPaperCharacter::SetAttackAnimation()
