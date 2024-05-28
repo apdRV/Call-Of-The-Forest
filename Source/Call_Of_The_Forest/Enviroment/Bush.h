@@ -6,13 +6,11 @@
 #include "EnviromentObject.h"
 #include "Bush.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class CALL_OF_THE_FOREST_API ABush : public AEnviromentObject
 {
 	GENERATED_BODY()
+
 	ABush();
 
 private:

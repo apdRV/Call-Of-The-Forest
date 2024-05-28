@@ -6,9 +6,6 @@
 #include "EnviromentObject.h"
 #include "TreeLog.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class CALL_OF_THE_FOREST_API ATreeLog : public AEnviromentObject
 {

@@ -6,9 +6,6 @@
 #include "EnviromentObject.h"
 #include "SimpleTree.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class CALL_OF_THE_FOREST_API ASimpleTree : public AEnviromentObject
 {

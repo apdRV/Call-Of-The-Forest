@@ -6,18 +6,15 @@
 #include "EnviromentObject.h"
 #include "AppleTree.generated.h"
 
-/**
- * 
- */
-UCLASS()
-class CALL_OF_THE_FOREST_API AAppleTree : public AEnviromentObject
-{
-	GENERATED_BODY()
 
-	AAppleTree();
+UCLASS()
+class CALL_OF_THE_FOREST_API AAppleTree : public AEnviromentObject 
+{
+  GENERATED_BODY()
+
+  AAppleTree();
 
 private:
-	UPROPERTY()
-	UPaperFlipbookComponent* AppleTreeComponent;
-	
+  UPROPERTY()
+  UPaperFlipbookComponent *AppleTreeComponent;
 };

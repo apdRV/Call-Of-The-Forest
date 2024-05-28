@@ -6,9 +6,6 @@
 #include "EnviromentObject.h"
 #include "TreeStump.generated.h"
 
-/**
- * 
- */
 UCLASS()
 class CALL_OF_THE_FOREST_API ATreeStump : public AEnviromentObject
 {
