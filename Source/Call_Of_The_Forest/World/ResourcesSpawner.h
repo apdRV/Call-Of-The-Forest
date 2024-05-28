@@ -9,6 +9,7 @@
 #include "../Resources/Stone/Stone.h"
 #include "../Resources/Trophy/TrophyBase.h"
 #include "../Resources/Wood/Wood.h"
+#include "../Enviroment/EnviromentObject.h"
 #include "ASpherePickupActor.h"
 #include "StaticWorld.h"
 #include "ResourcesSpawner.generated.h"
@@ -32,6 +33,12 @@ public:
 	virtual void BeginPlay() override;
 	
 	void SpawnResource(FVector Location, FRotator Rotation, FActorSpawnParameters SpawnParams, EResourceType Resource);
+
+	void SpawnEnviromentResource(FVector Location, FRotator Rotation, FActorSpawnParameters SpawnParams, EEnviromentObjectType Object);
+	
+	EEnviromentObjectType DetermineObjectType(AActor* Object);
+
+
 
 	UPROPERTY()
 	AStaticWorld* World;

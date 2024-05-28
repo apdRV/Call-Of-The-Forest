@@ -4,15 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "../Enviroment/EnviromentObject.h"
 #include "EnviromentSpawner.generated.h"
-
-enum class EEnviromentObjectType
-{
-	Rock,
-	Bush,
-	AppleTree,
-	SimpleTree
-};
 
 UCLASS()
 class CALL_OF_THE_FOREST_API AEnviromentSpawner : public AActor

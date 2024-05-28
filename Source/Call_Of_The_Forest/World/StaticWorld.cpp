@@ -61,11 +61,16 @@ void AStaticWorld::EnviromentObjectDestroy(AEnviromentObject* EnviromentObject)
 		Actors["EnviromentObject"].erase(iter);
 		UE_LOG(LogTemp, Warning, TEXT("EnviromentObject deleted"));
 	}
-	EnviromentObject->Destroy();
 	AResourcesSpawner* ResourceSpawner = dynamic_cast<AResourcesSpawner*>(Actors["ResourcesSpawner"][0]);
+	EEnviromentObjectType Object;
 	if(ResourceSpawner != nullptr)
 	{
-		ResourceSpawner->SpawnResource(Location, Rotation, SpawnParams, EResourceType::Wood);
+		Object = ResourceSpawner->DetermineObjectType(EnviromentObject);
+	}
+	EnviromentObject->Destroy();
+	if(ResourceSpawner != nullptr)
+	{
+		ResourceSpawner->SpawnEnviromentResource(Location, Rotation, SpawnParams, Object);
 	}
 }
 

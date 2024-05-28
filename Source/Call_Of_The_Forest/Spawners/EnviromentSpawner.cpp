@@ -6,6 +6,8 @@
 #include "../Enviroment/SimpleTree.h"
 #include "../Enviroment/Bush.h"
 #include "../Enviroment/AppleTree.h"
+#include "../Enviroment/TreeLog.h"
+#include "../Enviroment/TreeStump.h"
 #include "Math/UnrealMathUtility.h"
 
 AEnviromentSpawner::AEnviromentSpawner()
@@ -25,7 +27,7 @@ void AEnviromentSpawner::BeginPlay()
 
 EEnviromentObjectType AEnviromentSpawner::GenerateRandomObject()
 {
-    int32 EnviromentObjectType = FMath::RandRange(1, 4);
+    int32 EnviromentObjectType = FMath::RandRange(1, 6);
     switch(EnviromentObjectType)
     {
         case 1:
@@ -36,6 +38,12 @@ EEnviromentObjectType AEnviromentSpawner::GenerateRandomObject()
             break;
         case 3:
             return EEnviromentObjectType::AppleTree;
+            break;
+        case 4:
+            return EEnviromentObjectType::TreeLog;
+            break;
+        case 5:
+            return EEnviromentObjectType::TreeStump;
             break;
         default:
             return EEnviromentObjectType::SimpleTree;
@@ -68,15 +76,23 @@ void AEnviromentSpawner::SpawnEnviromentObject()
 					case EEnviromentObjectType::AppleTree:
 						{
 							GetWorld()->SpawnActor<AAppleTree>(Location, Rotation);
-							
 						}
 						break;
 					case EEnviromentObjectType::SimpleTree:
 						{
 							GetWorld()->SpawnActor<ASimpleTree>(Location, Rotation);
-
 						}
 						break;
+                    case EEnviromentObjectType::TreeLog:
+                        {
+                            GetWorld()->SpawnActor<ATreeLog>(Location, Rotation);
+                        }
+                        break;
+                    case EEnviromentObjectType::TreeStump:
+                        {
+                            GetWorld()->SpawnActor<ATreeStump>(Location, Rotation);
+                        }
+                        break;
                 }
             }
         }

@@ -13,6 +13,16 @@
 /**
  * 
  */
+enum class EEnviromentObjectType
+{
+	Rock,
+	Bush,
+	AppleTree,
+	SimpleTree,
+	TreeLog,
+	TreeStump
+};
+
 UCLASS()
 class CALL_OF_THE_FOREST_API AEnviromentObject : public APaperFlipbookActor
 {
