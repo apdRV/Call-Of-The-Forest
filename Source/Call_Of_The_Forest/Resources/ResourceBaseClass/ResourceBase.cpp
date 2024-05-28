@@ -4,6 +4,7 @@
 #include "ResourceBase.h"
 #include "PaperFlipbookComponent.h"
 #include "PaperSpriteComponent.h"
+#include "Math/UnrealMathUtility.h"
 #include "../../Character/MainPaperCharacter.h"
 #include "Components/SphereComponent.h"
 
@@ -28,16 +29,16 @@ void AResourceBase::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* 
 
 void AResourceBase::OnPickup(AMainPaperCharacter* Player){
     if (ResourceName == "Wood"){
-        Player->WoodQuantity += Value;
+        Player->WoodQuantity += FMath::RandRange(1, 3);
     }
     else if (ResourceName == "Stone"){
-        Player->StoneQuantity += Value;
+        Player->StoneQuantity += FMath::RandRange(1, 2);
     }
     else if (ResourceName == "Trophy"){
-        Player->TrophyQuantity += Value;
+        Player->TrophyQuantity += 1;
     }
     else if (ResourceName == "Meat"){
-        Player->MeatQuantity += Value;
+        Player->MeatQuantity += FMath::RandRange(1, 2);
     }
     Destroy();
 }
