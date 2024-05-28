@@ -54,6 +54,7 @@ public:
 	UFUNCTION()
 	void PredatorIsAttacking(AMainPaperCharacter* MainCharacter, APredator* Predator);
 	
+	UFUNCTION()
 	void PlayerAttack(FVector PlayerLocation, EMainCharacterState CharacterState, AMainPaperCharacter* Player);
 
 	//property for overlapping character actors
@@ -74,9 +75,6 @@ private:
 
 	UFUNCTION()
 	void PredatorDestroy(APredator* Predator);
-
-	UFUNCTION()
-	void TreeDestroy(ATree1* Tree);
 
 	UFUNCTION()
 	void EnviromentObjectDestroy(AEnviromentObject* EnviromentObject);

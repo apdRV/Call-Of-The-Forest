@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Spawner.h"
 #include <random>
-#include "Tree1.h"
+#include "../Enviroment/SimpleTree.h"
 #include "TreeSpawner.generated.h"
 
 /**

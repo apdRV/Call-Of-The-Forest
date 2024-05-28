@@ -23,7 +23,7 @@ void AStoneSpawner::SpawnStone(){
                     y = r * 500 + std::rand() % 500;
                 }
                 FVector Location = {x, y, 12};
-                GetWorld()->SpawnActor<AStoneOnMap>(Location, Rotation);
+                GetWorld()->SpawnActor<ARock>(Location, Rotation);
                 for (int dx = -50; dx <= 50; ++dx) {
                     for (int dy = -50; dy <= 50; ++dy) {
                         occupiedLocations.insert({x + dx, y + dy});

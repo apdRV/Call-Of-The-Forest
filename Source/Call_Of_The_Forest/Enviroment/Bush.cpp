@@ -6,7 +6,7 @@
 ABush::ABush()
 {
     BushComponent = CreateDefaultSubobject<UPaperFlipbookComponent>(FName("BushComponent"));
-    ConstructorHelpers::FObjectFinderOptional<UPaperFlipbook> AppleTreeAsset(TEXT("/Script/Paper2D.PaperFlipbook'/Game/Sprites/AppleTree_Filpbook.AppleTree_Filpbook'"));
+    ConstructorHelpers::FObjectFinderOptional<UPaperFlipbook> AppleTreeAsset(TEXT("/Script/Paper2D.PaperFlipbook'/Game/Sprites/BushFlipbook.BushFlipbook'"));
     BushComponent->SetFlipbook(AppleTreeAsset.Get());
     SetActorScale3D(FVector(0.75, 1.5, 15));
     BushComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);

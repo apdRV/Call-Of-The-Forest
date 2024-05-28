@@ -6,7 +6,7 @@
 ATreeStump::ATreeStump()
 {
     TreeStumpComponent = CreateDefaultSubobject<UPaperFlipbookComponent>(FName("TreeStumpComponent"));
-    ConstructorHelpers::FObjectFinderOptional<UPaperFlipbook> AppleTreeAsset(TEXT("/Script/Paper2D.PaperFlipbook'/Game/Sprites/tree_log_flipbook.tree_log_flipbook'"));
+    ConstructorHelpers::FObjectFinderOptional<UPaperFlipbook> AppleTreeAsset(TEXT("/Script/Paper2D.PaperFlipbook'/Game/Sprites/stump_flipbook.stump_flipbook'"));
     TreeStumpComponent->SetFlipbook(AppleTreeAsset.Get());
     SetActorScale3D(FVector(0.75, 1.5, 15));
     TreeStumpComponent->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);

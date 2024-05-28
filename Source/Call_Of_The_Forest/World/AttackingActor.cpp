@@ -2,10 +2,8 @@
 #include "AttackingActor.h"
 #include "../Character/MainPaperCharacter.h"
 #include "../Mobs/Mob.h"
-#include "../Animals/Animal.h"
 #include "Math/UnrealMathUtility.h"
 #include "../Animals/Predator.h"
-#include "../Spawners/Tree1.h"
 
 void AttackingActor::MakeDamage(AActor* AttackingActor, AActor* AttackedActor)
 {

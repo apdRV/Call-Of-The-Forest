@@ -4,7 +4,6 @@
 #include "../Mobs/Mob.h"
 #include "../Animals/Animal.h"
 #include "../Animals/Predator.h"
-#include "../Spawners/Tree1.h"
 #include "../Enviroment/EnviromentObject.h"
 #include "ResourcesSpawner.h"
 
@@ -19,30 +18,6 @@ AStaticWorld::AStaticWorld()
 AStaticWorld::~AStaticWorld()
 {
 	World = nullptr;
-}
-void AStaticWorld::TreeDestroy(ATree1* Tree)
-{
-	FVector Location = Tree->GetActorLocation();
-	Location.X += 10;
-	Location.Z -= 0.4;
-	FRotator Rotation = {0, 0, 0};
-	FActorSpawnParameters SpawnParams;
-	SpawnParams.bNoFail = true;
-	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-
-	auto iter = std::find(Actors["Tree"].begin(), Actors["Tree"].end(), Tree);
-	if(iter != Actors["Tree"].end())
-	{
-		Actors["Tree"].erase(iter);
-		UE_LOG(LogTemp, Warning, TEXT("Tree deleted"));
-	}
-
-	Tree->Destroy();
-	AResourcesSpawner* ResourceSpawner = dynamic_cast<AResourcesSpawner*>(Actors["ResourcesSpawner"][0]);
-	if(ResourceSpawner != nullptr)
-	{
-		ResourceSpawner->SpawnResource(Location, Rotation, SpawnParams, EResourceType::Wood);
-	}
 }
 
 void AStaticWorld::EnviromentObjectDestroy(AEnviromentObject* EnviromentObject)
@@ -175,7 +150,6 @@ void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState Char
 		AMob* Mob = dynamic_cast<AMob*>(Actor);
 		AAnimal* Animal = dynamic_cast<AAnimal*>(Actor);
 		APredator* Predator = dynamic_cast<APredator*>(Actor);
-		ATree1* Tree = dynamic_cast<ATree1*>(Actor);
 		AEnviromentObject* EnviromentObject = dynamic_cast<AEnviromentObject*>(Actor);
 		if(Mob != nullptr && Mob->GetbIsDead())
 		{
@@ -189,14 +163,9 @@ void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState Char
 		{
 			PredatorDestroy(Predator);
 		}
-		else if(Tree != nullptr && Tree->GetbIsDead())
-		{
-			TreeDestroy(Tree);
-		}
 		else if(EnviromentObject != nullptr && EnviromentObject->GetbIsDead())
 		{
 			EnviromentObjectDestroy(EnviromentObject);
-			UE_LOG(LogTemp, Warning, TEXT("Enviromentdestroy called1"));
 		}
 	}
 
@@ -220,10 +189,6 @@ void AStaticWorld::AddOverlappingActors(AActor* OtherActor)
         Predator->SetbIsActive(true);
         OverlappingActors.Add(OtherActor);
     }
-	ATree1* Tree = dynamic_cast<ATree1*>(OtherActor);
-	if(Tree != nullptr){
-		OverlappingActors.Add(OtherActor);
-	}
 	AEnviromentObject* EnviromentObject = dynamic_cast<AEnviromentObject*>(OtherActor);
 	if(EnviromentObject != nullptr)
 	{
@@ -249,10 +214,6 @@ void AStaticWorld::DeleteOverlappingActors(AActor* OtherActor)
         Predator->SetbIsActive(false);
 		OverlappingActors.Remove(OtherActor);
     }
-	ATree1* Tree = dynamic_cast<ATree1*>(OtherActor);
-	if(Tree != nullptr){
-		OverlappingActors.Remove(OtherActor);
-	}
 	AEnviromentObject* EnviromentObject = dynamic_cast<AEnviromentObject*>(OtherActor);
 	if(EnviromentObject != nullptr)
 	{

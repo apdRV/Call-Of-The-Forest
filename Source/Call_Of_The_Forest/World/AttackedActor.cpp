@@ -4,7 +4,6 @@
 #include "../Mobs/Mob.h"
 #include "../Animals/Animal.h"
 #include "../Animals/Predator.h"
-#include "../Spawners/Tree1.h"
 #include "../Enviroment/EnviromentObject.h"
 
 void AttackedActor::TakeDamage(AActor* AttackedActor, AActor* AttackingActor)
@@ -66,7 +65,6 @@ void AttackedActor::TakeDamageNpc(AActor* AttackedActor, AActor* AttackingActor)
     AMob* Mob = dynamic_cast<AMob*>(AttackedActor);
     AAnimal* Animal = dynamic_cast<AAnimal*>(AttackedActor);
     APredator* Predator = dynamic_cast<APredator*>(AttackedActor);
-    ATree1* Tree = dynamic_cast<ATree1*>(AttackedActor);
     AEnviromentObject* EnviromentObject = dynamic_cast<AEnviromentObject*>(AttackedActor);
     FVector PlayerLocation = Player->GetActorLocation();
     switch(Player->GetCharacterState())
@@ -87,11 +85,6 @@ void AttackedActor::TakeDamageNpc(AActor* AttackedActor, AActor* AttackingActor)
                 else if(Predator != nullptr)
                 {
                     Predator->Attacked(Player->GetDamage());
-                    return;
-                }
-                else if(Tree != nullptr)
-                {
-                    Tree->Attacked(Player->GetDamage());
                     return;
                 }
                 else if(EnviromentObject != nullptr)
@@ -118,11 +111,6 @@ void AttackedActor::TakeDamageNpc(AActor* AttackedActor, AActor* AttackingActor)
                     Predator->Attacked(Player->GetDamage());
                     return;
                 }
-                else if(Tree != nullptr)
-                {
-                    Tree->Attacked(Player->GetDamage());
-                    return;
-                }
                 else if(EnviromentObject != nullptr)
                 {
                     EnviromentObject->Attacked(Player->GetDamage());
@@ -147,11 +135,6 @@ void AttackedActor::TakeDamageNpc(AActor* AttackedActor, AActor* AttackingActor)
                     Predator->Attacked(Player->GetDamage());
                     return;
                 }
-                else if(Tree != nullptr)
-                {
-                    Tree->Attacked(Player->GetDamage());
-                    return;
-                }
                 else if(EnviromentObject != nullptr)
                 {
                     EnviromentObject->Attacked(Player->GetDamage());
@@ -174,11 +157,6 @@ void AttackedActor::TakeDamageNpc(AActor* AttackedActor, AActor* AttackingActor)
                 else if(Predator != nullptr)
                 {
                     Predator->Attacked(Player->GetDamage());
-                    return;
-                }
-                else if(Tree != nullptr)
-                {
-                    Tree->Attacked(Player->GetDamage());
                     return;
                 }
                 else if(EnviromentObject != nullptr)

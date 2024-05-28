@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Spawner.h"
 #include <random>
-#include "StoneOnMap.h"
+#include "../Enviroment/Rock.h"
 #include "StoneSpawner.generated.h"
 
 /**
