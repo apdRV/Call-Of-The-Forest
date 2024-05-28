@@ -35,10 +35,8 @@ public:
 	void SpawnResource(FVector Location, FRotator Rotation, FActorSpawnParameters SpawnParams, EResourceType Resource);
 
 	void SpawnEnviromentResource(FVector Location, FRotator Rotation, FActorSpawnParameters SpawnParams, EEnviromentObjectType Object);
-	
+
 	EEnviromentObjectType DetermineObjectType(AActor* Object);
-
-
 
 	UPROPERTY()
 	AStaticWorld* World;
