@@ -123,12 +123,12 @@ void AStaticWorld::PredatorDestroy(APredator* Predator)
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
 		auto iter = std::find(Actors["Predator"].begin(), Actors["Predator"].end(), Predator);
+		if (iter == Actors["Predator"].end()) return;
 		if(iter != Actors["Predator"].end())
 		{
 			Actors["Predator"].erase(iter);
 			UE_LOG(LogTemp, Warning, TEXT("Predator deleted"));
 		}
-
 		Predator->Destroy();
 		AResourcesSpawner* ResourceSpawner = dynamic_cast<AResourcesSpawner*>(Actors["ResourcesSpawner"][0]);
 		if(ResourceSpawner != nullptr)
