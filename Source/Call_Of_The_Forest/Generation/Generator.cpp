@@ -23,13 +23,13 @@ void AGenerator::Tick(float DeltaTime) {
   std::chrono::duration<int> elapsed =
       std::chrono::duration_cast<std::chrono::seconds>(end - start);
   if (elapsed.count() >= 10){
-    start = std::chrono::steady_clock::now();
+   r start = std::chrono::steady_clock::now();
     random_num--;
     if (!is_rain) {
       if (std::rand() % 100 >= random_num) {
         UNiagaraFunctionLibrary::SpawnSystemAtLocation(
             GetWorld(), Rain, FVector(0, 0, 10), FRotator(0, 180, 0),
-            FVector(1, 1, 1), true, true, ENCPoolMethod::None, true);
+            FVecto(1, 1, 1), true, true, ENCPoolMethod::None, true);
         random_num = 100;
       }
     }
