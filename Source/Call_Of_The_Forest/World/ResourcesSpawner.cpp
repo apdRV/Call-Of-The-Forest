@@ -12,13 +12,13 @@
 AResourcesSpawner::AResourcesSpawner()
 {
 	PrimaryActorTick.bCanEverTick = true;
-	World = AStaticWorld::GetStaticWorld();
 
 }
 
 void AResourcesSpawner::BeginPlay()
 {
 	Super::BeginPlay();
+	World = AStaticWorld::GetStaticWorld();
 	if(World != nullptr)
 	{
 		World->AddActor("ResourcesSpawner", this);

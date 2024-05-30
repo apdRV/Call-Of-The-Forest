@@ -31,11 +31,9 @@ void AStaticWorld::EnviromentObjectDestroy(AEnviromentObject* EnviromentObject)
 	SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
 	auto iter = std::find(Actors["EnviromentObject"].begin(), Actors["EnviromentObject"].end(), EnviromentObject);
-	if(iter != Actors["EnviromentObject"].end())
-	{
-		Actors["EnviromentObject"].erase(iter);
-		UE_LOG(LogTemp, Warning, TEXT("EnviromentObject deleted"));
-	}
+	if(iter == Actors["EnviromentObject"].end()) return;
+	Actors["EnviromentObject"].erase(iter);
+	UE_LOG(LogTemp, Warning, TEXT("EnviromentObject deleted"));
 	AResourcesSpawner* ResourceSpawner = dynamic_cast<AResourcesSpawner*>(Actors["ResourcesSpawner"][0]);
 	EEnviromentObjectType Object;
 	if(ResourceSpawner != nullptr)
@@ -64,11 +62,9 @@ void AStaticWorld::MobDestroy(AMob* Mob)
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
 		auto iter = std::find(Actors["Mob"].begin(), Actors["Mob"].end(), Mob);
-		if(iter != Actors["Mob"].end())
-		{
-			Actors["Mob"].erase(iter);
-			UE_LOG(LogTemp, Warning, TEXT("Mob deleted"));
-		}
+		if(iter == Actors["Mob"].end()) return;
+		Actors["Mob"].erase(iter);
+		UE_LOG(LogTemp, Warning, TEXT("Mob deleted"));
 		Mob->Destroy();
 		AResourcesSpawner* ResourceSpawner = dynamic_cast<AResourcesSpawner*>(Actors["ResourcesSpawner"][0]);
 		if(ResourceSpawner != nullptr)
@@ -93,12 +89,9 @@ void AStaticWorld::AnimalDestroy(AAnimal* Animal)
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
 
 		auto iter = std::find(Actors["Animal"].begin(), Actors["Animal"].end(), Animal);
-		if(iter != Actors["Animal"].end())
-		{
-			Actors["Animal"].erase(iter);
-			UE_LOG(LogTemp, Warning, TEXT("Animal deleted"));
-		}
-
+		if(iter == Actors["Animal"].end()) return;
+		Actors["Animal"].erase(iter);
+		UE_LOG(LogTemp, Warning, TEXT("Animal deleted"));
 		Animal->Destroy();
 		AResourcesSpawner* ResourceSpawner = dynamic_cast<AResourcesSpawner*>(Actors["ResourcesSpawner"][0]);
 		if(ResourceSpawner != nullptr)
@@ -125,10 +118,8 @@ void AStaticWorld::PredatorDestroy(APredator* Predator)
 		auto iter = std::find(Actors["Predator"].begin(), Actors["Predator"].end(), Predator);
 		if (iter == Actors["Predator"].end()) return;
 		if(iter != Actors["Predator"].end())
-		{
-			Actors["Predator"].erase(iter);
-			UE_LOG(LogTemp, Warning, TEXT("Predator deleted"));
-		}
+		Actors["Predator"].erase(iter);
+		UE_LOG(LogTemp, Warning, TEXT("Predator deleted"));
 		Predator->Destroy();
 		AResourcesSpawner* ResourceSpawner = dynamic_cast<AResourcesSpawner*>(Actors["ResourcesSpawner"][0]);
 		if(ResourceSpawner != nullptr)
