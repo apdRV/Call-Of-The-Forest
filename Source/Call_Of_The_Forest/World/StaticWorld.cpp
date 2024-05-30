@@ -52,7 +52,7 @@ void AStaticWorld::MobDestroy(AMob* Mob)
 	Mob->SetbIsDestroyed(true);
 	float DelayBeforeDestroy = 1.5f;
 	FTimerHandle TimerHandle;
-	GetWorldTimerManager().SetTimer(TimerHandle, [Mob, this]()
+	Mob->GetWorldTimerManager().SetTimer(TimerHandle, [Mob, this]()
 	{
 		FVector Location = Mob->GetActorLocation();
 		Location.X += 10;
@@ -80,7 +80,7 @@ void AStaticWorld::AnimalDestroy(AAnimal* Animal)
 	Animal->SetbIsDestroyed(true);
 	float DelayBeforeDestroy = 1.5f;
 	FTimerHandle TimerHandle;
-	GetWorldTimerManager().SetTimer(TimerHandle, [Animal, this]()
+	Animal->GetWorldTimerManager().SetTimer(TimerHandle, [Animal, this]()
 	{
 		FVector Location = Animal->GetActorLocation();
 		Location.X += 10;
@@ -108,7 +108,7 @@ void AStaticWorld::PredatorDestroy(APredator* Predator)
 	Predator->SetbIsDestroyed(true);
 	float DelayBeforeDestroy = 1.5f;
 	FTimerHandle TimerHandle;
-	GetWorldTimerManager().SetTimer(TimerHandle, [Predator, this]()
+	Predator->GetWorldTimerManager().SetTimer(TimerHandle, [Predator, this]()
 	{
 		FVector Location = Predator->GetActorLocation();
 		Location.X += 10;
