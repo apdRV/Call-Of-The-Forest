@@ -9,6 +9,7 @@
 #include "PaperFlipbookComponent.h"
 #include "PaperFlipbookActor.h"
 #include "PaperFlipbook.h"
+#include "Engine/World.h"
 #include "Components/SphereComponent.h"
 #include "PaperCharacter.h"
 #include "../World/AttackedDerivedDeclaration.h"

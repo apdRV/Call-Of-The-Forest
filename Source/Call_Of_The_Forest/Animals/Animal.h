@@ -8,6 +8,7 @@
 #include "PaperFlipbook.h"
 #include "GameFramework/Character.h"
 #include "PaperFlipbookComponent.h"
+#include "Engine/World.h"
 #include "Components/CapsuleComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "../World/StaticWorld.h"

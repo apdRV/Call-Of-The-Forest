@@ -16,9 +16,11 @@ class CALL_OF_THE_FOREST_API AMyDatabase : public AActor
 {
 	GENERATED_BODY()
 	
+	static FString username;
 public:	
 	// Sets default values for this actor's properties
 	AMyDatabase();
 	static void CreateAccount(FString name, FString password);
 	static bool Login(FString name, FString password);
+	static FString GetName();
 };

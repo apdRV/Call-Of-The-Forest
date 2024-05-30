@@ -4,6 +4,8 @@
 #include "MyDatabase.h"
 
 // Sets default values
+FString AMyDatabase::username = "";
+
 AMyDatabase::AMyDatabase()
 {
 }
@@ -47,5 +49,10 @@ bool AMyDatabase::Login(FString name, FString password) {
   delete Statement;
   AutorisationDb->Close();  
   delete AutorisationDb;
+  if (result) username = name;
   return result;
+}
+
+FString AMyDatabase::GetName() {
+  return username;
 }

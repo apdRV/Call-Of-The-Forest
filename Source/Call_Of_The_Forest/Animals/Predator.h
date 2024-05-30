@@ -6,6 +6,7 @@
 #include "PaperCharacter.h"
 #include "PaperFlipbookActor.h"
 #include "PaperFlipbook.h"
+#include "Engine/World.h"
 #include "GameFramework/Character.h"
 #include "PaperFlipbookComponent.h"
 #include "Components/CapsuleComponent.h"
