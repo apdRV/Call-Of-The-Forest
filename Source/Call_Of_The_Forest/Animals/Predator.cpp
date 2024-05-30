@@ -212,3 +212,8 @@ void APredator::SetPredatorState(EPredatorState NewState)
 {
     PredatorState = NewState;
 }
+
+void APredator::SetPredatorLastState(EPredatorState NewState)
+{
+    LastPredatorState = NewState;
+}

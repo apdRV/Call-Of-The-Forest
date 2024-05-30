@@ -52,6 +52,9 @@ public:
 
   UFUNCTION()
   void SetMobState(EMobState NewState);
+
+  UFUNCTION()
+  void SetLastMobState(EMobState NewState);
   
   UFUNCTION(BlueprintCallable, Category = "Trigger")
   bool GetbIsTriggered();

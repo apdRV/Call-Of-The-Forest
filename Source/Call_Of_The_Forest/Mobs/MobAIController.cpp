@@ -80,6 +80,15 @@ void AMobAIController::TriggerAttack()
         }
         if(TargetMainCharacter != nullptr)
         {
+            if(TargetMainCharacter->GetActorLocation().Y - m_Mob->GetActorLocation().Y < 0.0f)
+            {
+                m_Mob->SetMobState(EMobState::IdleLeftDown);
+                m_Mob->SetLastMobState(EMobState::IdleLeftDown);
+            }
+            else{
+                m_Mob->SetMobState(EMobState::IdleRightUp);
+                m_Mob->SetLastMobState(EMobState::IdleRightUp);
+            }
             World->MobIsAttacking(TargetMainCharacter, m_Mob);
             bCanAttack = false;
             GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AMobAIController::ResetAttack, AttackInterval, false);

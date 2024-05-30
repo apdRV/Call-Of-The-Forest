@@ -253,6 +253,11 @@ void AMob::SetMobState(EMobState NewState){
     MobState = NewState;
 }
 
+void AMob::SetLastMobState(EMobState NewState)
+{
+    LastMobState = NewState;
+}
+
 void AMob::UpdateMobSprite()
 {
 

@@ -84,6 +84,10 @@ public:
 	UFUNCTION()
 	void SetPredatorState(EPredatorState NewState);
 
+	UFUNCTION()
+	void SetPredatorLastState(EPredatorState NewState);
+
+
 protected:
 	UPROPERTY()
 	EPredatorState PredatorState;

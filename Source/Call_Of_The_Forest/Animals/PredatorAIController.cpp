@@ -125,6 +125,15 @@ void APredatorAIController::TriggerAttack()
         }
         if(bTargetMainCharacter != nullptr)
         {
+            if(bTargetMainCharacter->GetActorLocation().Y - bPredator->GetActorLocation().Y < 0.0f)
+            {
+                bPredator->SetPredatorState(EPredatorState::IdleLeftDown);
+                bPredator->SetPredatorLastState(EPredatorState::IdleLeftDown);
+            }
+            else{
+                bPredator->SetPredatorState(EPredatorState::IdleRightUp);
+                bPredator->SetPredatorLastState(EPredatorState::IdleRightUp);
+            }
             World->PredatorIsAttacking(bTargetMainCharacter, bPredator);
             bCanAttack = false;
             GetWorldTimerManager().SetTimer(TimerHandle, this, &APredatorAIController::ResetAttack, bAttackInterval, false);
