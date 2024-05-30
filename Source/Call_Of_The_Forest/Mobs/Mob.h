@@ -74,6 +74,12 @@ public:
   UFUNCTION()
   float GetBaseDamage();
 
+  UFUNCTION()
+  bool GetbIsDestroyed();
+
+  UFUNCTION()
+  void SetbIsDestroyed(bool Value);
+
 protected:
 
   UFUNCTION()
@@ -111,6 +117,9 @@ protected:
 
   UPROPERTY()
   bool bIsTriggered;
+
+  UPROPERTY()
+  bool bIsDestroyed;
 
   UPROPERTY(EditAnywhere, Category = "Health")
   float MaxHealth;

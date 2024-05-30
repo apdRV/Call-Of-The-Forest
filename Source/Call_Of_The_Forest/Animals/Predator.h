@@ -76,6 +76,12 @@ public:
 	EPredatorState GetPredatorState();
 
 	UFUNCTION()
+	bool GetbIsDestroyed();
+
+	UFUNCTION()
+	void SetbIsDestroyed(bool Value);
+
+	UFUNCTION()
 	void SetPredatorState(EPredatorState NewState);
 
 protected:
@@ -105,6 +111,9 @@ protected:
 
 	UPROPERTY()
 	bool bIsAttacking;
+
+	UPROPERTY()
+	bool bIsDestroyed;
 
 	UPROPERTY()
 	FTimerHandle AttackTimerHandle;

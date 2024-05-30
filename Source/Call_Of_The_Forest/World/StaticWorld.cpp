@@ -49,6 +49,7 @@ void AStaticWorld::EnviromentObjectDestroy(AEnviromentObject* EnviromentObject)
 
 void AStaticWorld::MobDestroy(AMob* Mob)
 {
+	Mob->SetbIsDestroyed(true);
 	float DelayBeforeDestroy = 1.5f;
 	FTimerHandle TimerHandle;
 	GetWorldTimerManager().SetTimer(TimerHandle, [Mob, this]()
@@ -76,6 +77,7 @@ void AStaticWorld::MobDestroy(AMob* Mob)
 
 void AStaticWorld::AnimalDestroy(AAnimal* Animal)
 {
+	Animal->SetbIsDestroyed(true);
 	float DelayBeforeDestroy = 1.5f;
 	FTimerHandle TimerHandle;
 	GetWorldTimerManager().SetTimer(TimerHandle, [Animal, this]()
@@ -103,6 +105,7 @@ void AStaticWorld::AnimalDestroy(AAnimal* Animal)
 
 void AStaticWorld::PredatorDestroy(APredator* Predator)
 {
+	Predator->SetbIsDestroyed(true);
 	float DelayBeforeDestroy = 1.5f;
 	FTimerHandle TimerHandle;
 	GetWorldTimerManager().SetTimer(TimerHandle, [Predator, this]()
@@ -142,15 +145,15 @@ void AStaticWorld::PlayerAttack(FVector PlayerLocation, EMainCharacterState Char
 		AAnimal* Animal = dynamic_cast<AAnimal*>(Actor);
 		APredator* Predator = dynamic_cast<APredator*>(Actor);
 		AEnviromentObject* EnviromentObject = dynamic_cast<AEnviromentObject*>(Actor);
-		if(Mob != nullptr && Mob->GetbIsDead())
+		if(Mob != nullptr && Mob->GetbIsDead() && !Mob->GetbIsDestroyed())
 		{
 			MobDestroy(Mob);
 		}
-		else if(Animal != nullptr && Animal->GetbIsDead())
+		else if(Animal != nullptr && Animal->GetbIsDead() && !Animal->GetbIsDestroyed())
 		{
 			AnimalDestroy(Animal);
 		}
-		else if(Predator != nullptr && Predator->GetbIsDead())
+		else if(Predator != nullptr && Predator->GetbIsDead() && !Predator->GetbIsDestroyed())
 		{
 			PredatorDestroy(Predator);
 		}

@@ -63,6 +63,12 @@ public:
 	void SetbSpeed(float Value);
 
 	UFUNCTION()
+	bool GetbIsDestroyed();
+
+	UFUNCTION()
+	void SetbIsDestroyed(bool Value);
+
+	UFUNCTION()
 	void SetupOwner(UPaperFlipbookComponent* bOwner);
 
 protected:
@@ -87,6 +93,9 @@ protected:
 
 	UPROPERTY()
 	bool bIsActive;
+
+	UPROPERTY()
+	bool bIsDestroyed;
 
 	UPROPERTY()
 	float bRadius;

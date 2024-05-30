@@ -15,6 +15,7 @@ APredator::APredator()
     bIsAttacking = false;
     bIsTriggered = false;
     bIsActive = false;
+    bIsDestroyed = false;
 
     //Walking Radius
     bRadius = 400.0f;
@@ -195,6 +196,16 @@ void APredator::SetbSpeed(float Value)
 EPredatorState APredator::GetPredatorState()
 {
     return PredatorState;
+}
+
+bool APredator::GetbIsDestroyed()
+{
+    return bIsDestroyed;
+}
+
+void APredator::SetbIsDestroyed(bool Value)
+{
+    bIsDestroyed = Value;
 }
 
 void APredator::SetPredatorState(EPredatorState NewState)

@@ -11,6 +11,7 @@ AAnimal::AAnimal(){
     bIsDead = false;
     bIsAttacked = false;
     bIsActive = false;
+    bIsDestroyed = false;
 
     //Walking Radius
     bRadius = 300.0f;
@@ -136,6 +137,16 @@ void AAnimal::SetbSpeed(float Value)
 {
     bSpeed = Value;
     GetCharacterMovement()->MaxWalkSpeed = bSpeed;
+}
+
+bool AAnimal::GetbIsDestroyed()
+{
+    return bIsDestroyed;
+}
+
+void AAnimal::SetbIsDestroyed(bool Value)
+{
+    bIsDestroyed = Value;
 }
 
 void AAnimal::SetupOwner(UPaperFlipbookComponent *bOwner)

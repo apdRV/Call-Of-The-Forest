@@ -25,6 +25,7 @@ AMob::AMob()
     BaseDamage = 5.0f;
     Speed = 40.0f;
     bIsTriggered = false;
+    bIsDestroyed = false;
     bRadius = 100.0f;
 
 
@@ -262,3 +263,12 @@ float AMob::GetBaseDamage()
     return BaseDamage;
 }
 
+bool AMob::GetbIsDestroyed()
+{
+    return bIsDestroyed;
+}
+
+void AMob::SetbIsDestroyed(bool Value)
+{
+    bIsDestroyed = Value;
+}
