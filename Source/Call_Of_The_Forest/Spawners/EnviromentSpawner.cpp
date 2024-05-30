@@ -55,12 +55,16 @@ EEnviromentObjectType AEnviromentSpawner::GenerateRandomObject()
 void AEnviromentSpawner::SpawnEnviromentObject()
 {
     FRotator Rotation(0, -90, 90);
-    for (int l = -4; l < 4; l++) {
-        for (int r = -4; r < 4; r++) {
-            for (int i = 0; i < 2; i++) {
+    for (int l = -7; l < 7; l++) {
+        for (int r = -7; r < 7; r++) {
+            for (int i = 0; i < 12; i++) {
                 FVector Location = { 0, 0, 13 };
                 Location[0] = l * 500 + FMath::RandRange(0, 500);
                 Location[1] = r * 500 + FMath::RandRange(0, 500);
+                if(FMath::Abs(Location[0]) < 100.0f || FMath::Abs(Location[1]) < 100.0f)
+                {
+                    continue;
+                }
                 switch(GenerateRandomObject())
                 {
                     case EEnviromentObjectType::Rock:

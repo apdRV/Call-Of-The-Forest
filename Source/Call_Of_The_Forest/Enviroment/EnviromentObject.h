@@ -52,5 +52,6 @@ protected:
 
 private:
     friend class AttackingActor;
+	
     friend class AttackedActor;
 };

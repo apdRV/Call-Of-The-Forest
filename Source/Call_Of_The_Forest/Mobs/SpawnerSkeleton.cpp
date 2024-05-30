@@ -4,7 +4,7 @@
 #include "SpawnerSkeleton.h"
 #include "MobAIController.h"
 #include "MSkeleton.h"
-#include <cmath>
+#include "Math/UnrealMathUtility.h"
 
 void ASpawnerSkeleton::SpawnSkeletons()
 {
@@ -15,7 +15,7 @@ void ASpawnerSkeleton::SpawnSkeletons()
                 FVector Location = { 0, 0, 12 };
                 Location[0] = l * 500 + FMath::RandRange(0, 500);
                 Location[1] = r * 500 + FMath::RandRange(0, 500);
-                if (FMath::Abs(Location[0]) > 50 && FMath::Abs(Location[1]) > 50) {
+                if (FMath::Abs(Location[0]) > 100.0f && FMath::Abs(Location[1]) > 100.0f) {
                     AController* AIController = GetWorld()->SpawnActor<AMobAIController>(AMobAIController::StaticClass());
                     AMob* SpawnedMob = GetWorld()->SpawnActor<AMSkeleton>(Location, Rotation);
                     if(SpawnedMob && AIController){

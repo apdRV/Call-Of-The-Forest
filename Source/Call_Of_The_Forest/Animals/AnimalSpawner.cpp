@@ -2,16 +2,14 @@
 
 
 #include "AnimalSpawner.h"
+#include "Math/UnrealMathUtility.h"
 
-// Sets default values
 AAnimalSpawner::AAnimalSpawner()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
 
 }
 
-// Called when the game starts or when spawned
 void AAnimalSpawner::BeginPlay()
 {
 	Super::BeginPlay();
@@ -54,6 +52,10 @@ void AAnimalSpawner::SpawnAnimals()
                 FVector Location = { 0, 0, 12 };
                 Location[0] = l * 500 + FMath::RandRange(0, 500);
                 Location[1] = r * 500 + FMath::RandRange(0, 500);
+                if(FMath::Abs(Location[0]) < 100.0f || FMath::Abs(Location[1]) < 100.0f)
+                {
+                    continue;
+                }
                 AAnimalsAIController* AIController = nullptr;
                 APredatorAIController* AIPredatorController = nullptr;
                 switch(GenerateRandomAnimal())

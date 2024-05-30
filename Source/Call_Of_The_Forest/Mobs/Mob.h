@@ -167,6 +167,7 @@ protected:
 private:
 	//Access to protected members for attacking system
 	friend class AttackedActor;
+  
 	friend class AttackingActor;
 
 };

@@ -118,9 +118,6 @@ public:
 	UFUNCTION()
 	void EndAttackAnimation();
 
-	// UPROPERTY(VisibleANywhere, BlueprintReadOnly, Category = "Resource")
-	// class USphereComponent* InteractionSphere;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State") 
 	int32 WoodQuantity = 0;
 
@@ -152,5 +149,6 @@ private:
 
 	//Access to protected members for attacking system
 	friend class AttackedActor;
+	
 	friend class AttackingActor;
 };
