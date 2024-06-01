@@ -4,16 +4,15 @@
 
 
 void UJoinSession::TryStartGame() {
-
+  APlayerController* PlayerController = GEngine->GetFirstLocalPlayerController(GetWorld());
+	ULocalPlayer* LocalPlayer = PlayerController->GetLocalPlayer();
+  ASessionConnect::GetCurrentSession()->CreateSession(FName(*AMyDatabase::GetName()), LocalPlayer, PlayerController);
 }
 
 
 void UJoinSession::NativeOnInitialized() {
 
-  APlayerController* PlayerController = GEngine->GetFirstLocalPlayerController(GetWorld());
-	ULocalPlayer* LocalPlayer = PlayerController->GetLocalPlayer();
-  ASessionConnect::GetCurrentSession()->CreateSession(FName(*AMyDatabase::GetName()), LocalPlayer, PlayerController);
-
+  
 
   FText Name = FText::AsCultureInvariant(AMyDatabase::GetName());
   UserNameOne->SetText(Name);

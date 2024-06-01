@@ -30,6 +30,24 @@ void ASessionConnect::SetWorld(UWorld* World) {
     WWorld = World;
 }
 
+TSharedPtr<FOnlineSessionSearch> ASessionConnect::FindSessions(ULocalPlayer* LocalPlayer) {
+    IOnlineSubsystem* OnlineSub = Online::GetSubsystem(WWorld);
+    SessionSearch = MakeShareable(new FOnlineSessionSearch());
+    if (OnlineSub)
+    {
+        IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
+        if (Sessions.IsValid() && LocalPlayer)
+        {
+
+            if (Sessions->FindSessions(*LocalPlayer->GetPreferredUniqueNetId(), SessionSearch.ToSharedRef())) {
+                UE_LOG(LogTemp, Warning, TEXT("OK"));
+            }
+            return SessionSearch;
+        }
+    }
+    return SessionSearch;
+}
+
 void ASessionConnect::CreateSession(FName SessionName, ULocalPlayer* LocalPlayer, APlayerController* PlayerController)
 {
     IOnlineSubsystem* OnlineSub = Online::GetSubsystem(WWorld);
@@ -53,7 +71,7 @@ void ASessionConnect::CreateSession(FName SessionName, ULocalPlayer* LocalPlayer
         }
         if (Sessions->StartSession(SessionName)) UE_LOG(LogTemp, Warning, TEXT("Start"));
         FString TravelURL;
-        if (PlayerController && Sessions->GetResolvedConnectString(FName(*SessionSearch->SearchResults[0].GetSessionIdStr()), TravelURL))
+        if (PlayerController && Sessions->GetResolvedConnectString(FName(SessionName), TravelURL))
         {
             PlayerController->ClientTravel(TravelURL, TRAVEL_Absolute);
         }
@@ -64,23 +82,7 @@ void ASessionConnect::CreateSession(FName SessionName, ULocalPlayer* LocalPlayer
     }
 }
 
-TSharedPtr<FOnlineSessionSearch> ASessionConnect::FindSessions(ULocalPlayer* LocalPlayer) {
-    IOnlineSubsystem* OnlineSub = Online::GetSubsystem(WWorld);
-    SessionSearch = MakeShareable(new FOnlineSessionSearch());
-    if (OnlineSub)
-    {
-        IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
-        if (Sessions.IsValid() && LocalPlayer)
-        {
 
-            if (Sessions->FindSessions(*LocalPlayer->GetPreferredUniqueNetId(), SessionSearch.ToSharedRef())) {
-                UE_LOG(LogTemp, Warning, TEXT("OK"));
-            }
-            return SessionSearch;
-        }
-    }
-    return SessionSearch;
-}
 
 void ASessionConnect::JoinSession(FName SessionName, ULocalPlayer* LocalPlayer, APlayerController* PlayerController)
 {
