@@ -88,13 +88,9 @@ void ASessionConnect::JoinSession(FName SessionName, ULocalPlayer* LocalPlayer)
             if (SessionSearch->SearchResults.Num() > 0) UE_LOG(LogTemp, Warning, TEXT("OK2"));
             for (int32 SearchIdx = 0; SearchIdx < SessionSearch->SearchResults.Num(); SearchIdx++) {
                 FOnlineSessionSearchResult SearchResult = SessionSearch->SearchResults[SearchIdx];
-
-                if (SearchResult.GetSessionIdStr().Equals(SessionName.ToString()))
-                {
                     FOnlineSessionSettings* SessionSettings = Sessions->GetSessionSettings(SessionName);
                     int PlayersCount = SessionSettings->NumPublicConnections;
-                    Sessions->JoinSession(*LocalPlayer->GetPreferredUniqueNetId(), SessionName, SearchResult);
-                }
+                    Sessions->JoinSession(*LocalPlayer->GetPreferredUniqueNetId(), FName(*SearchResult.GetSessionIdStr()), SearchResult);
             }
         }
     }
