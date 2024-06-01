@@ -77,7 +77,7 @@ TSharedPtr<FOnlineSessionSearch> ASessionConnect::FindSessions(ULocalPlayer* Loc
     return SessionSearch;
 }
 
-void ASessionConnect::JoinSession(FName SessionName, ULocalPlayer* LocalPlayer)
+void ASessionConnect::JoinSession(FName SessionName, ULocalPlayer* LocalPlayer, APlayerController* PlayerController)
 {
     IOnlineSubsystem* OnlineSub = Online::GetSubsystem(WWorld);
     if (OnlineSub)
@@ -91,6 +91,11 @@ void ASessionConnect::JoinSession(FName SessionName, ULocalPlayer* LocalPlayer)
                     FOnlineSessionSettings* SessionSettings = Sessions->GetSessionSettings(SessionName);
                     int PlayersCount = SessionSettings->NumPublicConnections;
                     Sessions->JoinSession(*LocalPlayer->GetPreferredUniqueNetId(), FName(*SearchResult.GetSessionIdStr()), SearchResult);
+                    FString TravelURL;
+                    if (PlayerController && Sessions->GetResolvedConnectString(FName(*SearchResult.GetSessionIdStr()), TravelURL))
+                    {
+                        PlayerController->ClientTravel(TravelURL, TRAVEL_Absolute);
+                    }
             }
         }
     }

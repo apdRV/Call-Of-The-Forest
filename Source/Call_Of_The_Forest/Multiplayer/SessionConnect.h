@@ -29,7 +29,7 @@ public:
 	TSharedPtr<FOnlineSessionSearch> SessionSearch;
 	virtual void BeginPlay() override;
 	static void SetWorld(UWorld* World);
-	void JoinSession(FName SessionName, ULocalPlayer* LocalPlayer);
+	void JoinSession(FName SessionName, ULocalPlayer* LocalPlayer, APlayerController* PlayerController);
 	void CreateSession(FName SessionName, ULocalPlayer* LocalPlayer);
 	TSharedPtr<FOnlineSessionSearch> FindSessions(ULocalPlayer* LocalPlayer);
 	static ASessionConnect* GetCurrentSession();

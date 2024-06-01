@@ -5,8 +5,9 @@
 
 void USessionsList::Join() {
     APlayerController* PlayerController = GEngine->GetFirstLocalPlayerController(GetWorld());
-	ULocalPlayer* LocalPlayer = PlayerController->GetLocalPlayer();
-    ASessionConnect::GetCurrentSession()->JoinSession(FName(*LobbyText), LocalPlayer);
+	  ULocalPlayer* LocalPlayer = PlayerController->GetLocalPlayer();
+    ASessionConnect::GetCurrentSession()->JoinSession(FName(*LobbyText), LocalPlayer, PlayerController);
+    		
 }
 void USessionsList::NativeOnInitialized() {
 
@@ -15,8 +16,7 @@ void USessionsList::NativeOnInitialized() {
   
     TSharedPtr<FOnlineSessionSearch> SessionSearch = ASessionConnect::GetCurrentSession()->FindSessions(LocalPlayer);
     for (int SearchIdx = 0; SearchIdx < SessionSearch->SearchResults.Num(); SearchIdx++) {
-        UE_LOG(LogTemp, Warning, TEXT("MEGAOK"));
-        if (SearchIdx == 0) LobbyText = SessionSearch->SearchResults[SearchIdx].Session.OwningUserName;
+        if (SearchIdx == 0) LobbyText = SessionSearch->SearchResults[SearchIdx].GetSessionIdStr();
     }
     Lobby->SetText(FText::AsCultureInvariant(LobbyText));
 
