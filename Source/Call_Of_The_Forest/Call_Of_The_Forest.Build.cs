@@ -17,7 +17,7 @@ public class Call_Of_The_Forest : ModuleRules
 			"AIModule",
 			"GameplayTasks",
 			"NavigationSystem",
-			"EnhancedInput"
+			"EnhancedInput", "OnlineSubsystem", "OnlineSubsystemUtils"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new string[] { "SQLiteCore", "SQLiteSupport" });

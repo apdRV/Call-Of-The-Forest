@@ -13,7 +13,7 @@
 				"Paper2D",
 				"UnrealEd",
 				"UMG",
-				"Niagara", "OnlineSubsystem"
+				"Niagara", "OnlineSubsystem", "OnlineSubsystemUtils"
 			]
 		}
 	],

@@ -3,68 +3,96 @@
 
 #include "SessionConnect.h"
 
+ASessionConnect* ASessionConnect::CurrentSession = nullptr;
+UWorld* ASessionConnect::WWorld = nullptr;
 // Sets default values
 ASessionConnect::ASessionConnect()
 {
+	if (CurrentSession == nullptr) {
+		CurrentSession = this;
+	}
+}
+
+ASessionConnect::~ASessionConnect()
+{
+    
 }
 
 void ASessionConnect::BeginPlay(){
 	Super::BeginPlay();
-	APlayerController* PlayerController = GEngine->GetFirstLocalPlayerController(GetWorld());
-	LocalPlayer = PlayerController->GetLocalPlayer();
 }
 
-void ASessionConnect::CreateSession(FName SessionName)
+ASessionConnect* ASessionConnect::GetCurrentSession(){
+	return CurrentSession;
+}
+
+void ASessionConnect::SetWorld(UWorld* World) {
+    WWorld = World;
+}
+
+void ASessionConnect::CreateSession(FName SessionName, ULocalPlayer* LocalPlayer)
 {
-    IOnlineSubsystem* OnlineSub = IOnlineSubsystem::Get();
+    IOnlineSubsystem* OnlineSub = Online::GetSubsystem(WWorld);
 	IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
+    if (!WWorld) UE_LOG(LogTemp, Warning, TEXT("World GOVNO"));
 	if (Sessions.IsValid() && LocalPlayer)
 	{
 		FOnlineSessionSettings SessionSettings;
-		SessionSettings.bIsLANMatch = false;
+		SessionSettings.bIsLANMatch = true;
 		SessionSettings.bUsesPresence = true;
 		SessionSettings.NumPublicConnections = 2;
-		SessionSettings.NumPrivateConnections = 0;
+		SessionSettings.NumPrivateConnections = 2   ;
 		SessionSettings.bAllowInvites = true;
 		SessionSettings.bAllowJoinInProgress = true;
 		SessionSettings.bShouldAdvertise = true;
 		SessionSettings.bAllowJoinViaPresence = true;
 		SessionSettings.bAllowJoinViaPresenceFriendsOnly = false;
 
-		Sessions->CreateSession(*LocalPlayer->GetPreferredUniqueNetId(), SessionName, SessionSettings);
+		if (Sessions->CreateSession(*LocalPlayer->GetPreferredUniqueNetId(), SessionName, SessionSettings)) {
+            UE_LOG(LogTemp, Warning, TEXT("Subsystem created"));
+        }
+        if (Sessions->StartSession(SessionName)) UE_LOG(LogTemp, Warning, TEXT("Start"));
+        
 	}
+    else{
+        UE_LOG(LogTemp, Warning, TEXT("-vibe"));
+    }
 }
 
-void ASessionConnect::FindSessions()
-{
-    IOnlineSubsystem* OnlineSub = IOnlineSubsystem::Get();
+TSharedPtr<FOnlineSessionSearch> ASessionConnect::FindSessions(ULocalPlayer* LocalPlayer) {
+    IOnlineSubsystem* OnlineSub = Online::GetSubsystem(WWorld);
+    SessionSearch = MakeShareable(new FOnlineSessionSearch());
     if (OnlineSub)
     {
         IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
         if (Sessions.IsValid() && LocalPlayer)
         {
-            SessionSearch = MakeShareable(new FOnlineSessionSearch());
-            SessionSearch->bIsLanQuery = false;
-            SessionSearch->MaxSearchResults = 20;
-            SessionSearch->PingBucketSize = 50;
 
-            Sessions->FindSessions(*LocalPlayer->GetPreferredUniqueNetId(), SessionSearch.ToSharedRef());
+            if (Sessions->FindSessions(*LocalPlayer->GetPreferredUniqueNetId(), SessionSearch.ToSharedRef())) {
+                UE_LOG(LogTemp, Warning, TEXT("OK"));
+            }
+            return SessionSearch;
         }
     }
+    return SessionSearch;
 }
 
-void ASessionConnect::JoinSession(FName SessionName)
+void ASessionConnect::JoinSession(FName SessionName, ULocalPlayer* LocalPlayer)
 {
-    IOnlineSubsystem* OnlineSub = IOnlineSubsystem::Get();
+    IOnlineSubsystem* OnlineSub = Online::GetSubsystem(WWorld);
     if (OnlineSub)
     {
         IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
         if (Sessions.IsValid() && LocalPlayer && SessionSearch.IsValid())
         {
-            for (const FOnlineSessionSearchResult& SearchResult : SessionSearch->SearchResults)
-            {
+            if (SessionSearch->SearchResults.Num() > 0) UE_LOG(LogTemp, Warning, TEXT("OK2"));
+            for (int32 SearchIdx = 0; SearchIdx < SessionSearch->SearchResults.Num(); SearchIdx++) {
+                FOnlineSessionSearchResult SearchResult = SessionSearch->SearchResults[SearchIdx];
+
                 if (SearchResult.GetSessionIdStr().Equals(SessionName.ToString()))
                 {
+                    FOnlineSessionSettings* SessionSettings = Sessions->GetSessionSettings(SessionName);
+                    int PlayersCount = SessionSettings->NumPublicConnections;
                     Sessions->JoinSession(*LocalPlayer->GetPreferredUniqueNetId(), SessionName, SearchResult);
                 }
             }

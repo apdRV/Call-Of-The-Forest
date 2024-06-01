@@ -2,13 +2,22 @@
 
 #include "JoinSession.h"
 
+
 void UJoinSession::TryStartGame() {
-    
+
 }
 
+
 void UJoinSession::NativeOnInitialized() {
-  StartGame->OnClicked.AddDynamic(this, &UJoinSession::TryStartGame);
+
+  APlayerController* PlayerController = GEngine->GetFirstLocalPlayerController(GetWorld());
+	ULocalPlayer* LocalPlayer = PlayerController->GetLocalPlayer();
+  ASessionConnect::GetCurrentSession()->CreateSession(FName(*AMyDatabase::GetName()), LocalPlayer);
+
+
   FText Name = FText::AsCultureInvariant(AMyDatabase::GetName());
   UserNameOne->SetText(Name);
+
+  StartGame->OnClicked.AddDynamic(this, &UJoinSession::TryStartGame);
   Super::NativeOnInitialized();
 }

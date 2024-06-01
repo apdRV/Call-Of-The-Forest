@@ -11,34 +11,29 @@
 #include "Internationalization/Text.h"
 #include "../Multiplayer/SessionConnect.h"
 #include <memory>
-#include "JoinSession.generated.h"
+#include "SessionsList.generated.h"
 
 /**
  *
  */
 
 UCLASS()
-class CALL_OF_THE_FOREST_API UJoinSession : public UUserWidget {
+class CALL_OF_THE_FOREST_API USessionsList : public UUserWidget {
 public:
   GENERATED_BODY()
   virtual void NativeOnInitialized() final;
 
   UFUNCTION()
-  virtual void TryStartGame();
+  void Join();
+
+  FString LobbyText;
 
   UPROPERTY(BlueprintReadOnly, Category = "Constituent Controls",
             meta = (BindWidget))
-  UTextBlock *UserNameOne = nullptr;
+  UTextBlock *Lobby = nullptr;
 
   UPROPERTY(BlueprintReadOnly, Category = "Constituent Controls",
             meta = (BindWidget))
-  UTextBlock *UserNameTwo = nullptr;
+  UButton *JoinLobbyOne = nullptr;
 
-  UPROPERTY(BlueprintReadOnly, Category = "Constituent Controls",
-            meta = (BindWidget))
-  UButton *StartGame = nullptr;
-
-  UPROPERTY(BlueprintReadOnly, Category = "Constituent Controls",
-            meta = (BindWidget))
-  bool ready_to_play = false;
 };
