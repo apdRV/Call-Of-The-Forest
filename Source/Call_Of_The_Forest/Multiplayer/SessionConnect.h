@@ -30,7 +30,7 @@ public:
 	virtual void BeginPlay() override;
 	static void SetWorld(UWorld* World);
 	void JoinSession(FName SessionName, ULocalPlayer* LocalPlayer, APlayerController* PlayerController);
-	void CreateSession(FName SessionName, ULocalPlayer* LocalPlayer);
+	void CreateSession(FName SessionName, ULocalPlayer* LocalPlayer, APlayerController* PlayerController);
 	TSharedPtr<FOnlineSessionSearch> FindSessions(ULocalPlayer* LocalPlayer);
 	static ASessionConnect* GetCurrentSession();
 };

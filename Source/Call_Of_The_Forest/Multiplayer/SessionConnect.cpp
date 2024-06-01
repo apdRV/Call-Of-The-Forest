@@ -30,7 +30,7 @@ void ASessionConnect::SetWorld(UWorld* World) {
     WWorld = World;
 }
 
-void ASessionConnect::CreateSession(FName SessionName, ULocalPlayer* LocalPlayer)
+void ASessionConnect::CreateSession(FName SessionName, ULocalPlayer* LocalPlayer, APlayerController* PlayerController)
 {
     IOnlineSubsystem* OnlineSub = Online::GetSubsystem(WWorld);
 	IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
@@ -52,6 +52,11 @@ void ASessionConnect::CreateSession(FName SessionName, ULocalPlayer* LocalPlayer
             UE_LOG(LogTemp, Warning, TEXT("Subsystem created"));
         }
         if (Sessions->StartSession(SessionName)) UE_LOG(LogTemp, Warning, TEXT("Start"));
+        FString TravelURL;
+        if (PlayerController && Sessions->GetResolvedConnectString(FName(*SessionSearch->SearchResults[0].GetSessionIdStr()), TravelURL))
+        {
+            PlayerController->ClientTravel(TravelURL, TRAVEL_Absolute);
+        }
         
 	}
     else{
