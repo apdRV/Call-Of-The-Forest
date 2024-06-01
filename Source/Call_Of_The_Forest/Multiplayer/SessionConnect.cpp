@@ -52,7 +52,6 @@ void ASessionConnect::CreateSession(FName SessionName, ULocalPlayer* LocalPlayer
 {
     IOnlineSubsystem* OnlineSub = Online::GetSubsystem(WWorld);
 	IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
-    if (!WWorld) UE_LOG(LogTemp, Warning, TEXT("World GOVNO"));
 	if (Sessions.IsValid() && LocalPlayer)
 	{
 		FOnlineSessionSettings SessionSettings;
@@ -73,7 +72,7 @@ void ASessionConnect::CreateSession(FName SessionName, ULocalPlayer* LocalPlayer
         FString TravelURL;
         if (PlayerController && Sessions->GetResolvedConnectString(FName(SessionName), TravelURL))
         {
-            PlayerController->ClientTravel(TravelURL, TRAVEL_Absolute);
+            UGameplayStatics::OpenLevel(WWorld, FName("StartMap") , true, "listen");
         }
         
 	}

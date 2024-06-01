@@ -16,7 +16,7 @@ void USessionsList::NativeOnInitialized() {
   
     TSharedPtr<FOnlineSessionSearch> SessionSearch = ASessionConnect::GetCurrentSession()->FindSessions(LocalPlayer);
     for (int SearchIdx = 0; SearchIdx < SessionSearch->SearchResults.Num(); SearchIdx++) {
-        if (SearchIdx == 0) LobbyText = SessionSearch->SearchResults[SearchIdx].GetSessionIdStr();
+        LobbyText = SessionSearch->SearchResults[SearchIdx].Session.OwningUserName;
     }
     Lobby->SetText(FText::AsCultureInvariant(LobbyText));
 
