@@ -73,12 +73,6 @@ AMainPaperCharacter::AMainPaperCharacter()
     SphereCollider->OnComponentBeginOverlap.AddDynamic(this, &AMainPaperCharacter::OnOverlapBegin);
     SphereCollider->OnComponentEndOverlap.AddDynamic(this, &AMainPaperCharacter::OnOverlapEnd);
 
-    // InteractionSphere = CreateDefaultSubobject<USphereComponent>(TEXT("InteractionSphere"));
-    // InteractionSphere->SetSphereRadius(20.f);
-    // InteractionSphere->SetCollisionProfileName(TEXT("Trigger"));
-    // InteractionSphere->SetupAttachment(RootComponent);
-
-    // InteractionSphere->OnComponentBeginOverlap.AddDynamic(this, &AMainPaperCharacter::OnOverlapBegin);
 }
 
 // Called every frame
@@ -100,6 +94,19 @@ void AMainPaperCharacter::BeginPlay()
     } else {
         UE_LOG(LogTemp, Warning, TEXT("World is null"));
     }
+    const float Radius = 5.0f;
+    TArray<FOverlapResult> Overlaps;
+    FCollisionShape CollShape = FCollisionShape::MakeSphere(Radius);
+
+
+    bool bIsOccupied = GetWorld()->OverlapMultiByObjectType(
+        Overlaps,
+        FVector(100, 0, 0),
+        FQuat::Identity,
+        FCollisionObjectQueryParams(ECollisionChannel::ECC_Pawn),
+        CollShape
+    );
+    if (!bIsOccupied) SetActorLocation(FVector(100, 0, 0));
 }
 
 // Called to bind functionality to input
@@ -249,12 +256,6 @@ void AMainPaperCharacter::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AA
     {
         World->AddOverlappingActors(OtherActor);
     }
-
-    // AResourceBase* Resource = Cast<AResourceBase>(OtherActor);
-    // if(Resource)
-    // {
-    //     Resource->OnPickup(this);
-    // }
 }
 
 void AMainPaperCharacter::OnOverlapEnd(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)

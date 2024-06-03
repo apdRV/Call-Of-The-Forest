@@ -25,9 +25,11 @@ public:
 	ASessionConnect();
 	~ASessionConnect();
 	static UWorld* WWorld;
+	static int PlayerID;
 	static ASessionConnect* CurrentSession;
 	TSharedPtr<FOnlineSessionSearch> SessionSearch;
 	virtual void BeginPlay() override;
+	static int GetID();
 	static void SetWorld(UWorld* World);
 	void JoinSession(FName SessionName, ULocalPlayer* LocalPlayer, APlayerController* PlayerController);
 	void CreateSession(FName SessionName, ULocalPlayer* LocalPlayer, APlayerController* PlayerController);

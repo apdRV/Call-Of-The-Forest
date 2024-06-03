@@ -10,6 +10,7 @@
 #include "Engine/World.h"
 #include "Internationalization/Text.h"
 #include "../Multiplayer/SessionConnect.h"
+#include "OnlineSessionSettings.h"
 #include <memory>
 #include "SessionsList.generated.h"
 

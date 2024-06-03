@@ -6,19 +6,19 @@
 void USessionsList::Join() {
     APlayerController* PlayerController = GEngine->GetFirstLocalPlayerController(GetWorld());
 	  ULocalPlayer* LocalPlayer = PlayerController->GetLocalPlayer();
-    ASessionConnect::GetCurrentSession()->JoinSession(FName(*LobbyText), LocalPlayer, PlayerController);
-    		
+    ASessionConnect::GetCurrentSession()->JoinSession(FName(*LobbyText), LocalPlayer, PlayerController);		
 }
-void USessionsList::NativeOnInitialized() {
 
+void USessionsList::NativeOnInitialized() {
   APlayerController* PlayerController = GEngine->GetFirstLocalPlayerController(GetWorld());
 	ULocalPlayer* LocalPlayer = PlayerController->GetLocalPlayer();
   
-    TSharedPtr<FOnlineSessionSearch> SessionSearch = ASessionConnect::GetCurrentSession()->FindSessions(LocalPlayer);
-    for (int SearchIdx = 0; SearchIdx < SessionSearch->SearchResults.Num(); SearchIdx++) {
-        LobbyText = SessionSearch->SearchResults[SearchIdx].Session.OwningUserName;
-    }
-    Lobby->SetText(FText::AsCultureInvariant(LobbyText));
+  TSharedPtr<FOnlineSessionSearch> SessionSearch = ASessionConnect::GetCurrentSession()->FindSessions(LocalPlayer);
+  for (int SearchIdx = 0; SearchIdx < SessionSearch->SearchResults.Num(); SearchIdx++) {
+    UE_LOG(LogTemp, Warning, TEXT("SEARCHED"));
+    LobbyText = SessionSearch->SearchResults[SearchIdx].Session.OwningUserName;
+  }
+  Lobby->SetText(FText::AsCultureInvariant(LobbyText));
 
   JoinLobbyOne->OnClicked.AddDynamic(this, &USessionsList::Join);
   Super::NativeOnInitialized();

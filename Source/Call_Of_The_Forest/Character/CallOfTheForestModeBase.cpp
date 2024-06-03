@@ -6,5 +6,4 @@ ACallOfTheForestModeBase::ACallOfTheForestModeBase() : Super()
     if(MainPaperCharacterClass.Succeeded()){
         DefaultPawnClass = MainPaperCharacterClass.Class;
     }
-
 }

@@ -5,12 +5,14 @@
 
 ASessionConnect* ASessionConnect::CurrentSession = nullptr;
 UWorld* ASessionConnect::WWorld = nullptr;
+int ASessionConnect::PlayerID = 0;
 // Sets default values
 ASessionConnect::ASessionConnect()
 {
 	if (CurrentSession == nullptr) {
 		CurrentSession = this;
 	}
+    if (SessionSearch == nullptr) SessionSearch = MakeShareable(new FOnlineSessionSearch());
 }
 
 ASessionConnect::~ASessionConnect()
@@ -30,9 +32,13 @@ void ASessionConnect::SetWorld(UWorld* World) {
     WWorld = World;
 }
 
+int ASessionConnect::GetID() {
+    return PlayerID;
+}
+
 TSharedPtr<FOnlineSessionSearch> ASessionConnect::FindSessions(ULocalPlayer* LocalPlayer) {
     IOnlineSubsystem* OnlineSub = Online::GetSubsystem(WWorld);
-    SessionSearch = MakeShareable(new FOnlineSessionSearch());
+    
     if (OnlineSub)
     {
         IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
@@ -50,6 +56,7 @@ TSharedPtr<FOnlineSessionSearch> ASessionConnect::FindSessions(ULocalPlayer* Loc
 
 void ASessionConnect::CreateSession(FName SessionName, ULocalPlayer* LocalPlayer, APlayerController* PlayerController)
 {
+    PlayerID = 0;
     IOnlineSubsystem* OnlineSub = Online::GetSubsystem(WWorld);
 	IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
 	if (Sessions.IsValid() && LocalPlayer)
@@ -69,11 +76,7 @@ void ASessionConnect::CreateSession(FName SessionName, ULocalPlayer* LocalPlayer
             UE_LOG(LogTemp, Warning, TEXT("Subsystem created"));
         }
         if (Sessions->StartSession(SessionName)) UE_LOG(LogTemp, Warning, TEXT("Start"));
-        FString TravelURL;
-        if (PlayerController && Sessions->GetResolvedConnectString(FName(SessionName), TravelURL))
-        {
             UGameplayStatics::OpenLevel(WWorld, FName("StartMap") , true, "listen");
-        }
         
 	}
     else{
@@ -85,6 +88,7 @@ void ASessionConnect::CreateSession(FName SessionName, ULocalPlayer* LocalPlayer
 
 void ASessionConnect::JoinSession(FName SessionName, ULocalPlayer* LocalPlayer, APlayerController* PlayerController)
 {
+    PlayerID = 1;
     IOnlineSubsystem* OnlineSub = Online::GetSubsystem(WWorld);
     if (OnlineSub)
     {
