@@ -33,5 +33,7 @@ void ASpawnerSkeleton::SpawnSkeletons()
 void ASpawnerSkeleton::BeginPlay()
 {
     Super::BeginPlay();
-    SpawnSkeletons();
+    if(HasAuthority()){
+        SpawnSkeletons();
+    }
 }

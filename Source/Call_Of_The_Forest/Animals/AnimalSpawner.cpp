@@ -3,6 +3,7 @@
 
 #include "AnimalSpawner.h"
 #include "Math/UnrealMathUtility.h"
+#include "Net/UnrealNetwork.h"
 
 AAnimalSpawner::AAnimalSpawner()
 {
@@ -13,7 +14,9 @@ AAnimalSpawner::AAnimalSpawner()
 void AAnimalSpawner::BeginPlay()
 {
 	Super::BeginPlay();
-	SpawnAnimals();
+    if(HasAuthority()){
+        SpawnAnimals();
+    }
 }
 
 EAnimalType AAnimalSpawner::GenerateRandomAnimal()

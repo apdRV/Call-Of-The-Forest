@@ -4,6 +4,7 @@
 #include "SproutSpawner.h"
 #include "MobAIController.h"
 #include "Sprout.h"
+#include "Net/UnrealNetwork.h"
 #include "Math/UnrealMathUtility.h"
 
 void ASproutSpawner::SpawnSprouts()
@@ -32,5 +33,7 @@ void ASproutSpawner::SpawnSprouts()
 void ASproutSpawner::BeginPlay()
 {
     Super::BeginPlay();
-    SpawnSprouts();
+    if(HasAuthority()){
+        SpawnSprouts();
+    }
 }

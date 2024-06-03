@@ -8,6 +8,7 @@
 #include "../Enviroment/AppleTree.h"
 #include "../Enviroment/TreeLog.h"
 #include "../Enviroment/TreeStump.h"
+#include "Net/UnrealNetwork.h"
 #include "Math/UnrealMathUtility.h"
 
 AEnviromentSpawner::AEnviromentSpawner()
@@ -20,7 +21,9 @@ AEnviromentSpawner::AEnviromentSpawner()
 void AEnviromentSpawner::BeginPlay()
 {
 	Super::BeginPlay();
-	SpawnEnviromentObject();
+    if(HasAuthority()){
+        SpawnEnviromentObject();
+    }
 
 	
 }
