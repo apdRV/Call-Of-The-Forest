@@ -3,8 +3,6 @@
 #include "../Resources/Wood/Wood.h"
 #include "../Mobs/Mob.h"
 #include "../Animals/Animal.h"
-#include "TimerManager.h"
-#include "Engine/World.h"
 #include "../Animals/Predator.h"
 #include "../Enviroment/EnviromentObject.h"
 #include "ResourcesSpawner.h"
@@ -54,10 +52,6 @@ void AStaticWorld::MobDestroy(AMob* Mob)
 	Mob->SetbIsDestroyed(true);
 	float DelayBeforeDestroy = 1.5f;
 	FTimerHandle TimerHandle;
-	if (!(Mob->GetWorld())) {
-		UE_LOG(LogTemp, Warning, TEXT("-vibe"));
-		return;
-	}
 	Mob->GetWorldTimerManager().SetTimer(TimerHandle, [Mob, this]()
 	{
 		FVector Location = Mob->GetActorLocation();
@@ -86,10 +80,6 @@ void AStaticWorld::AnimalDestroy(AAnimal* Animal)
 	Animal->SetbIsDestroyed(true);
 	float DelayBeforeDestroy = 1.5f;
 	FTimerHandle TimerHandle;
-	if (!(Animal->GetWorld())) {
-		UE_LOG(LogTemp, Warning, TEXT("-vibe"));
-		return;
-	}
 	Animal->GetWorldTimerManager().SetTimer(TimerHandle, [Animal, this]()
 	{
 		FVector Location = Animal->GetActorLocation();
@@ -118,10 +108,6 @@ void AStaticWorld::PredatorDestroy(APredator* Predator)
 	Predator->SetbIsDestroyed(true);
 	float DelayBeforeDestroy = 1.5f;
 	FTimerHandle TimerHandle;
-	if (!(Predator->GetWorld())) {
-		UE_LOG(LogTemp, Warning, TEXT("-vibe"));
-		return;
-	}
 	Predator->GetWorldTimerManager().SetTimer(TimerHandle, [Predator, this]()
 	{
 		FVector Location = Predator->GetActorLocation();
@@ -211,25 +197,21 @@ void AStaticWorld::DeleteOverlappingActors(AActor* OtherActor)
     if(Mob != nullptr){
         Mob->SetbIsTriggered(false);
 		OverlappingActors.Remove(OtherActor);
-		UE_LOG(LogTemp, Warning, TEXT("-overlap"));
     }
     AAnimal* Animal = dynamic_cast<AAnimal*>(OtherActor);
     if(Animal != nullptr){
         Animal->SetbIsActive(false);
 		OverlappingActors.Remove(OtherActor);
-		UE_LOG(LogTemp, Warning, TEXT("-overlap"));
     }
     APredator* Predator = dynamic_cast<APredator*>(OtherActor);
     if(Predator != nullptr){
         Predator->SetbIsActive(false);
 		OverlappingActors.Remove(OtherActor);
-		UE_LOG(LogTemp, Warning, TEXT("-overlap"));
     }
 	AEnviromentObject* EnviromentObject = dynamic_cast<AEnviromentObject*>(OtherActor);
 	if(EnviromentObject != nullptr)
 	{
 		OverlappingActors.Remove(OtherActor);
-		UE_LOG(LogTemp, Warning, TEXT("-overlap"));
 	}
 }
 
