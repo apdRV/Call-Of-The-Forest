@@ -2,7 +2,6 @@
 
 
 #include "Mob.h"
-
 #include "BehaviorTree/BehaviorTree.h"
 #include <vector>
 #include "../World/StaticWorld.h"

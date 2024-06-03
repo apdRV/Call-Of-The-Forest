@@ -5,6 +5,9 @@
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
 #include "../Mobs/Mob.h"
+#include "../Multiplayer/SessionConnect.h"
+#include "Kismet/GameplayStatics.h"
+#include "GameFramework/PlayerStart.h"
 #include "CallOfTheForestModeBase.generated.h"
 
 /**
@@ -19,5 +22,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Enemies, meta = (AllowPrivateAccess = "true"))
     TSubclassOf<AMob> SkeletonClass;
-	
+
+
 };

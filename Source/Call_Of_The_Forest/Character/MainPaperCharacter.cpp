@@ -94,6 +94,19 @@ void AMainPaperCharacter::BeginPlay()
     } else {
         UE_LOG(LogTemp, Warning, TEXT("World is null"));
     }
+    const float Radius = 5.0f;
+    TArray<FOverlapResult> Overlaps;
+    FCollisionShape CollShape = FCollisionShape::MakeSphere(Radius);
+
+
+    bool bIsOccupied = GetWorld()->OverlapMultiByObjectType(
+        Overlaps,
+        FVector(100, 0, 0),
+        FQuat::Identity,
+        FCollisionObjectQueryParams(ECollisionChannel::ECC_Pawn),
+        CollShape
+    );
+    if (!bIsOccupied) SetActorLocation(FVector(100, 0, 0));
 }
 
 // Called to bind functionality to input
