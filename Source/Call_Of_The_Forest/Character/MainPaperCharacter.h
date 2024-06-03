@@ -151,6 +151,8 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	float TriggerRadius;
 
+	bool WasSpawned = false;
+
 	//Access to protected members for attacking system
 	friend class AttackedActor;
 	

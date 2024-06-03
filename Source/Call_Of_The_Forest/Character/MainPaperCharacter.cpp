@@ -7,6 +7,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Net/UnrealNetwork.h"
+#include "../Multiplayer/SessionConnect.h"
 #include "../Resources/ResourceBaseClass/ResourceBase.h"
 
 AMainPaperCharacter::AMainPaperCharacter()
@@ -90,6 +91,7 @@ void AMainPaperCharacter::Tick(float DeltaTime)
 // Called when the game starts or when spawned
 void AMainPaperCharacter::BeginPlay()
 {
+    if (WasSpawned) return;
     Super::BeginPlay();
     if (World != nullptr) {
         World->AddActor("MainCharacter", this);
@@ -97,19 +99,12 @@ void AMainPaperCharacter::BeginPlay()
     } else {
         UE_LOG(LogTemp, Warning, TEXT("World is null"));
     }
-    const float Radius = 20.0f;
-    TArray<FOverlapResult> Overlaps;
-    FCollisionShape CollShape = FCollisionShape::MakeSphere(Radius);
 
 
-    bool bIsOccupied = GetWorld()->OverlapMultiByObjectType(
-        Overlaps,
-        FVector(100, 0, 12),
-        FQuat::Identity,
-        FCollisionObjectQueryParams(ECollisionChannel::ECC_Pawn),
-        CollShape
-    );
-    if (!bIsOccupied) SetActorLocation(FVector(100, 0, 12));
+    if (ASessionConnect::GetID() == 0) {
+        SetActorLocation(FVector(100, 0, 12.7));
+        WasSpawned = true;
+    }
 }
 
 // Called to bind functionality to input
