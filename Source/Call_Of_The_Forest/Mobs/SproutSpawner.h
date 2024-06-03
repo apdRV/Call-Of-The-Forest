@@ -14,7 +14,7 @@ class CALL_OF_THE_FOREST_API ASproutSpawner : public AMobsSpawner
 {
 	GENERATED_BODY()
 public:
-	ASproutSpawner() : AMobsSpawner(0) {}
+	ASproutSpawner() : AMobsSpawner(1) {}
 	void SpawnSprouts();
 
 protected:

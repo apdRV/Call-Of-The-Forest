@@ -86,6 +86,9 @@ public:
 
 protected:
 
+	//for server 	
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
   UFUNCTION()
   void Attacked(float Value);
 
@@ -101,7 +104,7 @@ protected:
   UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
   EMobState LastMobState;
 
-  UPROPERTY(EditAnywhere, Category = "State")
+  UPROPERTY(EditAnywhere, Replicated,  Category = "State")
   float BaseDamage;
 
   UPROPERTY(EditAnywhere, Category = "State")
@@ -110,13 +113,13 @@ protected:
   UPROPERTY(EditAnywhere, Category = "State")
   float Health;
 
-  UPROPERTY(EditAnywhere, Category = "State")
+  UPROPERTY(EditAnywhere, Replicated, Category = "State")
   bool bIsDead;
 
   UPROPERTY(EditAnywhere, Category = "State")
   bool bIsAttacking;
 
-  UPROPERTY(EditAnywhere, Category = "State")
+  UPROPERTY(EditAnywhere, Replicated, Category = "State")
   bool bIsMoving;
 
   UPROPERTY()

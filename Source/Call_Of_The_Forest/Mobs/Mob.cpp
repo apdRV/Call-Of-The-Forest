@@ -174,6 +174,14 @@ void AMob::EndAttackAnimation()
     UpdateMobSprite();
 }
 
+void AMob::GetLifetimeReplicatedProps(TArray<FLifetimeProperty> &OutLifetimeProps) const
+{
+    Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(AMob, bIsMoving);
+	DOREPLIFETIME(AMob, bIsDead);
+	DOREPLIFETIME(AMob, BaseDamage);
+}
+
 void AMob::Attacked(float Value)
 {
     Health-=Value;

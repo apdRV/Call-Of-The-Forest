@@ -6,6 +6,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "Net/UnrealNetwork.h"
 #include "../Resources/ResourceBaseClass/ResourceBase.h"
 
 AMainPaperCharacter::AMainPaperCharacter()
@@ -20,6 +21,8 @@ AMainPaperCharacter::AMainPaperCharacter()
     Health = 100.0f;
     CharacterState = EMainCharacterState::IdleDown;
     LastMoveDirection = EMainCharacterState::IdleDown;
+
+    bReplicates = true;
 
     //SpringArm
     CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
@@ -94,19 +97,19 @@ void AMainPaperCharacter::BeginPlay()
     } else {
         UE_LOG(LogTemp, Warning, TEXT("World is null"));
     }
-    const float Radius = 5.0f;
+    const float Radius = 20.0f;
     TArray<FOverlapResult> Overlaps;
     FCollisionShape CollShape = FCollisionShape::MakeSphere(Radius);
 
 
     bool bIsOccupied = GetWorld()->OverlapMultiByObjectType(
         Overlaps,
-        FVector(100, 0, 0),
+        FVector(100, 0, 12),
         FQuat::Identity,
         FCollisionObjectQueryParams(ECollisionChannel::ECC_Pawn),
         CollShape
     );
-    if (!bIsOccupied) SetActorLocation(FVector(100, 0, 0));
+    if (!bIsOccupied) SetActorLocation(FVector(100, 0, 12));
 }
 
 // Called to bind functionality to input
@@ -168,6 +171,18 @@ void AMainPaperCharacter::Attack()
     {
         World->PlayerAttack(GetActorLocation(), CharacterState, this);
     }
+}
+
+void AMainPaperCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty> &OutLifetimeProps) const
+{
+    Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(AMainPaperCharacter, bIsMoving);
+	DOREPLIFETIME(AMainPaperCharacter, bIsDead);
+    DOREPLIFETIME(AMainPaperCharacter, bIsAttacking);
+	DOREPLIFETIME(AMainPaperCharacter, Damage);
+    DOREPLIFETIME(AMainPaperCharacter, CharacterState);
+    DOREPLIFETIME(AMainPaperCharacter, LastMoveDirection);
+
 }
 
 void AMainPaperCharacter::SetAttackAnimation()
@@ -329,3 +344,5 @@ void AMainPaperCharacter::UpgradeSword(){
             }
     }
 }
+
+

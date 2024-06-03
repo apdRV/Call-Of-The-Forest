@@ -13,6 +13,7 @@
 #include "MainCharacterSpriteComponent.h"
 #include "../World/AttackedDerivedDeclaration.h"
 #include "Engine/EngineTypes.h"
+#include "Net/UnrealNetwork.h"
 #include "MainPaperCharacter.generated.h"
 /**
  * 
@@ -44,26 +45,26 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State") 
 	float Health;
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AnimationCharacter | Config")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, Category = "AnimationCharacter | Config")
 	bool bIsMoving;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, Category = "State")
 	bool bIsDead;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, Category = "State")
 	bool bIsAttacking;
 
 	UPROPERTY()
 	FTimerHandle AttackTimerHandle;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, Category = "State")
 	float Damage;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AnimationCharacter | Config")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, Category = "AnimationCharacter | Config")
 	EMainCharacterState CharacterState;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AnimationCharacter | Config")
-	EMainCharacterState LastMoveDirection;;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, Category = "AnimationCharacter | Config")
+	EMainCharacterState LastMoveDirection;
 
 	UFUNCTION()
 	virtual void BeginPlay() override;
@@ -103,6 +104,9 @@ protected:
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Animation)
     class UMainCharacterSpriteComponent* MainCharacterSpriteComponent;
+
+	//for server 	
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 public:
 	float GetHealth(){
 		return Health;
@@ -151,4 +155,7 @@ private:
 	friend class AttackedActor;
 	
 	friend class AttackingActor;
+
+	// Networked functions
+
 };
