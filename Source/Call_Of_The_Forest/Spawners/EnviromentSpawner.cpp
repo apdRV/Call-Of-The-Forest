@@ -60,7 +60,7 @@ void AEnviromentSpawner::SpawnEnviromentObject()
     FRotator Rotation(0, -90, 90);
     for (int l = -2; l < 2; l++) {
         for (int r = -2; r < 2; r++) {
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < 2; i++) {
                 FVector Location = { 0, 0, 13 };
                 Location[0] = l * 500 + FMath::RandRange(0, 500);
                 Location[1] = r * 500 + FMath::RandRange(0, 500);

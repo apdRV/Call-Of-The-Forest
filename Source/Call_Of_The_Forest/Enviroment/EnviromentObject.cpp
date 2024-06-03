@@ -2,12 +2,14 @@
 
 
 #include "EnviromentObject.h"
+#include "Net/UnrealNetwork.h"
 
 AEnviromentObject::AEnviromentObject()
 {
     PrimaryActorTick.bCanEverTick = true;
     bIsDead = false;
     Health = 100;
+    bReplicates = true;
     World = AStaticWorld::GetStaticWorld();
 }
 

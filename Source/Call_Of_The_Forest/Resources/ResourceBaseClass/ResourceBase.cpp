@@ -6,10 +6,12 @@
 #include "PaperSpriteComponent.h"
 #include "Math/UnrealMathUtility.h"
 #include "../../Character/MainPaperCharacter.h"
+#include "Net/UnrealNetwork.h"
 #include "Components/SphereComponent.h"
 
 AResourceBase::AResourceBase(){
     PrimaryActorTick.bCanEverTick = true;
+    bReplicates = true;
 }
 
 void AResourceBase::BeginPlay(){
