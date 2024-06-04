@@ -24,3 +24,6 @@ Call of the Forest is a 2D survival game that allows for multiplayer mode for tw
 
 ## How to install:
 
+#MacOS
+
+#Linux
