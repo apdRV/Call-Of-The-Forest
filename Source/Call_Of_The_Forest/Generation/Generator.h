@@ -20,7 +20,7 @@ public:
 	std::chrono::steady_clock::time_point end;
 	bool is_rain = false;
 	bool is_spawned = false;
-	bool is_destroyed = false;
+	bool is_destroyed = true;
 	int random_num = 100;
 	UNiagaraSystem* Rain;
 	UNiagaraComponent* CurrentRain;
