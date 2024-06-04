@@ -2,6 +2,7 @@
 
 
 #include "Predator.h"
+#include "Net/UnrealNetwork.h"
 
 APredator::APredator()
 {
@@ -19,6 +20,9 @@ APredator::APredator()
 
     //Walking Radius
     bRadius = 400.0f;
+
+    //for server
+    bReplicates = true;
 
     //Default State
     PredatorState = EPredatorState::IdleRightUp;
@@ -145,6 +149,16 @@ void APredator::SetupOwner(UPaperFlipbookComponent* m_owner)
 
 void APredator::Die()
 {
+}
+
+void APredator::GetLifetimeReplicatedProps(TArray<FLifetimeProperty> &OutLifetimeProps) const
+{
+    Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(APredator, PredatorState);
+	DOREPLIFETIME(APredator, LastPredatorState);
+	DOREPLIFETIME(APredator, bHealth);
+    DOREPLIFETIME(APredator, bDamage);
+    DOREPLIFETIME(APredator, bIsDead);
 }
 
 float APredator::GetbDamage()

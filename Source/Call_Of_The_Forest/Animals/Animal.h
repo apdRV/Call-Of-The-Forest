@@ -13,6 +13,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "../World/StaticWorld.h"
 #include "../World/AttackedDerivedDeclaration.h"
+#include "Net/UnrealNetwork.h"
 #include "Animal.generated.h"
 
 /**
@@ -74,19 +75,19 @@ public:
 
 protected:
 
-	UPROPERTY()
+	UPROPERTY(Replicated)
 	EAnimalState AnimalState;
 
-	UPROPERTY()
+	UPROPERTY(Replicated)
 	EAnimalState LastAnimalState;
 
 	UPROPERTY()
 	float bSpeed;
 
-	UPROPERTY()
+	UPROPERTY(Replicated)
 	float bHealth;
 
-	UPROPERTY()
+	UPROPERTY(Replicated)
 	bool bIsDead;
 
 	UPROPERTY()
@@ -118,6 +119,9 @@ protected:
 
 	UFUNCTION()
 	virtual void Die();
+
+	//for server 	
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 private:
 

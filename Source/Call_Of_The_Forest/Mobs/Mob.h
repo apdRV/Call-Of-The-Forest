@@ -14,6 +14,7 @@
 #include "PaperCharacter.h"
 #include "../World/AttackedDerivedDeclaration.h"
 #include "Engine/EngineTypes.h"
+#include "Net/UnrealNetwork.h"
 #include "Mob.generated.h"
 
 /**
@@ -98,10 +99,10 @@ protected:
   UPROPERTY()
   AStaticWorld *World;
 
-  UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
+  UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Replicated, Category = "AnimationCharacter | Config")
   EMobState MobState;
 
-  UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
+  UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, Category = "AnimationCharacter | Config")
   EMobState LastMobState;
 
   UPROPERTY(EditAnywhere, Replicated,  Category = "State")
@@ -110,7 +111,7 @@ protected:
   UPROPERTY(EditAnywhere, Category = "State")
   float Speed;
 
-  UPROPERTY(EditAnywhere, Category = "State")
+  UPROPERTY(EditAnywhere, Replicated, Category = "State")
   float Health;
 
   UPROPERTY(EditAnywhere, Replicated, Category = "State")
@@ -119,7 +120,7 @@ protected:
   UPROPERTY(EditAnywhere, Category = "State")
   bool bIsAttacking;
 
-  UPROPERTY(EditAnywhere, Replicated, Category = "State")
+  UPROPERTY(EditAnywhere, Category = "State")
   bool bIsMoving;
 
   UPROPERTY()

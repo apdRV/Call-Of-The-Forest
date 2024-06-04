@@ -14,6 +14,7 @@
 #include "../World/StaticWorld.h"
 #include "../World/AttackedDerivedDeclaration.h"
 #include "Engine/EngineTypes.h"
+#include "Net/UnrealNetwork.h"
 #include "Predator.generated.h"
 
 /**
@@ -90,10 +91,10 @@ public:
 
 
 protected:
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated)
 	EPredatorState PredatorState;
 
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated)
 	EPredatorState LastPredatorState;
 
 	UPROPERTY()
@@ -105,13 +106,13 @@ protected:
 	UPROPERTY()
 	float bSpeed;
 
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated)
 	float bHealth;
 
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated)
 	float bDamage;
 
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated)
 	bool bIsDead;
 
 	UPROPERTY()
@@ -152,6 +153,9 @@ protected:
 	
 	UFUNCTION()
 	virtual void Die();
+
+	//for server 	
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 private:
 	//Access to protected members for attacking system

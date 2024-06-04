@@ -6,6 +6,7 @@
 #include <vector>
 #include "../World/StaticWorld.h"
 #include "../Character/MainPaperCharacter.h"
+#include "Net/UnrealNetwork.h"
 #include "Components/CapsuleComponent.h"
 
 AMob::AMob()
@@ -18,6 +19,9 @@ AMob::AMob()
     bIsAttacking = false;
     MobState = EMobState::IdleRightUp;
     LastMobState = EMobState::IdleRightUp;
+
+    //for server
+    bReplicates = true;
 
     Health = 100.0f;
     MaxHealth = 100.0f;
@@ -177,9 +181,11 @@ void AMob::EndAttackAnimation()
 void AMob::GetLifetimeReplicatedProps(TArray<FLifetimeProperty> &OutLifetimeProps) const
 {
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(AMob, bIsMoving);
+    DOREPLIFETIME(AMob, MobState);
+    DOREPLIFETIME(AMob, LastMobState);
 	DOREPLIFETIME(AMob, bIsDead);
 	DOREPLIFETIME(AMob, BaseDamage);
+    DOREPLIFETIME(AMob, Health);
 }
 
 void AMob::Attacked(float Value)

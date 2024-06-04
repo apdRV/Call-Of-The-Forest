@@ -2,6 +2,7 @@
 
 
 #include "Animal.h"
+#include "Net/UnrealNetwork.h"
 
 AAnimal::AAnimal(){
     PrimaryActorTick.bCanEverTick = true;
@@ -15,6 +16,9 @@ AAnimal::AAnimal(){
 
     //Walking Radius
     bRadius = 300.0f;
+
+    //for server
+    bReplicates = true;
 
     AnimalState = EAnimalState::IdleRightUp;
     LastAnimalState = EAnimalState::IdleRightUp;
@@ -101,6 +105,15 @@ void AAnimal::Attacked(float Value)
 void AAnimal::Die()
 {
     
+}
+
+void AAnimal::GetLifetimeReplicatedProps(TArray<FLifetimeProperty> &OutLifetimeProps) const
+{
+    Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME(AAnimal, AnimalState);
+	DOREPLIFETIME(AAnimal, LastAnimalState);
+	DOREPLIFETIME(AAnimal, bHealth);
+    DOREPLIFETIME(AAnimal, bIsDead);
 }
 
 bool AAnimal::GetbIsActive()
