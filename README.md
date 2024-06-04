@@ -4,7 +4,7 @@
 
 ## Project Description:
 
-Call Of The Forest is
+Call of the Forest is a 2D survival game that allows for multiplayer mode for two players. Movement is controlled using the WASD keys, and the mouse is used for attacking. The main goal is to survive for as many days as possible, but the gameplay is made more challenging by the hostile creatures.
 
 ## Screenshots:
 
