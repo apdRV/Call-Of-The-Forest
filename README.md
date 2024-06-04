@@ -1,4 +1,6 @@
-# Call Of The Forest
+<div style="text-align: center;">
+    <img src="Screenshots/COTF2.jpeg" style="margin-bottom: 10px;" />
+</div>
 
 ## Project Description:
 
