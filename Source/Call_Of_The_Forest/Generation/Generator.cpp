@@ -2,10 +2,7 @@
 
 #include "Generator.h"
 
-// Sets default values
 AGenerator::AGenerator() {
-  // Set this actor to call Tick() every frame.  You can turn this off to
-  // improve performance if you don't need it.
   PrimaryActorTick.bCanEverTick = true;
   start = std::chrono::steady_clock::now();
   ConstructorHelpers::FObjectFinder<UNiagaraSystem> NiagaraSystemObj(
@@ -13,31 +10,41 @@ AGenerator::AGenerator() {
   Rain = NiagaraSystemObj.Object;
 }
 
-// Called when the game starts or when spawned
 void AGenerator::BeginPlay() { Super::BeginPlay(); }
 
-// Called every frame
 void AGenerator::Tick(float DeltaTime) {
   Super::Tick(DeltaTime);
-  end = std::chrono::steady_clock::now();
-  std::chrono::duration<int> elapsed =
-      std::chrono::duration_cast<std::chrono::seconds>(end - start);
-  if (elapsed.count() >= 10){
-    start = std::chrono::steady_clock::now();
-    random_num--;
-    if (!is_rain) {
-      if (std::rand() % 100 >= random_num) {
-        UNiagaraFunctionLibrary::SpawnSystemAtLocation(
-            GetWorld(), Rain, FVector(0, 0, 10), FRotator(0, 180, 0),
-            FVector(1, 1, 1), true, true, ENCPoolMethod::None, true);
-        random_num = 100;
+  if (HasAuthority()){
+    end = std::chrono::steady_clock::now();
+    std::chrono::duration<int> elapsed =
+        std::chrono::duration_cast<std::chrono::seconds>(end - start);
+    if (elapsed.count() >= 10) {
+      start = std::chrono::steady_clock::now();
+      random_num--;
+      if (!is_rain) {
+        if (std::rand() % 100 >= random_num) {
+          is_rain = true;
+          random_num = 100;
+        }
+      } 
+      else {
+        if (std::rand() % 100 >= random_num) {
+          is_rain = false;
+          random_num = 100;
+        }
       }
     }
-    else {
-      if (std::rand() % 100 >= random_num) {
-        CurrentRain->DestroyComponent();
-        random_num = 100;
-      }
-    }
+  }
+  if (is_rain && !is_spawned) {
+    UNiagaraFunctionLibrary::SpawnSystemAtLocation(
+        GetWorld(), Rain, FVector(0, 0, 10), FRotator(0, 180, 0),
+        FVector(1, 1, 1), true, true, ENCPoolMethod::None, true);
+    is_spawned = true;
+    is_destroyed = false;
+  }
+  if (!is_rain && !is_destroyed) {
+    CurrentRain->DestroyComponent();
+    is_destroyed = true;
+    is_spawned = false;
   }
 }
