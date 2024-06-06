@@ -171,13 +171,44 @@ void AMainPaperCharacter::Attack()
 void AMainPaperCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty> &OutLifetimeProps) const
 {
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-	DOREPLIFETIME(AMainPaperCharacter, bIsMoving);
+
 	DOREPLIFETIME(AMainPaperCharacter, bIsDead);
+    DOREPLIFETIME(AMainPaperCharacter, Health);
     DOREPLIFETIME(AMainPaperCharacter, bIsAttacking);
-	DOREPLIFETIME(AMainPaperCharacter, Damage);
     DOREPLIFETIME(AMainPaperCharacter, CharacterState);
     DOREPLIFETIME(AMainPaperCharacter, LastMoveDirection);
 
+}
+
+void AMainPaperCharacter::OnRep_Health()
+{
+    if(Health <= 0.0f)
+    {
+        Die();
+    }
+    // UpdateCharacterSprite()
+}
+
+void AMainPaperCharacter::OnHealthUpdate()
+{
+    // if (IsLocallyControlled())
+    // {
+    //     FString healthMessage = FString::Printf(TEXT("You now have %f health remaining."), CurrentHealth);
+    //     GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, healthMessage);
+
+    //     if (CurrentHealth <= 0)
+    //     {
+    //         FString deathMessage = FString::Printf(TEXT("You have been killed."));
+    //         GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
+    //     }
+    // }
+
+    // //Server-specific functionality
+    // if (GetLocalRole() == ROLE_Authority)
+    // {
+    //     FString healthMessage = FString::Printf(TEXT("%s now has %f health remaining."), *GetFName().ToString(), CurrentHealth);
+    //     GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, healthMessage);
+    // }
 }
 
 void AMainPaperCharacter::SetAttackAnimation()
@@ -239,7 +270,13 @@ void AMainPaperCharacter::UpdateCharacterSprite()
 void AMainPaperCharacter::Attacked(float Value)
 {
     Health-=Value;
-    UE_LOG(LogTemp, Warning, TEXT("Called Attacked in MainPaperCharacter"));
+    if(HasAuthority()){
+        UE_LOG(LogTemp, Warning, TEXT("Server attacked"));
+    }
+    else
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Client attacked"));
+    }
     if(Health <= 0.0f)
     {
         Die();

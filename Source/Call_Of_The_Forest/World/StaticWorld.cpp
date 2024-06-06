@@ -13,6 +13,7 @@ AStaticWorld::AStaticWorld()
 	if (World == nullptr){
 		World = this;
 	}
+	bReplicates = true;
 }
 
 AStaticWorld::~AStaticWorld()

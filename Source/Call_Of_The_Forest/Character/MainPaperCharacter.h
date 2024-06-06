@@ -37,15 +37,16 @@ public:
 
 	UFUNCTION()
 	bool GetbIsDead();
+	
 
 protected:
     UPROPERTY()
 	AStaticWorld* World;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State") 
+	UPROPERTY(ReplicatedUsing=OnRep_Health) 
 	float Health;
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, Category = "AnimationCharacter | Config")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AnimationCharacter | Config")
 	bool bIsMoving;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, Category = "State")
@@ -57,7 +58,7 @@ protected:
 	UPROPERTY()
 	FTimerHandle AttackTimerHandle;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, Category = "State")
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "State")
 	float Damage;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, Category = "AnimationCharacter | Config")
@@ -107,6 +108,13 @@ protected:
 
 	//for server 	
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
+
+	UFUNCTION()
+	void OnRep_Health();
+
+	void OnHealthUpdate();
+
+
 public:
 	float GetHealth(){
 		return Health;

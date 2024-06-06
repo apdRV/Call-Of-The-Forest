@@ -51,7 +51,7 @@ void AAnimalSpawner::SpawnAnimals()
     FRotator Rotation(0, 0, 0);
     for (int l = -5; l < 5; l++) {
         for (int r = -5; r < 5; r++) {
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 0; i++) {
                 FVector Location = { 0, 0, 12 };
                 Location[0] = l * 500 + FMath::RandRange(0, 500);
                 Location[1] = r * 500 + FMath::RandRange(0, 500);
