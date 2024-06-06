@@ -75,5 +75,6 @@ void ABoar::Die()
         AnimalState = (LastAnimalState == EAnimalState::IdleLeftDown || LastAnimalState == EAnimalState::LeftDown) ? EAnimalState::DieLeftDown : EAnimalState::DieRightUp;
         SetAnimalSprite(AnimalState);
         SetbSpeed(0.0f);
+        GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
     }
 }

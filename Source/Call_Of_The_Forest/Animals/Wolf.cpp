@@ -83,5 +83,7 @@ void AWolf::Die()
         bIsDead = true;
         PredatorState = (LastPredatorState == EPredatorState::IdleLeftDown || LastPredatorState == EPredatorState::LeftDown || LastPredatorState == EPredatorState::AttackingLeftDown) ? EPredatorState::DieLeftDown : EPredatorState::DieRightUp;
         SetPredatorSprite(PredatorState);
+        SetbSpeed(0.0f);
+        GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
     }
 }

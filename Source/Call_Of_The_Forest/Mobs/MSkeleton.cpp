@@ -34,12 +34,12 @@ void AMSkeleton::BeginPlay()
     Super::BeginPlay();
     if (World != nullptr) {
         World->AddActor("Mob", this);
-        UE_LOG(LogTemp, Warning, TEXT("World is not a null, added skeleton"));
+        //UE_LOG(LogTemp, Warning, TEXT("World is not a null, added skeleton"));
     } else {
-        UE_LOG(LogTemp, Warning, TEXT("World is null"));
+        //UE_LOG(LogTemp, Warning, TEXT("World is null"));
     }
 
-    UE_LOG(LogTemp, Warning, TEXT("SkeletonSpawned"));
+    //UE_LOG(LogTemp, Warning, TEXT("SkeletonSpawned"));
 }
 
 void AMSkeleton::Tick(float Deltatime)

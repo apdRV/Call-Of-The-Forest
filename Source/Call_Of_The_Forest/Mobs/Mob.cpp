@@ -205,6 +205,7 @@ void AMob::Die()
         bIsDead = true;
         MobState = (LastMobState == EMobState::IdleLeftDown || LastMobState == EMobState::LeftDown || LastMobState == EMobState::AttackLeftDown) ? EMobState::DieLeftDown : EMobState::DieRightUp;
         SetMobSprite(MobState);
+        GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
     }
 }
 
