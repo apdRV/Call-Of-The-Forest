@@ -7,28 +7,25 @@
 #include "Boar.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
-class CALL_OF_THE_FOREST_API ABoar : public AAnimal
-{
-	GENERATED_BODY()
+class CALL_OF_THE_FOREST_API ABoar : public AAnimal {
+  GENERATED_BODY()
 public:
-	ABoar();
+  ABoar();
 
-	virtual void BeginPlay() override;
+  virtual void BeginPlay() override;
 
-	virtual void Tick(float DeltaTime) override;
+  virtual void Tick(float DeltaTime) override;
 
 private:
+  virtual void UpdateAnimalSprite() override;
 
-	virtual void UpdateAnimalSprite() override;
+  void SetAnimalSprite(EAnimalState AnimalState);
 
-	void SetAnimalSprite(EAnimalState AnimalState);
-	
-	virtual void Die() override;
+  virtual void Die() override;
 
-	UPROPERTY()
-	TMap<EAnimalState, UPaperFlipbook*> DirectionToBoarSprite;
-	
+  UPROPERTY()
+  TMap<EAnimalState, UPaperFlipbook *> DirectionToBoarSprite;
 };

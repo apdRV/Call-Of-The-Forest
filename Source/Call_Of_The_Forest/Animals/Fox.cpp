@@ -7,7 +7,7 @@ AFox::AFox()
 {
     bSpeed = 40.0f;
     GetCharacterMovement()->MaxWalkSpeed = bSpeed;  // Adjust this value as needed
-    bHealth = 100.0f;
+    bHealth = 150.0f;
     bIsDead = false;
 
     GetSprite()->SetRelativeScale3D(FVector(1.0f, 1.0f, 1.0f));

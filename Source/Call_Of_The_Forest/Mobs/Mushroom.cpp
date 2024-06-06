@@ -5,9 +5,10 @@
 
 AMushroom::AMushroom()
 {
-    Speed = 50.0f;
+    Speed = 70.0f;
     GetCharacterMovement()->MaxWalkSpeed = Speed; 
-    Health = 100.0f;
+    Health = 200.0f;
+    BaseDamage = 15.0f;
     bIsDead = false;
 
     GetSprite()->SetRelativeScale3D(FVector(0.75f, 0.75f, 0.75f));

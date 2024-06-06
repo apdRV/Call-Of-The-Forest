@@ -4,7 +4,7 @@
 #include "Deer.h"
 
 ADeer::ADeer(){
-    bSpeed = 60.0f;
+    bSpeed = 70.0f;
     GetCharacterMovement()->MaxWalkSpeed = bSpeed;
     bHealth = 200.0f;
     bIsDead = false;

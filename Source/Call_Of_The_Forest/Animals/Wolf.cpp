@@ -7,7 +7,8 @@ AWolf::AWolf()
 {
     bSpeed = 40.0f;
     GetCharacterMovement()->MaxWalkSpeed = bSpeed;
-    bHealth = 100.0f;
+    bHealth = 200.0f;
+    bDamage = 10.0f;
     bIsDead = false;
 
     GetSprite()->SetRelativeScale3D(FVector(1.2f, 1.2f, 1.2f));

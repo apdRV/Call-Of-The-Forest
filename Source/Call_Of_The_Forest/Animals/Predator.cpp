@@ -29,7 +29,7 @@ APredator::APredator()
     LastPredatorState = EPredatorState::IdleRightUp;
 
     // Default capsule component properties
-	GetCapsuleComponent()->InitCapsuleSize(11.0f, 11.0f);
+	  GetCapsuleComponent()->InitCapsuleSize(11.0f, 11.0f);
     GetCapsuleComponent()->CanCharacterStepUpOn = ECB_No;
     GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::QueryAndPhysics);
     GetCapsuleComponent()->SetCollisionObjectType(ECollisionChannel::ECC_WorldDynamic);
@@ -84,7 +84,7 @@ void APredator::Attacked(float Value)
 {
     bHealth-=Value;
     bIsTriggered = true;
-    SetbSpeed(100.0f);
+    SetbSpeed(150.0f);
     if(bHealth <= 0.0f)
     {
         Die();

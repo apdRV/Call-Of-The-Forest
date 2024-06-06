@@ -34,11 +34,11 @@ class CALL_OF_THE_FOREST_API AAnimalSpawner : public AActor
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
+
 	AAnimalSpawner();
 
 protected:
-	// Called when the game starts or when spawned
+
 	virtual void BeginPlay() override;
 
 	void SpawnAnimals();

@@ -7,27 +7,25 @@
 #include "Wolf.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
-class CALL_OF_THE_FOREST_API AWolf : public APredator
-{
-	GENERATED_BODY()
+class CALL_OF_THE_FOREST_API AWolf : public APredator {
+  GENERATED_BODY()
 public:
-	AWolf();
+  AWolf();
 
-	virtual void BeginPlay() override;
-	
-	virtual void Tick(float DeltaTime) override;
+  virtual void BeginPlay() override;
+
+  virtual void Tick(float DeltaTime) override;
 
 private:
+  virtual void UpdatePredatorSprite() override;
 
-	virtual void UpdatePredatorSprite() override;
+  virtual void Die() override;
 
-	virtual void Die() override;
+  void SetPredatorSprite(EPredatorState PredatorState);
 
-	void SetPredatorSprite(EPredatorState PredatorState);
-
-	UPROPERTY()
-	TMap<EPredatorState, UPaperFlipbook*> DirectionToWolfSprite;
+  UPROPERTY()
+  TMap<EPredatorState, UPaperFlipbook *> DirectionToWolfSprite;
 };

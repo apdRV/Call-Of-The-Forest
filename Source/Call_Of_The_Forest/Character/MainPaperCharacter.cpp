@@ -4,7 +4,6 @@
 
 #include "MainPaperCharacter.h"
 #include "GameFramework/SpringArmComponent.h"
-#include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Net/UnrealNetwork.h"
 #include "../Multiplayer/SessionConnect.h"
@@ -68,9 +67,9 @@ AMainPaperCharacter::AMainPaperCharacter()
     World = AStaticWorld::GetStaticWorld();
 
     // Properties for Sphere
-    TriggerRadius = 100.0f;
+    TriggerRadius = 150.0f;
     SphereCollider = CreateDefaultSubobject<USphereComponent>(TEXT("SphereCollider"));
-    SphereCollider->InitSphereRadius(TriggerRadius); // radius to trigger mobs
+    SphereCollider->InitSphereRadius(TriggerRadius); // radius to trigger npc's
     SphereCollider->SetCollisionProfileName(TEXT("OverlapAll"));
     SphereCollider->SetupAttachment(RootComponent);
 

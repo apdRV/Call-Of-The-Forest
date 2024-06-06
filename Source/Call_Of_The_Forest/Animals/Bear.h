@@ -7,29 +7,25 @@
 #include "Bear.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
-class CALL_OF_THE_FOREST_API ABear : public APredator
-{
-	GENERATED_BODY()
+class CALL_OF_THE_FOREST_API ABear : public APredator {
+  GENERATED_BODY()
 public:
-	ABear();
+  ABear();
 
-	virtual void BeginPlay() override;
+  virtual void BeginPlay() override;
 
-	virtual void Tick(float DeltaTime) override;
+  virtual void Tick(float DeltaTime) override;
 
 private:
+  virtual void UpdatePredatorSprite() override;
 
-	virtual void UpdatePredatorSprite() override;
+  void SetPredatorSprite(EPredatorState PredatorState);
 
-	void SetPredatorSprite(EPredatorState PredatorState);
+  virtual void Die() override;
 
-	virtual void Die() override;
-	
-	UPROPERTY()
-	TMap<EPredatorState, UPaperFlipbook*> DirectionToBearSprite;
-
-	
+  UPROPERTY()
+  TMap<EPredatorState, UPaperFlipbook *> DirectionToBearSprite;
 };

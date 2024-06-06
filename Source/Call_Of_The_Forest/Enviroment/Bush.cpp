@@ -5,6 +5,7 @@
 
 ABush::ABush()
 {
+    Health = 100.0f;
     BushComponent = CreateDefaultSubobject<UPaperFlipbookComponent>(FName("BushComponent"));
     ConstructorHelpers::FObjectFinderOptional<UPaperFlipbook> AppleTreeAsset(TEXT("/Script/Paper2D.PaperFlipbook'/Game/Sprites/BushFlipbook.BushFlipbook'"));
     BushComponent->SetFlipbook(AppleTreeAsset.Get());

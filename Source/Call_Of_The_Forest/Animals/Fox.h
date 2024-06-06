@@ -7,28 +7,25 @@
 #include "Fox.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
-class CALL_OF_THE_FOREST_API AFox : public APredator
-{
-	GENERATED_BODY()
+class CALL_OF_THE_FOREST_API AFox : public APredator {
+  GENERATED_BODY()
 public:
-	AFox();
+  AFox();
 
-	virtual void BeginPlay() override;
+  virtual void BeginPlay() override;
 
-	virtual void Tick(float DeltaTime) override;
+  virtual void Tick(float DeltaTime) override;
 
 private:
+  virtual void UpdatePredatorSprite() override;
 
-	virtual void UpdatePredatorSprite() override;
+  virtual void Die() override;
 
-	virtual void Die() override;
+  void SetPredatorSprite(EPredatorState PredatorState);
 
-	void SetPredatorSprite(EPredatorState PredatorState);
-	
-	UPROPERTY()
-	TMap<EPredatorState, UPaperFlipbook*> DirectionToFoxSprite;
-	
+  UPROPERTY()
+  TMap<EPredatorState, UPaperFlipbook *> DirectionToFoxSprite;
 };

@@ -5,6 +5,7 @@
 
 AAppleTree::AAppleTree()
 {
+    Health = 300.0f;
     AppleTreeComponent = CreateDefaultSubobject<UPaperFlipbookComponent>(FName("AppleTreeComponent"));
     ConstructorHelpers::FObjectFinderOptional<UPaperFlipbook> AppleTreeAsset(TEXT("/Script/Paper2D.PaperFlipbook'/Game/Sprites/AppleTree_Filpbook.AppleTree_Filpbook'"));
     AppleTreeComponent->SetFlipbook(AppleTreeAsset.Get());

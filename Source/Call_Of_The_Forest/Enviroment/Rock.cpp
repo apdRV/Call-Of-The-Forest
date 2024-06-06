@@ -5,6 +5,7 @@
 
 ARock::ARock()
 {
+    Health = 200.0f;
     RockComponent = CreateDefaultSubobject<UPaperFlipbookComponent>(FName("RockComponent"));
     ConstructorHelpers::FObjectFinderOptional<UPaperFlipbook> AppleTreeAsset(TEXT("/Script/Paper2D.PaperFlipbook'/Game/Sprites/StoneMap_Flipbook.StoneMap_Flipbook'"));
     RockComponent->SetFlipbook(AppleTreeAsset.Get());

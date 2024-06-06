@@ -5,6 +5,7 @@
 
 ATreeLog::ATreeLog()
 {
+    Health = 150.0f;
     TreeLogComponent = CreateDefaultSubobject<UPaperFlipbookComponent>(FName("TreeLogComponent"));
     ConstructorHelpers::FObjectFinderOptional<UPaperFlipbook> AppleTreeAsset(TEXT("/Script/Paper2D.PaperFlipbook'/Game/Sprites/tree_log_flipbook.tree_log_flipbook'"));
     TreeLogComponent->SetFlipbook(AppleTreeAsset.Get());

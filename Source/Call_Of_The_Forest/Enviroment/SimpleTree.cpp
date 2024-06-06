@@ -5,6 +5,7 @@
 
 ASimpleTree::ASimpleTree()
 {
+    Health = 300.0f;
     SimpleTreeComponent = CreateDefaultSubobject<UPaperFlipbookComponent>(FName("SimpleTreeComponent"));
     ConstructorHelpers::FObjectFinderOptional<UPaperFlipbook> AppleTreeAsset(TEXT("/Script/Paper2D.PaperFlipbook'/Game/Sprites/tree_Flipbook.tree_Flipbook'"));
     SimpleTreeComponent->SetFlipbook(AppleTreeAsset.Get());

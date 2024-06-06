@@ -3,87 +3,86 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "../Character/MainPaperCharacter.h"
 #include "AIController.h"
-#include "Predator.h"
+#include "Engine/EngineTypes.h"
 #include "Math/Vector.h"
 #include "NavigationSystem.h"
-#include "Engine/EngineTypes.h"
-#include "../Character/MainPaperCharacter.h"
+#include "Predator.h"
 #include "PredatorAIController.generated.h"
 
 /**
- * 
+ *
  */
 UCLASS()
-class CALL_OF_THE_FOREST_API APredatorAIController : public AAIController
-{
-	GENERATED_BODY()
+class CALL_OF_THE_FOREST_API APredatorAIController : public AAIController {
+  GENERATED_BODY()
 
 public:
-  	APredatorAIController();
+  APredatorAIController();
 
 protected:
-	void BeginPlay() override;
+  void BeginPlay() override;
 
-	void Tick(float Delta) override;
+  void Tick(float Delta) override;
 
-	virtual void OnPossess(APawn *InPawn) override;
+  virtual void OnPossess(APawn *InPawn) override;
 
 private:
-	UPROPERTY()
-	FTimerHandle TimerHandle;
+  UPROPERTY()
+  FTimerHandle TimerHandle;
 
-	UPROPERTY()
-	bool bCanMove;
+  UPROPERTY()
+  bool bCanMove;
 
-	UPROPERTY()
-	float bWaitTime;
+  UPROPERTY()
+  float bWaitTime;
 
-	UPROPERTY()
-	bool bCanAttack;
+  UPROPERTY()
+  bool bCanAttack;
 
-	UPROPERTY()
-	float bAttackInterval;
+  UPROPERTY()
+  float bAttackInterval;
 
-	UPROPERTY()
-	class AStaticWorld *World;
+  UPROPERTY()
+  class AStaticWorld *World;
 
-	UPROPERTY()
-	class APredator *bPredator;
+  UPROPERTY()
+  class APredator *bPredator;
 
-	UPROPERTY()
-	class AMainPaperCharacter *bTargetMainCharacter;
-	
-	UPROPERTY()
-	int wait_time;
+  UPROPERTY()
+  class AMainPaperCharacter *bTargetMainCharacter;
 
-	UPROPERTY()
-	class UNavigationSystemV1* NavArea;
+  UPROPERTY()
+  int wait_time;
 
-	UPROPERTY()
-	FVector RandomLocation = FVector();
+  UPROPERTY()
+  class UNavigationSystemV1 *NavArea;
 
-	UPROPERTY()
-	float SearchRadius;
+  UPROPERTY()
+  FVector RandomLocation = FVector();
 
-	UFUNCTION()
-	AMainPaperCharacter* FindTarget();
+  UPROPERTY()
+  float SearchRadius;
 
-	UFUNCTION()
-	void TriggerAttack();
+  UFUNCTION()
+  AMainPaperCharacter *FindTarget();
 
-	UFUNCTION()
-	void ResetAttack();
+  UFUNCTION()
+  void TriggerAttack();
 
-	UFUNCTION()
-	void ResetbCanMove();
-	
-	UFUNCTION()
-	void MoveToTarget();
+  UFUNCTION()
+  void ResetAttack();
 
-	UFUNCTION()
-	void RandomMove();
+  UFUNCTION()
+  void ResetbCanMove();
 
-	void OnMoveCompleted(FAIRequestID RequestID, const FPathFollowingResult& Result) override;
-	
+  UFUNCTION()
+  void MoveToTarget();
+
+  UFUNCTION()
+  void RandomMove();
+
+  void OnMoveCompleted(FAIRequestID RequestID,
+                       const FPathFollowingResult &Result) override;
 };

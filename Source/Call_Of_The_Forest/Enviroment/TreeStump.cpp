@@ -5,6 +5,7 @@
 
 ATreeStump::ATreeStump()
 {
+    Health = 150.0f;
     TreeStumpComponent = CreateDefaultSubobject<UPaperFlipbookComponent>(FName("TreeStumpComponent"));
     ConstructorHelpers::FObjectFinderOptional<UPaperFlipbook> AppleTreeAsset(TEXT("/Script/Paper2D.PaperFlipbook'/Game/Sprites/stump_flipbook.stump_flipbook'"));
     TreeStumpComponent->SetFlipbook(AppleTreeAsset.Get());
