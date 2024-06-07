@@ -137,11 +137,21 @@ void AMainPaperCharacter::MoveForwardBackward(float Value)
         const FVector Direction = FVector(0.5, 0, 0);
         AddMovementInput(Direction, Value);
 
-
-        CharacterState = (Value > 0) ? EMainCharacterState::Up : EMainCharacterState::Down;
-        LastMoveDirection = (CharacterState == EMainCharacterState::Up) ? EMainCharacterState::IdleUp : EMainCharacterState::IdleDown;
-
+        if (HasAuthority()){
+            CharacterState = (Value > 0) ? EMainCharacterState::Up : EMainCharacterState::Down;
+            LastMoveDirection = (CharacterState == EMainCharacterState::Up) ? EMainCharacterState::IdleUp : EMainCharacterState::IdleDown;
+        }
+        else
+        {
+            ServerMoveForwardBackward(Value);
+        }
     }
+}
+
+void AMainPaperCharacter::ServerMoveForwardBackward_Implementation(float Value)
+{
+    CharacterState = (Value > 0) ? EMainCharacterState::Up : EMainCharacterState::Down;
+    LastMoveDirection = (CharacterState == EMainCharacterState::Up) ? EMainCharacterState::IdleUp : EMainCharacterState::IdleDown;
 }
 
 // When A/LEFT or D/RIGHT keys are pressed
@@ -151,11 +161,22 @@ void AMainPaperCharacter::MoveRightLeft(float Value)
     {
         const FVector Direction = FVector(0, 0.5, 0);
         AddMovementInput(Direction, Value);
-
-        CharacterState = (Value > 0) ? EMainCharacterState::Right : EMainCharacterState::Left;
-        LastMoveDirection = (CharacterState == EMainCharacterState::Right) ? EMainCharacterState::IdleRight : EMainCharacterState::IdleLeft;
+        if(HasAuthority()){
+            CharacterState = (Value > 0) ? EMainCharacterState::Right : EMainCharacterState::Left;
+            LastMoveDirection = (CharacterState == EMainCharacterState::Right) ? EMainCharacterState::IdleRight : EMainCharacterState::IdleLeft;
+        }
+        else
+        {
+            ServerMoveRightLeft(Value);
+        }
 
     }
+}
+
+void AMainPaperCharacter::ServerMoveRightLeft_Implementation(float Value)
+{
+    CharacterState = (Value > 0) ? EMainCharacterState::Right : EMainCharacterState::Left;
+    LastMoveDirection = (CharacterState == EMainCharacterState::Right) ? EMainCharacterState::IdleRight : EMainCharacterState::IdleLeft;
 }
 
 void AMainPaperCharacter::Attack()
@@ -232,6 +253,37 @@ void AMainPaperCharacter::UpdateCharacterSprite()
         CharacterState = LastMoveDirection;
     }
     MainCharacterSpriteComponent->UpdateSprite(CharacterState);
+    // FVector Velocity = GetVelocity();
+    
+    // if((bIsAttacking) && (!bIsDead))
+    // {
+    //     return;
+    // }
+    // else if(CharacterState == EMainCharacterState::DieLeft || CharacterState == EMainCharacterState::DieRight)
+    // {
+    //     LastMoveDirection = (CharacterState == EMainCharacterState::DieLeft) ? EMainCharacterState::DieLeft : EMainCharacterState::DieRight;
+    //     CharacterState = LastMoveDirection;
+    //     return;
+    // }
+
+    // else if (Velocity.SizeSquared() > 0.0f)
+    // {
+    //     if(FMath::Abs(Velocity.X) <= 0.01f)
+    //     {
+    //         CharacterState = (Velocity.X > 0.0f) ? EMainCharacterState::Right : EMainCharacterState::Left;
+    //         LastMoveDirection = (CharacterState == EMainCharacterState::Right) ? EMainCharacterState::IdleRight : EMainCharacterState::IdleLeft;
+    //     }
+    //     else
+    //     {
+    //         CharacterState = (Velocity.Y > 0.0f) ? EMainCharacterState::Up : EMainCharacterState::Down;
+    //         LastMoveDirection = (CharacterState == EMainCharacterState::Up) ? EMainCharacterState::IdleUp : EMainCharacterState::IdleDown;
+    //     }
+    // }
+    // else
+    // {
+    //     CharacterState = LastMoveDirection;
+    // }
+    // MainCharacterSpriteComponent->UpdateSprite(CharacterState);
 
 }
 

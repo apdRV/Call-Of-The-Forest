@@ -78,8 +78,14 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = "Movement")
     void MoveForwardBackward(float Value);
 
+	UFUNCTION(Server, Reliable)
+	void ServerMoveForwardBackward(float Value);
+
 	UFUNCTION(BlueprintCallable, Category = "Movement")
     void MoveRightLeft(float Value);
+
+	UFUNCTION(Server, Reliable)
+	void ServerMoveRightLeft(float Value);
 
 	UFUNCTION(BlueprintCallable, Category = "Attacking")
 	void Attack();
