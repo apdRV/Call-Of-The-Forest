@@ -8,6 +8,7 @@
 #include "Net/UnrealNetwork.h"
 #include "Blueprint/UserWidget.h"
 #include "Blueprint/WidgetTree.h"
+#include "Kismet/GameplayStatics.h"
 #include "Blueprint/WidgetLayoutLibrary.h"
 #include "../Multiplayer/SessionConnect.h"
 #include "../Resources/ResourceBaseClass/ResourceBase.h"
@@ -329,8 +330,11 @@ void AMainPaperCharacter::Die()
         GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
         EndPlay(EEndPlayReason::Destroyed);
 
-        UUserWidget* DeathWidget = CreateWidget<UUserWidget>(GetWorld(), DeathScreen);
+        APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+
+        UUserWidget* DeathWidget = CreateWidget<UUserWidget>(PlayerController, DeathScreen);
         if (DeathWidget){
+            UE_LOG(LogTemp, Warning, TEXT("WATAFUCK"));
             DeathWidget->AddToViewport();
         }
     }

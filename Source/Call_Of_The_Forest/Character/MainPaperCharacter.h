@@ -36,8 +36,13 @@ public:
 	UFUNCTION()
 	EMainCharacterState GetCharacterState();
 
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable)
 	bool GetbIsDead();
+
+	UFUNCTION(BlueprintCallable)
+	AMainPaperCharacter* GetPISKA(){
+		return this;
+	}
 
 protected:
     UPROPERTY()
