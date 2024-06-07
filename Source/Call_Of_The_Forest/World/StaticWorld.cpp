@@ -55,6 +55,7 @@ void AStaticWorld::MobDestroy(AMob* Mob)
 	FTimerHandle TimerHandle;
 	Mob->GetWorldTimerManager().SetTimer(TimerHandle, [Mob, this]()
 	{
+		if (std::find(Actors["Mob"].begin(), Actors["Mob"].end(), Mob) == Actors["Mob"].end()) return;
 		FVector Location = Mob->GetActorLocation();
 		Location.X += 10;
 		Location.Z -= 0.4;
