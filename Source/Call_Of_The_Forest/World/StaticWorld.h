@@ -36,6 +36,10 @@ public:
 		Actors[Type].push_back(Actor);
 	}
 
+	void RemoveActor(std::string Type, AActor* Actor) {
+		std::erase(Actors[Type], Actor);
+	}
+
 	static AStaticWorld* GetStaticWorld() {
 		return World;
 	}
