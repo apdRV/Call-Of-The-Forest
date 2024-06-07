@@ -10,6 +10,7 @@
 #include "../World/StaticWorld.h"
 #include "../Animals/Animal.h"
 #include "../Animals/Predator.h"
+#include "DeathScreen.h"
 #include "MainCharacterSpriteComponent.h"
 #include "../World/AttackedDerivedDeclaration.h"
 #include "Engine/EngineTypes.h"
@@ -142,6 +143,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State") 
 	int32 SwordLevel = 0;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Widgets")
+	TSubclassOf<UUserWidget> DeathScreen;
 
 	UFUNCTION()
 	void EatMeat();

@@ -6,6 +6,9 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Net/UnrealNetwork.h"
+#include "Blueprint/UserWidget.h"
+#include "Blueprint/WidgetTree.h"
+#include "Blueprint/WidgetLayoutLibrary.h"
 #include "../Multiplayer/SessionConnect.h"
 #include "../Resources/ResourceBaseClass/ResourceBase.h"
 
@@ -76,6 +79,7 @@ AMainPaperCharacter::AMainPaperCharacter()
     SphereCollider->OnComponentBeginOverlap.AddDynamic(this, &AMainPaperCharacter::OnOverlapBegin);
     SphereCollider->OnComponentEndOverlap.AddDynamic(this, &AMainPaperCharacter::OnOverlapEnd);
 
+    DeathScreen = UDeathScreen::StaticClass();
 }
 
 // Called every frame
@@ -324,6 +328,11 @@ void AMainPaperCharacter::Die()
         MainCharacterSpriteComponent->UpdateSprite(CharacterState);
         GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
         EndPlay(EEndPlayReason::Destroyed);
+
+        UUserWidget* DeathWidget = CreateWidget<UUserWidget>(GetWorld(), DeathScreen);
+        if (DeathWidget){
+            DeathWidget->AddToViewport();
+        }
     }
 }
 
