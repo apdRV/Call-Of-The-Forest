@@ -229,6 +229,41 @@ void AMainPaperCharacter::SetAttackAnimation()
         MainCharacterSpriteComponent->UpdateSprite(CharacterState);
     }
     GetWorldTimerManager().SetTimer(AttackTimerHandle, this, &AMainPaperCharacter::EndAttackAnimation, 0.2f, false);
+    if(IsLocallyControlled())
+    {
+        ServerSetAttackAnimation();
+    }
+}
+
+void AMainPaperCharacter::ServerSetAttackAnimation_Implementation()
+{
+    bIsAttacking = true;
+    //Change the character state to attack
+    if(CharacterState == EMainCharacterState::IdleDown || CharacterState == EMainCharacterState::Down)
+    {
+        LastMoveDirection = EMainCharacterState::IdleDown;
+        CharacterState = EMainCharacterState::AttackDown;
+    }
+    else if(CharacterState == EMainCharacterState::IdleUp || CharacterState == EMainCharacterState::Up)
+    {
+        LastMoveDirection = EMainCharacterState::IdleUp;
+        CharacterState = EMainCharacterState::AttackUp;
+    }
+    else if(CharacterState == EMainCharacterState::IdleRight || CharacterState == EMainCharacterState::Right)
+    {
+        LastMoveDirection = EMainCharacterState::IdleRight;
+        CharacterState = EMainCharacterState::AttackRight;
+    }
+    else if(CharacterState == EMainCharacterState::IdleLeft || CharacterState == EMainCharacterState::Left)
+    {
+        LastMoveDirection = EMainCharacterState::IdleLeft;
+        CharacterState = EMainCharacterState::AttackLeft;
+    }
+    if(!bIsDead)
+    {
+        MainCharacterSpriteComponent->UpdateSprite(CharacterState);
+    }
+    GetWorldTimerManager().SetTimer(AttackTimerHandle, this, &AMainPaperCharacter::ServerEndAttackAnimation, 0.2f, false);
 }
 
 void AMainPaperCharacter::EndAttackAnimation()
@@ -236,7 +271,21 @@ void AMainPaperCharacter::EndAttackAnimation()
     CharacterState = LastMoveDirection;
     bIsAttacking = false;
     UpdateCharacterSprite();
+}
 
+void AMainPaperCharacter::ServerEndAttackAnimation_Implementation()
+{
+    CharacterState = LastMoveDirection;
+    bIsAttacking = false;
+    UpdateCharacterSprite(); 
+}
+
+void AMainPaperCharacter::OnRep_Attacking()
+{
+    if(bIsAttacking)
+    {
+        SetAttackAnimation();
+    }
 }
 
 void AMainPaperCharacter::UpdateCharacterSprite()
@@ -253,38 +302,6 @@ void AMainPaperCharacter::UpdateCharacterSprite()
         CharacterState = LastMoveDirection;
     }
     MainCharacterSpriteComponent->UpdateSprite(CharacterState);
-    // FVector Velocity = GetVelocity();
-    
-    // if((bIsAttacking) && (!bIsDead))
-    // {
-    //     return;
-    // }
-    // else if(CharacterState == EMainCharacterState::DieLeft || CharacterState == EMainCharacterState::DieRight)
-    // {
-    //     LastMoveDirection = (CharacterState == EMainCharacterState::DieLeft) ? EMainCharacterState::DieLeft : EMainCharacterState::DieRight;
-    //     CharacterState = LastMoveDirection;
-    //     return;
-    // }
-
-    // else if (Velocity.SizeSquared() > 0.0f)
-    // {
-    //     if(FMath::Abs(Velocity.X) <= 0.01f)
-    //     {
-    //         CharacterState = (Velocity.X > 0.0f) ? EMainCharacterState::Right : EMainCharacterState::Left;
-    //         LastMoveDirection = (CharacterState == EMainCharacterState::Right) ? EMainCharacterState::IdleRight : EMainCharacterState::IdleLeft;
-    //     }
-    //     else
-    //     {
-    //         CharacterState = (Velocity.Y > 0.0f) ? EMainCharacterState::Up : EMainCharacterState::Down;
-    //         LastMoveDirection = (CharacterState == EMainCharacterState::Up) ? EMainCharacterState::IdleUp : EMainCharacterState::IdleDown;
-    //     }
-    // }
-    // else
-    // {
-    //     CharacterState = LastMoveDirection;
-    // }
-    // MainCharacterSpriteComponent->UpdateSprite(CharacterState);
-
 }
 
 void AMainPaperCharacter::Attacked(float Value)

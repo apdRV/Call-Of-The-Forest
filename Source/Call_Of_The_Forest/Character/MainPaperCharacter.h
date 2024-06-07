@@ -42,58 +42,61 @@ protected:
     UPROPERTY()
 	AStaticWorld* World;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State") 
+	UPROPERTY() 
 	float Health;
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, Category = "AnimationCharacter | Config")
+	UPROPERTY(Replicated)
 	bool bIsMoving;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, Category = "State")
+	UPROPERTY(Replicated)
 	bool bIsDead;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, Category = "State")
+	UPROPERTY(ReplicatedUsing = OnRep_Attacking)
 	bool bIsAttacking;
+
+	UFUNCTION()
+	void OnRep_Attacking();
 
 	UPROPERTY()
 	FTimerHandle AttackTimerHandle;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, Category = "State")
+	UPROPERTY(Replicated)
 	float Damage;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, Category = "AnimationCharacter | Config")
+	UPROPERTY(Replicated)
 	EMainCharacterState CharacterState;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated, Category = "AnimationCharacter | Config")
+	UPROPERTY(Replicated)
 	EMainCharacterState LastMoveDirection;
 
 	UFUNCTION()
 	virtual void BeginPlay() override;
 
-	UFUNCTION(BlueprintCallable, Category = "State")
-	void Die(); // смерть персонажа
+	UFUNCTION()
+	void Die(); 
 
-	UFUNCTION(BlueprintCallable, Category = "State")
-	void PickUpItem(float Value); // поднять предмет
+	UFUNCTION()
+	void PickUpItem(float Value); 
 
-	UFUNCTION(BlueprintCallable, Category = "Movement")
+	UFUNCTION()
     void MoveForwardBackward(float Value);
 
 	UFUNCTION(Server, Reliable)
 	void ServerMoveForwardBackward(float Value);
 
-	UFUNCTION(BlueprintCallable, Category = "Movement")
+	UFUNCTION()
     void MoveRightLeft(float Value);
 
 	UFUNCTION(Server, Reliable)
 	void ServerMoveRightLeft(float Value);
 
-	UFUNCTION(BlueprintCallable, Category = "Attacking")
+	UFUNCTION()
 	void Attack();
 
 	UFUNCTION()
 	void Attacked(float Value);
 
-	UFUNCTION(BlueprintCallable, Category = "Animation")
+	UFUNCTION()
 	void UpdateCharacterSprite();
 
     UFUNCTION()
@@ -125,9 +128,6 @@ public:
 	UFUNCTION()
 	void SetAttackAnimation();
 
-	UFUNCTION()
-	void EndAttackAnimation();
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State") 
 	int32 WoodQuantity = 0;
 
@@ -151,10 +151,10 @@ public:
 
 private:
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY()
     class USphereComponent* SphereCollider;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY()
 	float TriggerRadius;
 
 	bool WasSpawned = false;
@@ -165,5 +165,14 @@ private:
 	friend class AttackingActor;
 
 	// Networked functions
+
+	UFUNCTION(Server, Reliable)
+	void ServerSetAttackAnimation();
+
+	UFUNCTION()
+	void EndAttackAnimation();
+
+	UFUNCTION(Server, Reliable)
+	void ServerEndAttackAnimation();
 
 };
