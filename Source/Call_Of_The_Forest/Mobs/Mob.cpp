@@ -6,6 +6,7 @@
 #include <vector>
 #include "../World/StaticWorld.h"
 #include "../Character/MainPaperCharacter.h"
+#include "../Multiplayer/SessionConnect.h"
 #include "Net/UnrealNetwork.h"
 #include "Components/CapsuleComponent.h"
 
@@ -82,7 +83,7 @@ void AMob::Tick(float Deltatime)
 void AMob::BeginPlay()
 {
     Super::BeginPlay();
-    if (World != nullptr) {
+    if (World != nullptr && ASessionConnect::GetID() == 0) {
         World->AddActor("Mob", this);
         UE_LOG(LogTemp, Warning, TEXT("World is not a null, added mob"));
     } else {
@@ -214,6 +215,7 @@ void AMob::Die()
         MobState = (LastMobState == EMobState::IdleLeftDown || LastMobState == EMobState::LeftDown || LastMobState == EMobState::AttackLeftDown) ? EMobState::DieLeftDown : EMobState::DieRightUp;
         SetMobSprite(MobState);
         GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+        World->RemoveActor("Mob", this);
     }
 }
 
