@@ -117,7 +117,7 @@ protected:
   UPROPERTY(EditAnywhere, Replicated, Category = "State")
   bool bIsDead;
 
-  UPROPERTY(EditAnywhere, Category = "State")
+  UPROPERTY(EditAnywhere, Replicated, Category = "State")
   bool bIsAttacking;
 
   UPROPERTY(EditAnywhere, Category = "State")
@@ -155,6 +155,9 @@ protected:
 
   UFUNCTION()
   void SetAttackAnimation();
+
+  UFUNCTION()
+  void SetAttack();
 
   UFUNCTION()
   void EndAttackAnimation();

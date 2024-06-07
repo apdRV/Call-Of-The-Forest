@@ -33,6 +33,7 @@ public:
 	static void SetWorld(UWorld* World);
 	void JoinSession(FName SessionName, ULocalPlayer* LocalPlayer, APlayerController* PlayerController);
 	void CreateSession(FName SessionName, ULocalPlayer* LocalPlayer, APlayerController* PlayerController);
-	TSharedPtr<FOnlineSessionSearch> FindSessions(ULocalPlayer* LocalPlayer);
+	void FindSessions(ULocalPlayer* LocalPlayer);
+	FString GetText();
 	static ASessionConnect* GetCurrentSession();
 };

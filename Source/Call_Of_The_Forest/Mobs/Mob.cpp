@@ -74,6 +74,9 @@ AMob::AMob()
 void AMob::Tick(float Deltatime)
 {
     Super::Tick(Deltatime);
+    if (bIsAttacking) {
+        SetAttackAnimation();
+    }
 }
 
 void AMob::BeginPlay()
@@ -156,9 +159,13 @@ void AMob::UpdateMobState()
     UpdateMobSprite();
 }
 
-void AMob::SetAttackAnimation()
+void AMob::SetAttack()
 {
     bIsAttacking = true;
+}
+
+void AMob::SetAttackAnimation()
+{
     if(MobState == EMobState::IdleLeftDown || MobState == EMobState::LeftDown)
     {
         MobState = EMobState::AttackLeftDown;
@@ -186,6 +193,7 @@ void AMob::GetLifetimeReplicatedProps(TArray<FLifetimeProperty> &OutLifetimeProp
 	DOREPLIFETIME(AMob, bIsDead);
 	DOREPLIFETIME(AMob, BaseDamage);
     DOREPLIFETIME(AMob, Health);
+    DOREPLIFETIME(AMob, bIsAttacking);
 }
 
 void AMob::Attacked(float Value)

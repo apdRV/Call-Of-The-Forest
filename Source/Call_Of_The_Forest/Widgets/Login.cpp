@@ -13,6 +13,7 @@ void ULogin::TryLogin()
         }
 		else {
             Clean();
+			LoginFailed->SetText(FText::AsCultureInvariant("Wrong login or password!"));
         }
 }
 

@@ -27,6 +27,9 @@ public:
   UFUNCTION()
   void Join();
 
+  UFUNCTION()
+  void SetLobbyName();
+
   FString LobbyText;
 
   UPROPERTY(BlueprintReadOnly, Category = "Constituent Controls",
@@ -36,5 +39,13 @@ public:
   UPROPERTY(BlueprintReadOnly, Category = "Constituent Controls",
             meta = (BindWidget))
   UButton *JoinLobbyOne = nullptr;
+
+  UPROPERTY(BlueprintReadOnly, Category = "Constituent Controls",
+            meta = (BindWidget))
+  UButton *Find = nullptr;
+
+  UPROPERTY(BlueprintReadOnly, Category = "Constituent Controls",
+            meta = (BindWidget))
+  bool b_is_visible = false;
 
 };
