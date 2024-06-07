@@ -92,7 +92,7 @@ AMainPaperCharacter* APredatorAIController::FindTarget()
     for(int i=0;i< copy_array_of_main_characters.size();i++){
         FVector CurrentActorLocation = copy_array_of_main_characters[i]->GetActorLocation();
         float Distance = FVector::DistSquared(CurrentActorLocation, MobLocation);
-        if(Distance < NearestDistance && copy_array_of_main_characters[i]->HasAuthority()){
+        if(Distance < NearestDistance && i % 2 == 0){
             NearestDistance = Distance;
             NearestActorLocation = CurrentActorLocation;
             NearestCharacter = dynamic_cast<AMainPaperCharacter*>(copy_array_of_main_characters[i]);
