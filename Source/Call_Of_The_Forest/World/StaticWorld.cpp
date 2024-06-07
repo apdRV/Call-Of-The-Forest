@@ -218,6 +218,7 @@ void AStaticWorld::DeleteOverlappingActors(AActor* OtherActor)
 
 void AStaticWorld::MobIsAttacking(AMainPaperCharacter* MainCharacter, AMob* Mob)
 {
+	if (std::find(Actors["Mob"].begin(), Actors["Mob"].end(), Mob) == Actors["Mob"].end()) return;
 	if(FVector::Dist(MainCharacter->GetActorLocation(), Mob->GetActorLocation()) <= 100.0f)
 	{
 		ClassToMakeDamage.MakeDamage(Mob, MainCharacter);
