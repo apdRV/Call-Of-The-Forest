@@ -10,7 +10,6 @@
 #include "../World/StaticWorld.h"
 #include "../Animals/Animal.h"
 #include "../Animals/Predator.h"
-#include "DeathScreen.h"
 #include "MainCharacterSpriteComponent.h"
 #include "../World/AttackedDerivedDeclaration.h"
 #include "Engine/EngineTypes.h"

@@ -80,7 +80,7 @@ AMainPaperCharacter::AMainPaperCharacter()
     SphereCollider->OnComponentBeginOverlap.AddDynamic(this, &AMainPaperCharacter::OnOverlapBegin);
     SphereCollider->OnComponentEndOverlap.AddDynamic(this, &AMainPaperCharacter::OnOverlapEnd);
 
-    DeathScreen = UDeathScreen::StaticClass();
+   //DeathScreen = UDeathScreen::StaticClass();
 }
 
 // Called every frame
@@ -330,13 +330,13 @@ void AMainPaperCharacter::Die()
         GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
         EndPlay(EEndPlayReason::Destroyed);
 
-        APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+        // APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
 
-        UUserWidget* DeathWidget = CreateWidget<UUserWidget>(PlayerController, DeathScreen);
-        if (DeathWidget){
-            UE_LOG(LogTemp, Warning, TEXT("WATAFUCK"));
-            DeathWidget->AddToViewport();
-        }
+        // UUserWidget* DeathWidget = CreateWidget<UUserWidget>(PlayerController, DeathScreen);
+        // if (DeathWidget){
+        //     UE_LOG(LogTemp, Warning, TEXT("WATAFUCK"));
+        //     DeathWidget->AddToViewport();
+        // }
     }
 }
 
