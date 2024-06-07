@@ -68,6 +68,9 @@ APredator::APredator()
 void APredator::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
+    if (bIsAttacking) {
+        SetAttackAnimation();
+    }
 }
 
 void APredator::BeginPlay()
@@ -91,9 +94,13 @@ void APredator::Attacked(float Value)
     }
 }
 
-void APredator::SetAttackAnimation()
+void APredator::SetAttack()
 {
     bIsAttacking = true;
+}
+
+void APredator::SetAttackAnimation()
+{
     if(PredatorState == EPredatorState::IdleLeftDown || PredatorState == EPredatorState::LeftDown)
     {
         PredatorState = EPredatorState::AttackingLeftDown;

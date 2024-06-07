@@ -115,7 +115,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Replicated)
 	bool bIsDead;
 
-	UPROPERTY()
+	UPROPERTY(Replicated)
 	bool bIsAttacking;
 
 	UPROPERTY()
@@ -135,6 +135,9 @@ protected:
 
 	UFUNCTION()
 	void Attacked(float Value);
+
+	UFUNCTION()
+	void SetAttack();
 
 	UFUNCTION()
 	void SetAttackAnimation();
