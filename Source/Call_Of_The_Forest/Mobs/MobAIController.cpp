@@ -2,12 +2,12 @@
 
 
 #include "MobAIController.h"
+#include "../Multiplayer/SessionConnect.h"
 #include "NavigationSystem.h"
 
 AMobAIController::AMobAIController()
 {
     PrimaryActorTick.bCanEverTick = true;
-    World = AStaticWorld::GetStaticWorld();
     m_Mob = nullptr;
     bCanAttack = true;
     AttackInterval = 1.0f;
@@ -19,7 +19,7 @@ AMobAIController::AMobAIController()
 void AMobAIController::BeginPlay()
 {
     Super::BeginPlay();
-
+    World = AStaticWorld::GetStaticWorld();
     NavArea = FNavigationSystem::GetCurrent<UNavigationSystemV1>(this);
 
 }
@@ -50,22 +50,23 @@ AMainPaperCharacter* AMobAIController::FindTarget(){
     AMainPaperCharacter* NearestCharacter = nullptr;
     float NearestDistance;
     std::vector<AActor*> copy_array_of_main_characters = World->GetActor("MainCharacter");
+    
     if(copy_array_of_main_characters.size() == 0){
         UE_LOG(LogTemp, Warning, TEXT("No_main_characters_in_area"));
         return NearestCharacter;
     }
-    else{
+    else {
         NearestActorLocation = copy_array_of_main_characters[0]->GetActorLocation();
         NearestDistance = FVector::DistSquared(NearestActorLocation, MobLocation);
-        NearestCharacter = Cast<AMainPaperCharacter>(copy_array_of_main_characters[0]);
+        NearestCharacter = dynamic_cast<AMainPaperCharacter*>(copy_array_of_main_characters[0]);
     }
-    for(auto &i : copy_array_of_main_characters){
-        FVector CurrentActorLocation = i->GetActorLocation();
+    for(int i=0;i< copy_array_of_main_characters.size();i++){
+        FVector CurrentActorLocation = copy_array_of_main_characters[i]->GetActorLocation();
         float Distance = FVector::DistSquared(CurrentActorLocation, MobLocation);
-        if(Distance < NearestDistance){
+        if(Distance < NearestDistance && copy_array_of_main_characters[i]->HasAuthority()){
             NearestDistance = Distance;
             NearestActorLocation = CurrentActorLocation;
-            NearestCharacter = Cast<AMainPaperCharacter>(i);
+            NearestCharacter = dynamic_cast<AMainPaperCharacter*>(copy_array_of_main_characters[i]);
         }
     }
     return NearestCharacter;
