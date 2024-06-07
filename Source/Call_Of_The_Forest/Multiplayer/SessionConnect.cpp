@@ -24,7 +24,7 @@ void ASessionConnect::BeginPlay(){
 	Super::BeginPlay();
 }
 
-ASessionConnect* ASessionConnect::GetCurrentSession(){
+ASessionConnect* ASessionConnect::GetCurrentSession() {
 	return CurrentSession;
 }
 
@@ -36,7 +36,7 @@ int ASessionConnect::GetID() {
     return PlayerID;
 }
 
-TSharedPtr<FOnlineSessionSearch> ASessionConnect::FindSessions(ULocalPlayer* LocalPlayer) {
+void ASessionConnect::FindSessions(ULocalPlayer* LocalPlayer) {
     IOnlineSubsystem* OnlineSub = Online::GetSubsystem(WWorld);
     
     if (OnlineSub)
@@ -47,11 +47,18 @@ TSharedPtr<FOnlineSessionSearch> ASessionConnect::FindSessions(ULocalPlayer* Loc
 
             if (Sessions->FindSessions(*LocalPlayer->GetPreferredUniqueNetId(), SessionSearch.ToSharedRef())) {
                 UE_LOG(LogTemp, Warning, TEXT("OK"));
-            }
-            return SessionSearch;
+            }    
+                    
         }
     }
-    return SessionSearch;
+}
+
+FString ASessionConnect::GetText() {
+    if (SessionSearch->SearchResults.Num() > 0) {
+            UE_LOG(LogTemp, Warning, TEXT("OK2"));
+            return SessionSearch->SearchResults[0].Session.OwningUserName;
+    }
+    else return FString("NO LOBBY");
 }
 
 void ASessionConnect::CreateSession(FName SessionName, ULocalPlayer* LocalPlayer, APlayerController* PlayerController)
@@ -95,7 +102,6 @@ void ASessionConnect::JoinSession(FName SessionName, ULocalPlayer* LocalPlayer, 
         IOnlineSessionPtr Sessions = OnlineSub->GetSessionInterface();
         if (Sessions.IsValid() && LocalPlayer && SessionSearch.IsValid())
         {
-            if (SessionSearch->SearchResults.Num() > 0) UE_LOG(LogTemp, Warning, TEXT("OK2"));
             for (int32 SearchIdx = 0; SearchIdx < SessionSearch->SearchResults.Num(); SearchIdx++) {
                 FOnlineSessionSearchResult SearchResult = SessionSearch->SearchResults[SearchIdx];
                     FOnlineSessionSettings* SessionSettings = Sessions->GetSessionSettings(SessionName);

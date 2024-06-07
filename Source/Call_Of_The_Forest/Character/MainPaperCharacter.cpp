@@ -4,7 +4,6 @@
 
 #include "MainPaperCharacter.h"
 #include "GameFramework/SpringArmComponent.h"
-#include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Net/UnrealNetwork.h"
 #include "../Multiplayer/SessionConnect.h"
@@ -68,9 +67,9 @@ AMainPaperCharacter::AMainPaperCharacter()
     World = AStaticWorld::GetStaticWorld();
 
     // Properties for Sphere
-    TriggerRadius = 100.0f;
+    TriggerRadius = 150.0f;
     SphereCollider = CreateDefaultSubobject<USphereComponent>(TEXT("SphereCollider"));
-    SphereCollider->InitSphereRadius(TriggerRadius); // radius to trigger mobs
+    SphereCollider->InitSphereRadius(TriggerRadius); // radius to trigger npc's
     SphereCollider->SetCollisionProfileName(TEXT("OverlapAll"));
     SphereCollider->SetupAttachment(RootComponent);
 
@@ -138,11 +137,21 @@ void AMainPaperCharacter::MoveForwardBackward(float Value)
         const FVector Direction = FVector(0.5, 0, 0);
         AddMovementInput(Direction, Value);
 
-
-        CharacterState = (Value > 0) ? EMainCharacterState::Up : EMainCharacterState::Down;
-        LastMoveDirection = (CharacterState == EMainCharacterState::Up) ? EMainCharacterState::IdleUp : EMainCharacterState::IdleDown;
-
+        if (HasAuthority()){
+            CharacterState = (Value > 0) ? EMainCharacterState::Up : EMainCharacterState::Down;
+            LastMoveDirection = (CharacterState == EMainCharacterState::Up) ? EMainCharacterState::IdleUp : EMainCharacterState::IdleDown;
+        }
+        else
+        {
+            ServerMoveForwardBackward(Value);
+        }
     }
+}
+
+void AMainPaperCharacter::ServerMoveForwardBackward_Implementation(float Value)
+{
+    CharacterState = (Value > 0) ? EMainCharacterState::Up : EMainCharacterState::Down;
+    LastMoveDirection = (CharacterState == EMainCharacterState::Up) ? EMainCharacterState::IdleUp : EMainCharacterState::IdleDown;
 }
 
 // When A/LEFT or D/RIGHT keys are pressed
@@ -152,11 +161,22 @@ void AMainPaperCharacter::MoveRightLeft(float Value)
     {
         const FVector Direction = FVector(0, 0.5, 0);
         AddMovementInput(Direction, Value);
-
-        CharacterState = (Value > 0) ? EMainCharacterState::Right : EMainCharacterState::Left;
-        LastMoveDirection = (CharacterState == EMainCharacterState::Right) ? EMainCharacterState::IdleRight : EMainCharacterState::IdleLeft;
+        if(HasAuthority()){
+            CharacterState = (Value > 0) ? EMainCharacterState::Right : EMainCharacterState::Left;
+            LastMoveDirection = (CharacterState == EMainCharacterState::Right) ? EMainCharacterState::IdleRight : EMainCharacterState::IdleLeft;
+        }
+        else
+        {
+            ServerMoveRightLeft(Value);
+        }
 
     }
+}
+
+void AMainPaperCharacter::ServerMoveRightLeft_Implementation(float Value)
+{
+    CharacterState = (Value > 0) ? EMainCharacterState::Right : EMainCharacterState::Left;
+    LastMoveDirection = (CharacterState == EMainCharacterState::Right) ? EMainCharacterState::IdleRight : EMainCharacterState::IdleLeft;
 }
 
 void AMainPaperCharacter::Attack()
@@ -171,44 +191,13 @@ void AMainPaperCharacter::Attack()
 void AMainPaperCharacter::GetLifetimeReplicatedProps(TArray<FLifetimeProperty> &OutLifetimeProps) const
 {
     Super::GetLifetimeReplicatedProps(OutLifetimeProps);
-
+	DOREPLIFETIME(AMainPaperCharacter, bIsMoving);
 	DOREPLIFETIME(AMainPaperCharacter, bIsDead);
-    DOREPLIFETIME(AMainPaperCharacter, Health);
     DOREPLIFETIME(AMainPaperCharacter, bIsAttacking);
+	DOREPLIFETIME(AMainPaperCharacter, Damage);
     DOREPLIFETIME(AMainPaperCharacter, CharacterState);
     DOREPLIFETIME(AMainPaperCharacter, LastMoveDirection);
 
-}
-
-void AMainPaperCharacter::OnRep_Health()
-{
-    if(Health <= 0.0f)
-    {
-        Die();
-    }
-    // UpdateCharacterSprite()
-}
-
-void AMainPaperCharacter::OnHealthUpdate()
-{
-    // if (IsLocallyControlled())
-    // {
-    //     FString healthMessage = FString::Printf(TEXT("You now have %f health remaining."), CurrentHealth);
-    //     GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, healthMessage);
-
-    //     if (CurrentHealth <= 0)
-    //     {
-    //         FString deathMessage = FString::Printf(TEXT("You have been killed."));
-    //         GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, deathMessage);
-    //     }
-    // }
-
-    // //Server-specific functionality
-    // if (GetLocalRole() == ROLE_Authority)
-    // {
-    //     FString healthMessage = FString::Printf(TEXT("%s now has %f health remaining."), *GetFName().ToString(), CurrentHealth);
-    //     GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, healthMessage);
-    // }
 }
 
 void AMainPaperCharacter::SetAttackAnimation()
@@ -240,6 +229,41 @@ void AMainPaperCharacter::SetAttackAnimation()
         MainCharacterSpriteComponent->UpdateSprite(CharacterState);
     }
     GetWorldTimerManager().SetTimer(AttackTimerHandle, this, &AMainPaperCharacter::EndAttackAnimation, 0.2f, false);
+    if(IsLocallyControlled())
+    {
+        ServerSetAttackAnimation();
+    }
+}
+
+void AMainPaperCharacter::ServerSetAttackAnimation_Implementation()
+{
+    bIsAttacking = true;
+    //Change the character state to attack
+    if(CharacterState == EMainCharacterState::IdleDown || CharacterState == EMainCharacterState::Down)
+    {
+        LastMoveDirection = EMainCharacterState::IdleDown;
+        CharacterState = EMainCharacterState::AttackDown;
+    }
+    else if(CharacterState == EMainCharacterState::IdleUp || CharacterState == EMainCharacterState::Up)
+    {
+        LastMoveDirection = EMainCharacterState::IdleUp;
+        CharacterState = EMainCharacterState::AttackUp;
+    }
+    else if(CharacterState == EMainCharacterState::IdleRight || CharacterState == EMainCharacterState::Right)
+    {
+        LastMoveDirection = EMainCharacterState::IdleRight;
+        CharacterState = EMainCharacterState::AttackRight;
+    }
+    else if(CharacterState == EMainCharacterState::IdleLeft || CharacterState == EMainCharacterState::Left)
+    {
+        LastMoveDirection = EMainCharacterState::IdleLeft;
+        CharacterState = EMainCharacterState::AttackLeft;
+    }
+    if(!bIsDead)
+    {
+        MainCharacterSpriteComponent->UpdateSprite(CharacterState);
+    }
+    GetWorldTimerManager().SetTimer(AttackTimerHandle, this, &AMainPaperCharacter::ServerEndAttackAnimation, 0.2f, false);
 }
 
 void AMainPaperCharacter::EndAttackAnimation()
@@ -247,7 +271,21 @@ void AMainPaperCharacter::EndAttackAnimation()
     CharacterState = LastMoveDirection;
     bIsAttacking = false;
     UpdateCharacterSprite();
+}
 
+void AMainPaperCharacter::ServerEndAttackAnimation_Implementation()
+{
+    CharacterState = LastMoveDirection;
+    bIsAttacking = false;
+    UpdateCharacterSprite(); 
+}
+
+void AMainPaperCharacter::OnRep_Attacking()
+{
+    if(bIsAttacking)
+    {
+        SetAttackAnimation();
+    }
 }
 
 void AMainPaperCharacter::UpdateCharacterSprite()
@@ -264,19 +302,12 @@ void AMainPaperCharacter::UpdateCharacterSprite()
         CharacterState = LastMoveDirection;
     }
     MainCharacterSpriteComponent->UpdateSprite(CharacterState);
-
 }
 
 void AMainPaperCharacter::Attacked(float Value)
 {
     Health-=Value;
-    if(HasAuthority()){
-        UE_LOG(LogTemp, Warning, TEXT("Server attacked"));
-    }
-    else
-    {
-        UE_LOG(LogTemp, Warning, TEXT("Client attacked"));
-    }
+    UE_LOG(LogTemp, Warning, TEXT("Called Attacked in MainPaperCharacter"));
     if(Health <= 0.0f)
     {
         Die();
@@ -376,5 +407,4 @@ void AMainPaperCharacter::UpgradeSword(){
             }
     }
 }
-
 

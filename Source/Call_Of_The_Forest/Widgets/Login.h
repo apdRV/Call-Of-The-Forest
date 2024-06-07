@@ -36,6 +36,10 @@ class CALL_OF_THE_FOREST_API ULogin : public UUserWidget
 	UPROPERTY(BlueprintReadOnly, Category = "Constituent Controls", meta = (BindWidget))
 	UButton* LoginAction = nullptr;
 
+	UPROPERTY(BlueprintReadOnly, Category = "Constituent Controls",
+            meta = (BindWidget))
+    UTextBlock *LoginFailed = nullptr;
+
 	UPROPERTY(BlueprintReadOnly, Category = "Constituent Controls", meta = (BindWidget))
 	bool login_success = false;
 
