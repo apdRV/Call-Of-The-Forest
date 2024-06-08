@@ -108,6 +108,7 @@ void AMainPaperCharacter::BeginPlay()
     Super::BeginPlay();
     if (World != nullptr && this != nullptr) {
         World->AddActor("MainCharacter", this);
+        World->AddCharacter(this);
         UE_LOG(LogTemp, Warning, TEXT("Add MainCharacter"));
     } else {
         UE_LOG(LogTemp, Warning, TEXT("World is null"));
