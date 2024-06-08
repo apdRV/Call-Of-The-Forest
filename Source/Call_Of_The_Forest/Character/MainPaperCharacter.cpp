@@ -5,6 +5,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Components/CapsuleComponent.h"
 #include "Net/UnrealNetwork.h"
+#include "../World/StaticWorld.h"
 #include "Blueprint/UserWidget.h"
 #include "Blueprint/WidgetTree.h"
 #include "Kismet/GameplayStatics.h"
@@ -84,27 +85,19 @@ AMainPaperCharacter::AMainPaperCharacter()
 void AMainPaperCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-    if(!bIsDead){
+    if(!bIsDead && World){
         UpdateCharacterSprite();
         UpdateResourcesQuantity();
     }
     if (!World) {
         World = AStaticWorld::GetStaticWorld();
         if (World) {
-            World->AddActor("MainCharacter", this);
+            World->AddCharacter(this);
+            World->AddActor("MainCharacter", dynamic_cast<AActor*>(this));
         }
         return;
     }
-    std::vector<AActor*> copy_array_of_main_characters = World->GetActor("MainCharacter");
-    if(copy_array_of_main_characters.size() <= 2) return;
-    AMainPaperCharacter* SecondPlayerCopy = dynamic_cast<AMainPaperCharacter*>(copy_array_of_main_characters[1]);
-    AMainPaperCharacter* SecondPlayer = dynamic_cast<AMainPaperCharacter*>(copy_array_of_main_characters[2]);
-    AMainPaperCharacter* FirstPlayerCopy = dynamic_cast<AMainPaperCharacter*>(copy_array_of_main_characters[3]);
-    AMainPaperCharacter* FirstPlayer = dynamic_cast<AMainPaperCharacter*>(copy_array_of_main_characters[0]);
-    if (SecondPlayer->bIsDead) SecondPlayerCopy->CharacterState = (SecondPlayerCopy->LastMoveDirection == EMainCharacterState::IdleLeft) ? EMainCharacterState::DieLeft : EMainCharacterState::DieRight;
-    if (SecondPlayer->bIsDead) SecondPlayerCopy->MainCharacterSpriteComponent->UpdateSprite(SecondPlayerCopy->CharacterState);
-    if (FirstPlayer->bIsDead) FirstPlayerCopy->CharacterState = (FirstPlayerCopy->LastMoveDirection == EMainCharacterState::IdleLeft) ? EMainCharacterState::DieLeft : EMainCharacterState::DieRight;
-    if (FirstPlayer->bIsDead) FirstPlayerCopy->MainCharacterSpriteComponent->UpdateSprite(FirstPlayerCopy->CharacterState);
+
 
 }
 
@@ -113,7 +106,8 @@ void AMainPaperCharacter::BeginPlay()
 {
     World = AStaticWorld::GetStaticWorld();
     Super::BeginPlay();
-    if (World != nullptr && this != nullptr) {
+    if (World != nullptr && this != nullptr && !WasSpawned) {
+        WasSpawned = true;
         World->AddActor("MainCharacter", this);
         UE_LOG(LogTemp, Warning, TEXT("Add MainCharacter"));
     } else {
@@ -310,11 +304,15 @@ void AMainPaperCharacter::OnRep_Attacking()
 }
 
 void AMainPaperCharacter::UpdateResourcesQuantity() {
+    std::unique_lock l(m);
     if (!World) return;
-    std::vector<AActor*> copy_array_of_main_characters = World->GetActor("MainCharacter");
-    if(copy_array_of_main_characters.size() <= 2) return;
-    AMainPaperCharacter* SecondPlayerCopy = dynamic_cast<AMainPaperCharacter*>(copy_array_of_main_characters[1]);
-    AMainPaperCharacter* SecondPlayer = dynamic_cast<AMainPaperCharacter*>(copy_array_of_main_characters[2]);
+    std::vector<AMainPaperCharacter*> copy_array_of_main_characters = World->GetCharacters();
+    if(copy_array_of_main_characters.size() < 4) return;
+    AMainPaperCharacter* SecondPlayerCopy = nullptr;
+    AMainPaperCharacter* SecondPlayer = nullptr;
+    SecondPlayerCopy = copy_array_of_main_characters[1];
+    SecondPlayer = copy_array_of_main_characters[2];
+    if (!SecondPlayer || !SecondPlayerCopy) return;
     SecondPlayer->WoodQuantity = SecondPlayerCopy->WoodQuantity;
     SecondPlayer->StoneQuantity = SecondPlayerCopy->StoneQuantity;
     SecondPlayer->MeatQuantity = SecondPlayerCopy->MeatQuantity;
