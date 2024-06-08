@@ -55,7 +55,6 @@ void AStaticWorld::MobDestroy(AMob* Mob)
 	FTimerHandle TimerHandle;
 	Mob->GetWorldTimerManager().SetTimer(TimerHandle, [Mob, this]()
 	{
-		if (std::find(Actors["Mob"].begin(), Actors["Mob"].end(), Mob) == Actors["Mob"].end()) return;
 		FVector Location = Mob->GetActorLocation();
 		Location.X += 10;
 		Location.Z -= 0.4;
@@ -63,10 +62,6 @@ void AStaticWorld::MobDestroy(AMob* Mob)
 		FActorSpawnParameters SpawnParams;
 		SpawnParams.bNoFail = true;
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-
-		auto iter = std::find(Actors["Mob"].begin(), Actors["Mob"].end(), Mob);
-		if(iter == Actors["Mob"].end()) return;
-		Actors["Mob"].erase(iter);
 		UE_LOG(LogTemp, Warning, TEXT("Mob deleted"));
 		Mob->Destroy();
 		AResourcesSpawner* ResourceSpawner = dynamic_cast<AResourcesSpawner*>(Actors["ResourcesSpawner"][0]);
@@ -91,10 +86,6 @@ void AStaticWorld::AnimalDestroy(AAnimal* Animal)
 		FActorSpawnParameters SpawnParams;
 		SpawnParams.bNoFail = true;
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-
-		auto iter = std::find(Actors["Animal"].begin(), Actors["Animal"].end(), Animal);
-		if(iter == Actors["Animal"].end()) return;
-		Actors["Animal"].erase(iter);
 		UE_LOG(LogTemp, Warning, TEXT("Animal deleted"));
 		Animal->Destroy();
 		AResourcesSpawner* ResourceSpawner = dynamic_cast<AResourcesSpawner*>(Actors["ResourcesSpawner"][0]);
@@ -119,11 +110,6 @@ void AStaticWorld::PredatorDestroy(APredator* Predator)
 		FActorSpawnParameters SpawnParams;
 		SpawnParams.bNoFail = true;
 		SpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AlwaysSpawn;
-
-		auto iter = std::find(Actors["Predator"].begin(), Actors["Predator"].end(), Predator);
-		if (iter == Actors["Predator"].end()) return;
-		if(iter != Actors["Predator"].end())
-		Actors["Predator"].erase(iter);
 		UE_LOG(LogTemp, Warning, TEXT("Predator deleted"));
 		Predator->Destroy();
 		AResourcesSpawner* ResourceSpawner = dynamic_cast<AResourcesSpawner*>(Actors["ResourcesSpawner"][0]);
@@ -219,7 +205,7 @@ void AStaticWorld::DeleteOverlappingActors(AActor* OtherActor)
 
 void AStaticWorld::MobIsAttacking(AMainPaperCharacter* MainCharacter, AMob* Mob)
 {
-	if (std::find(Actors["Mob"].begin(), Actors["Mob"].end(), Mob) == Actors["Mob"].end()) return;
+	if (Mob->GetbIsDead()) return;
 	if(FVector::Dist(MainCharacter->GetActorLocation(), Mob->GetActorLocation()) <= 100.0f)
 	{
 		ClassToMakeDamage.MakeDamage(Mob, MainCharacter);
@@ -229,6 +215,7 @@ void AStaticWorld::MobIsAttacking(AMainPaperCharacter* MainCharacter, AMob* Mob)
 
 void AStaticWorld::PredatorIsAttacking(AMainPaperCharacter* MainCharacter, APredator* Predator)
 {
+	if (Predator->GetbIsDead()) return;
 	if(FVector::Dist(MainCharacter->GetActorLocation(), Predator->GetActorLocation()) <= 100.0f)
 	{
 		ClassToMakeDamage.MakeDamage(Predator, MainCharacter);
