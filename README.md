@@ -28,7 +28,7 @@ Call of the Forest is a 2D survival game that allows for multiplayer mode for tw
 | `U` | Upgrade sword | |
 
 ## How to install:
-Install [Unreal Engine 4.27](https://www.unrealengine.com/en-US/download).
+Install [Unreal Engine](https://www.unrealengine.com/en-US/download).
 
 Next, open .uproject file in the UnrealEditor and click "rebuild"
 
