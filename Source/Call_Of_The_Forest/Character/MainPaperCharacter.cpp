@@ -106,8 +106,7 @@ void AMainPaperCharacter::BeginPlay()
 {
     World = AStaticWorld::GetStaticWorld();
     Super::BeginPlay();
-    if (World != nullptr && this != nullptr && !WasSpawned) {
-        WasSpawned = true;
+    if (World != nullptr && this != nullptr) {
         World->AddActor("MainCharacter", this);
         UE_LOG(LogTemp, Warning, TEXT("Add MainCharacter"));
     } else {
