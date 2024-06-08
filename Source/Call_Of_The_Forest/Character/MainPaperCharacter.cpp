@@ -66,8 +66,6 @@ AMainPaperCharacter::AMainPaperCharacter()
     GetSprite()->SetCollisionResponseToChannel(ECollisionChannel::ECC_Camera, ECollisionResponse::ECR_Ignore);
     MainCharacterSpriteComponent->UpdateSprite(CharacterState);
 
-    //World properties
-    World = AStaticWorld::GetStaticWorld();
 
     // Properties for Sphere
     TriggerRadius = 150.0f;
@@ -90,7 +88,13 @@ void AMainPaperCharacter::Tick(float DeltaTime)
         UpdateCharacterSprite();
         UpdateResourcesQuantity();
     }
-    if (!World) return;
+    if (!World) {
+        World = AStaticWorld::GetStaticWorld();
+        if (World) {
+            World->AddActor("MainCharacter", this);
+        }
+        return;
+    }
     std::vector<AActor*> copy_array_of_main_characters = World->GetActor("MainCharacter");
     if(copy_array_of_main_characters.size() <= 2) return;
     AMainPaperCharacter* SecondPlayerCopy = dynamic_cast<AMainPaperCharacter*>(copy_array_of_main_characters[1]);
@@ -107,9 +111,9 @@ void AMainPaperCharacter::Tick(float DeltaTime)
 // Called when the game starts or when spawned
 void AMainPaperCharacter::BeginPlay()
 {
-    if (WasSpawned) return;
+    World = AStaticWorld::GetStaticWorld();
     Super::BeginPlay();
-    if (World != nullptr) {
+    if (World != nullptr && this != nullptr) {
         World->AddActor("MainCharacter", this);
         UE_LOG(LogTemp, Warning, TEXT("Add MainCharacter"));
     } else {
