@@ -85,15 +85,19 @@ AMainPaperCharacter* APredatorAIController::FindTarget()
         UE_LOG(LogTemp, Warning, TEXT("No_main_characters_in_area"));
         return NearestCharacter;
     }
-    if (copy_array_of_main_characters[0] !=nullptr) {
+    if (copy_array_of_main_characters[0] != nullptr) {
         NearestActorLocation = copy_array_of_main_characters[0]->GetActorLocation();
         NearestDistance = FVector::DistSquared(NearestActorLocation, MobLocation);
         NearestCharacter = copy_array_of_main_characters[0];
     }
-    if (!NearestCharacter && copy_array_of_main_characters.size() > 1 && copy_array_of_main_characters[1]) {
-        NearestActorLocation = copy_array_of_main_characters[1]->GetActorLocation();
-        NearestDistance = FVector::DistSquared(NearestActorLocation, MobLocation);
-        NearestCharacter = copy_array_of_main_characters[1];
+    if (copy_array_of_main_characters.size() > 1 && copy_array_of_main_characters[1]) {
+        FVector CurrentActorLocation = copy_array_of_main_characters[1]->GetActorLocation();
+            float Distance = FVector::DistSquared(CurrentActorLocation, MobLocation);
+            if(Distance < NearestDistance){
+                NearestDistance = Distance;
+                NearestActorLocation = CurrentActorLocation;
+                NearestCharacter = copy_array_of_main_characters[1];
+            }
     }
 
     if (copy_array_of_main_characters.size() > 3) {
