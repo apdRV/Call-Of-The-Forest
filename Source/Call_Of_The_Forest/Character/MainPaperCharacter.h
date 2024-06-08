@@ -7,9 +7,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Components/SphereComponent.h"
-#include "../World/StaticWorld.h"
-#include "../Animals/Animal.h"
-#include "../Animals/Predator.h"
+#include <mutex>
 #include "MainCharacterSpriteComponent.h"
 #include "../World/AttackedDerivedDeclaration.h"
 #include "Engine/EngineTypes.h"
@@ -19,6 +17,7 @@
  * 
  */
 
+class CALL_OF_THE_FOREST_API AStaticWorld;
 UCLASS()
 class CALL_OF_THE_FOREST_API AMainPaperCharacter : public APaperCharacter
 {
@@ -156,6 +155,8 @@ public:
 	void UpgradeSword();
 
 private:
+
+std::mutex m;
 
 	UPROPERTY()
     class USphereComponent* SphereCollider;
