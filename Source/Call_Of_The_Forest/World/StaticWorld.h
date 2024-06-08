@@ -11,6 +11,7 @@
 #include "AttackingActor.h"
 #include "AttackedActor.h"
 #include "../Character/MainCharacterSpriteComponent.h"
+#include "../Character/MainPaperCharacter.h"
 #include "GameFramework/Actor.h"
 #include "StaticWorld.generated.h"
 
@@ -36,6 +37,14 @@ public:
 		Actors[Type].push_back(Actor);
 	}
 
+	void AddCharacter(AMainPaperCharacter* Actor) {
+		std::unique_lock lock(m_mutex);
+		if (Actor == nullptr) {
+			return;
+		}
+		Characters.push_back(Actor);
+	}
+
 	void RemoveActor(std::string Type, AActor* Actor) {
 		std::erase(Actors[Type], Actor);
 	}
@@ -44,11 +53,15 @@ public:
 		return World;
 	}
 	
-	std::vector<AActor*>& GetActor(std::string Type){
+	std::vector<AActor*> GetActor(std::string Type){
 		if(Actors.contains(Type)){
 			return Actors[Type];
 		}
-		return *(new std::vector<AActor*>());
+		return std::vector<AActor*>();
+	}
+
+	std::vector<AMainPaperCharacter*> GetCharacters(){
+		return Characters;
 	}
 
 	//Attack functions
@@ -86,6 +99,7 @@ private:
 	UPROPERTY()
     TArray<AActor*> OverlappingActors;
 	std::map<std::string, std::vector<AActor*>> Actors;
+	std::vector<AMainPaperCharacter*> Characters;
 	static AStaticWorld* World;
 	std::mutex m_mutex;
 
