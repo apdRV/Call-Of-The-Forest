@@ -44,11 +44,11 @@ public:
 		return World;
 	}
 	
-	std::vector<AActor*> GetActor(std::string Type){
+	std::vector<AActor*>& GetActor(std::string Type){
 		if(Actors.contains(Type)){
 			return Actors[Type];
 		}
-		return std::vector<AActor*>();
+		return *(new std::vector<AActor*>());
 	}
 
 	//Attack functions
