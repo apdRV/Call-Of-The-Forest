@@ -26,6 +26,9 @@ void AMobAIController::BeginPlay()
 
 void AMobAIController::Tick(float Delta)
 {
+    if (!World) {
+        World = AStaticWorld::GetStaticWorld();
+    }
     Super::Tick(Delta);
     if(m_Mob != nullptr && m_Mob->GetbIsTriggered()){
         MoveToTarget();
@@ -58,7 +61,10 @@ AMainPaperCharacter* AMobAIController::FindTarget(){
     else {
         NearestActorLocation = copy_array_of_main_characters[0]->GetActorLocation();
         NearestDistance = FVector::DistSquared(NearestActorLocation, MobLocation);
-        NearestCharacter = dynamic_cast<AMainPaperCharacter*>(copy_array_of_main_characters[0]);
+        if (copy_array_of_main_characters[0]) NearestCharacter = dynamic_cast<AMainPaperCharacter*>(copy_array_of_main_characters[0]);
+    }
+    if (!NearestCharacter) {
+        if (copy_array_of_main_characters[1]) NearestCharacter = dynamic_cast<AMainPaperCharacter*>(copy_array_of_main_characters[1]);
     }
     for(int i=0;i< copy_array_of_main_characters.size();i++){
         FVector CurrentActorLocation = copy_array_of_main_characters[i]->GetActorLocation();
