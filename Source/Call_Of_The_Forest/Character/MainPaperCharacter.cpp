@@ -32,7 +32,7 @@ AMainPaperCharacter::AMainPaperCharacter()
     CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
     CameraBoom->SetupAttachment(RootComponent);
 	CameraBoom->SetRelativeRotation(FRotator(-90.0f, 180.0f, 180.0f));
-    CameraBoom->TargetArmLength = 100.f; // расстояние от камеры до игрока
+    CameraBoom->TargetArmLength = 150.f; // расстояние от камеры до игрока
     CameraBoom->bInheritPitch = false;
     CameraBoom->bInheritYaw = false;
     CameraBoom->bInheritRoll = false;
