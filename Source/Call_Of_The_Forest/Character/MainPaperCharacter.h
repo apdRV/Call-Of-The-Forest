@@ -38,11 +38,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool GetbIsDead();
 
-	UFUNCTION(BlueprintCallable)
-	AMainPaperCharacter* GetPISKA(){
-		return this;
-	}
-
 protected:
     UPROPERTY()
 	AStaticWorld* World;

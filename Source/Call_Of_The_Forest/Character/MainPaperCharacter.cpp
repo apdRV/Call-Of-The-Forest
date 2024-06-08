@@ -329,14 +329,6 @@ void AMainPaperCharacter::Die()
         MainCharacterSpriteComponent->UpdateSprite(CharacterState);
         GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
         EndPlay(EEndPlayReason::Destroyed);
-
-        // APlayerController* PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
-
-        // UUserWidget* DeathWidget = CreateWidget<UUserWidget>(PlayerController, DeathScreen);
-        // if (DeathWidget){
-        //     UE_LOG(LogTemp, Warning, TEXT("WATAFUCK"));
-        //     DeathWidget->AddToViewport();
-        // }
     }
 }
 

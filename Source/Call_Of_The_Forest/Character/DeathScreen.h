@@ -20,20 +20,13 @@ class CALL_OF_THE_FOREST_API UDeathScreen : public UUserWidget
 protected:
 	virtual void NativeConstruct() override;
 
-	// UFUNCTION()
-	// virtual void BeginPlay() override;
-
-    // UPROPERTY()
-	// AStaticWorld* World;
-
 	UPROPERTY(VisibleAnywhere)
 	AMainPaperCharacter* Player;
 
 	UFUNCTION(BlueprintCallable)
-	bool getPOPA(){
+	bool getDiedState(){
 		Player = Cast<AMainPaperCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
 		if (Player){
-			UE_LOG(LogTemp, Warning, TEXT("SOSISKA"));
 			return Player->GetbIsDead();
 		}
 		return false;
