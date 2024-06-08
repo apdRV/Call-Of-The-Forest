@@ -5,11 +5,11 @@
 #include "Math/UnrealMathUtility.h"
 #include "../Animals/Predator.h"
 
-void AttackingActor::MakeDamage(AActor* AttackingActor, AActor* AttackedActor)
+void AttackingActor::MakeDamage(AActor* AttackingActor, AMainPaperCharacter* AttackedActor)
 {
     AMob* MobAttacking = dynamic_cast<AMob*>(AttackingActor);
     APredator* PredatorAttacking = dynamic_cast<APredator*>(AttackingActor);
-    AMainPaperCharacter* MainCharacterAttacked = dynamic_cast<AMainPaperCharacter*>(AttackedActor);
+    AMainPaperCharacter* MainCharacterAttacked = AttackedActor;
     if(MainCharacterAttacked != nullptr && MobAttacking != nullptr && !MainCharacterAttacked->GetbIsDead() && !MobAttacking->GetbIsDead())
     {
         if((MobAttacking->GetMobState() == EMobState::IdleLeftDown || MobAttacking->GetMobState() == EMobState::LeftDown || MobAttacking->GetMobState() == EMobState::AttackLeftDown) && MainCharacterAttacked->GetActorLocation().Y <= MobAttacking->GetActorLocation().Y && 
@@ -38,10 +38,10 @@ void AttackingActor::MakeDamage(AActor* AttackingActor, AActor* AttackedActor)
     }
 }
 
-void AttackingActor::MainPlayerAttack(AActor* AttackingActor, AActor* AttackedActor)
+void AttackingActor::MainPlayerAttack(AMainPaperCharacter* AttackingActor, AActor* AttackedActor)
 {
     UE_LOG(LogTemp, Warning, TEXT("MainPlayerAttack called"));
-    AMainPaperCharacter* Player = dynamic_cast<AMainPaperCharacter*>(AttackingActor);
+    AMainPaperCharacter* Player = AttackingActor;
     if(Player != nullptr)
     {
         Player->SetAttackAnimation();
