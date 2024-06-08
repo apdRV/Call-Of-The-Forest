@@ -6,11 +6,11 @@
 #include "../Animals/Predator.h"
 #include "../Enviroment/EnviromentObject.h"
 
-void AttackedActor::TakeDamage(AActor* AttackedActor, AActor* AttackingActor)
+void AttackedActor::TakeDamage(AMainPaperCharacter* AttackedActor, AActor* AttackingActor)
 {
     AMob* MobAttacking = dynamic_cast<AMob*>(AttackingActor);
     APredator* PredatorAttacking = dynamic_cast<APredator*>(AttackingActor);
-    AMainPaperCharacter* MainCharacterAttacked = dynamic_cast<AMainPaperCharacter*>(AttackedActor);
+    AMainPaperCharacter* MainCharacterAttacked = AttackedActor;
     if(MainCharacterAttacked != nullptr && MobAttacking != nullptr && !MainCharacterAttacked->GetbIsDead() && !MobAttacking->GetbIsDead())
     {
         if((MobAttacking->GetMobState() == EMobState::IdleLeftDown || MobAttacking->GetMobState() == EMobState::LeftDown || MobAttacking->GetMobState() == EMobState::AttackLeftDown) && MainCharacterAttacked->GetActorLocation().Y <= MobAttacking->GetActorLocation().Y && 
@@ -43,7 +43,7 @@ void AttackedActor::TakeDamage(AActor* AttackedActor, AActor* AttackingActor)
     }
 }
 
-void AttackedActor::TakeDamageNpc(AActor* AttackedActor, AActor* AttackingActor)
+void AttackedActor::TakeDamageNpc(AActor* AttackedActor, AMainPaperCharacter* AttackingActor)
 {
     if(AttackingActor == nullptr || AttackedActor == nullptr)
     {
@@ -56,7 +56,7 @@ void AttackedActor::TakeDamageNpc(AActor* AttackedActor, AActor* AttackingActor)
         return;
     }
 
-    AMainPaperCharacter* Player = dynamic_cast<AMainPaperCharacter*>(AttackingActor);
+    AMainPaperCharacter* Player = AttackingActor;
     if(Player == nullptr)
     {
         return;
