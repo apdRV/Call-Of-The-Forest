@@ -1,6 +1,6 @@
 
 #pragma once
-
+#include "../Character/MainPaperCharacter.h"
 #include "AttackBase.h"
 
 class AttackingActor : public AttackBase
@@ -8,6 +8,6 @@ class AttackingActor : public AttackBase
 public:
     AttackingActor() : AttackBase(){};
 
-    virtual void MakeDamage(AActor* AttackingActor, AActor* AttackedActor) override;
-    void MainPlayerAttack(AActor* AttackingActor, AActor* AttackedActor);
+    virtual void MakeDamage(AActor* AttackingActor, AMainPaperCharacter* AttackedActor) override;
+    void MainPlayerAttack(AMainPaperCharacter* AttackingActor, AActor* AttackedActor);
 };
