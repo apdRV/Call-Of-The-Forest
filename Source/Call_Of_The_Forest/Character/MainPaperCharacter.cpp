@@ -20,7 +20,7 @@ AMainPaperCharacter::AMainPaperCharacter()
 	bIsMoving = false;
     bIsDead = false;
     bIsAttacking = false;
-    Damage = 30.0f;
+    Damage = 10.0f;
     Health = 100.0f;
     CharacterState = EMainCharacterState::IdleDown;
     LastMoveDirection = EMainCharacterState::IdleDown;
@@ -139,7 +139,7 @@ void AMainPaperCharacter::MoveForwardBackward(float Value)
 {
     if ((Controller != nullptr) && (Value != 0.0f) && (!bIsDead))
     {
-        const FVector Direction = FVector(0.5, 0, 0);
+        const FVector Direction = FVector(0.25, 0, 0);
         AddMovementInput(Direction, Value);
 
         if (HasAuthority()){
@@ -164,7 +164,7 @@ void AMainPaperCharacter::MoveRightLeft(float Value)
 {
     if ((Controller != nullptr) && (Value != 0.0f) && (!bIsDead))
     {
-        const FVector Direction = FVector(0, 0.5, 0);
+        const FVector Direction = FVector(0, 0.25, 0);
         AddMovementInput(Direction, Value);
         if(HasAuthority()){
             CharacterState = (Value > 0) ? EMainCharacterState::Right : EMainCharacterState::Left;
@@ -391,7 +391,7 @@ void AMainPaperCharacter::UpgradeSword(){
     switch(SwordLevel)
     {
         case 0:
-            if (WoodQuantity >= 100 && StoneQuantity >= 70){
+            if (WoodQuantity >= 25 && StoneQuantity >= 15){
                 Damage += 5;
                 SwordLevel = 1;
                 WoodQuantity -= 100;
@@ -399,7 +399,7 @@ void AMainPaperCharacter::UpgradeSword(){
                 break;
             }
         case 1:
-            if (WoodQuantity >= 200 && StoneQuantity >= 140){
+            if (WoodQuantity >= 50 && StoneQuantity >= 30){
                 Damage += 10;
                 SwordLevel = 2;
                 WoodQuantity -= 200;
@@ -407,7 +407,7 @@ void AMainPaperCharacter::UpgradeSword(){
                 break;
             }
         case 2:
-            if (WoodQuantity >= 300 && StoneQuantity >= 210){
+            if (WoodQuantity >= 100 && StoneQuantity >= 60){
                 Damage += 15;
                 SwordLevel = 3;
                 WoodQuantity -= 300;
@@ -415,7 +415,7 @@ void AMainPaperCharacter::UpgradeSword(){
                 break;
             }
         case 3:
-            if (WoodQuantity >= 400 && StoneQuantity >= 280){
+            if (WoodQuantity >= 200 && StoneQuantity >= 120){
                 Damage += 20;
                 SwordLevel = 3;
                 WoodQuantity -= 400;

@@ -5,7 +5,7 @@
 
 AMushroom::AMushroom()
 {
-    Speed = 70.0f;
+    Speed = 80.0f;
     GetCharacterMovement()->MaxWalkSpeed = Speed; 
     Health = 200.0f;
     BaseDamage = 15.0f;

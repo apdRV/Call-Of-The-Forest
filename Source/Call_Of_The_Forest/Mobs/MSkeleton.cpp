@@ -8,7 +8,7 @@ AMSkeleton::AMSkeleton()
     Speed = 50.0f;
     GetCharacterMovement()->MaxWalkSpeed = Speed;  // Adjust this value as needed
     Health = 200.0f;
-    BaseDamage = 10.0f;
+    BaseDamage = 20.0f;
     bIsDead = false;
 
     static ConstructorHelpers::FObjectFinder<UPaperFlipbook> LeftDown(TEXT("/Script/Paper2D.PaperFlipbook'/Game/AnimatedSprites/MobAnimation/SkeletonAnimation/LeftDown/LeftDown.LeftDown'"));
