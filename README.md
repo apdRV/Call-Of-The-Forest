@@ -8,6 +8,11 @@ Call of the Forest is a 2D survival game that allows for multiplayer mode for tw
 
 ## Screenshots:
 
+<div style="text-align: center;">
+    <img src="Screenshots/Screenshot_1.png" style="margin-bottom: 10px;" />
+    <img src="Screenshots/Screenshot_3.png" style="margin-bottom: 10px;" />
+    <img src="Screenshots/Screenshot_2.png" style="margin-bottom: 10px;" />
+</div>
 
 
 ## Controls:
