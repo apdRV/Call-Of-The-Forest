@@ -85,11 +85,13 @@ AMainPaperCharacter* APredatorAIController::FindTarget()
         return NearestCharacter;
     }
     else {
-        NearestActorLocation = copy_array_of_main_characters[0]->GetActorLocation();
+        if (copy_array_of_main_characters[0]) NearestActorLocation = copy_array_of_main_characters[0]->GetActorLocation();
         NearestDistance = FVector::DistSquared(NearestActorLocation, MobLocation);
         if (copy_array_of_main_characters[0]) NearestCharacter = dynamic_cast<AMainPaperCharacter*>(copy_array_of_main_characters[0]);
     }
     if (!NearestCharacter) {
+        if (copy_array_of_main_characters[1]) NearestActorLocation = copy_array_of_main_characters[1]->GetActorLocation();
+        NearestDistance = FVector::DistSquared(NearestActorLocation, MobLocation);
         if (copy_array_of_main_characters[1]) NearestCharacter = dynamic_cast<AMainPaperCharacter*>(copy_array_of_main_characters[1]);
     }
     for(int i=0;i< copy_array_of_main_characters.size();i++){
