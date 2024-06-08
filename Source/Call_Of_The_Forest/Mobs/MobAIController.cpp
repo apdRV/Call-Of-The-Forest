@@ -59,14 +59,14 @@ AMainPaperCharacter* AMobAIController::FindTarget(){
         return NearestCharacter;
     }
     else {
-        if (copy_array_of_main_characters[0]) NearestActorLocation = copy_array_of_main_characters[0]->GetActorLocation();
+        if (copy_array_of_main_characters[0]!=nullptr) NearestActorLocation = dynamic_cast<AMainPaperCharacter*>(copy_array_of_main_characters[0])->GetActorLocation();
         NearestDistance = FVector::DistSquared(NearestActorLocation, MobLocation);
-        if (copy_array_of_main_characters[0]) NearestCharacter = dynamic_cast<AMainPaperCharacter*>(copy_array_of_main_characters[0]);
+        if (copy_array_of_main_characters[0]!=nullptr) NearestCharacter = dynamic_cast<AMainPaperCharacter*>(copy_array_of_main_characters[0]);
     }
-    if (!NearestCharacter) {
-        if (copy_array_of_main_characters[1]) NearestActorLocation = copy_array_of_main_characters[1]->GetActorLocation();
+    if (!NearestCharacter && copy_array_of_main_characters.size() > 1) {
+        if (copy_array_of_main_characters[1]!=nullptr) NearestActorLocation = copy_array_of_main_characters[1]->GetActorLocation();
         NearestDistance = FVector::DistSquared(NearestActorLocation, MobLocation);
-        if (copy_array_of_main_characters[1]) NearestCharacter = dynamic_cast<AMainPaperCharacter*>(copy_array_of_main_characters[1]);
+        if (copy_array_of_main_characters[1]!=nullptr) NearestCharacter = dynamic_cast<AMainPaperCharacter*>(copy_array_of_main_characters[1]);
     }
     for(int i=0;i< copy_array_of_main_characters.size();i++){
         FVector CurrentActorLocation = copy_array_of_main_characters[i]->GetActorLocation();
