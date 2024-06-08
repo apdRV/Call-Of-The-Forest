@@ -90,6 +90,18 @@ void AMainPaperCharacter::Tick(float DeltaTime)
         UpdateCharacterSprite();
         UpdateResourcesQuantity();
     }
+    if (!World) return;
+    std::vector<AActor*> copy_array_of_main_characters = World->GetActor("MainCharacter");
+    if(copy_array_of_main_characters.size() <= 2) return;
+    AMainPaperCharacter* SecondPlayerCopy = dynamic_cast<AMainPaperCharacter*>(copy_array_of_main_characters[1]);
+    AMainPaperCharacter* SecondPlayer = dynamic_cast<AMainPaperCharacter*>(copy_array_of_main_characters[2]);
+    AMainPaperCharacter* FirstPlayerCopy = dynamic_cast<AMainPaperCharacter*>(copy_array_of_main_characters[3]);
+    AMainPaperCharacter* FirstPlayer = dynamic_cast<AMainPaperCharacter*>(copy_array_of_main_characters[0]);
+    if (SecondPlayer->bIsDead) SecondPlayerCopy->CharacterState = (SecondPlayerCopy->LastMoveDirection == EMainCharacterState::IdleLeft) ? EMainCharacterState::DieLeft : EMainCharacterState::DieRight;
+    if (SecondPlayer->bIsDead) SecondPlayerCopy->MainCharacterSpriteComponent->UpdateSprite(SecondPlayerCopy->CharacterState);
+    if (FirstPlayer->bIsDead) FirstPlayerCopy->CharacterState = (FirstPlayerCopy->LastMoveDirection == EMainCharacterState::IdleLeft) ? EMainCharacterState::DieLeft : EMainCharacterState::DieRight;
+    if (FirstPlayer->bIsDead) FirstPlayerCopy->MainCharacterSpriteComponent->UpdateSprite(FirstPlayerCopy->CharacterState);
+
 }
 
 // Called when the game starts or when spawned
