@@ -1,4 +1,3 @@
-
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
@@ -89,6 +88,7 @@ void AMainPaperCharacter::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
     if(!bIsDead){
         UpdateCharacterSprite();
+        UpdateResourcesQuantity();
     }
 }
 
@@ -293,6 +293,18 @@ void AMainPaperCharacter::OnRep_Attacking()
     }
 }
 
+void AMainPaperCharacter::UpdateResourcesQuantity() {
+    if (!World) return;
+    std::vector<AActor*> copy_array_of_main_characters = World->GetActor("MainCharacter");
+    if(copy_array_of_main_characters.size() <= 2) return;
+    AMainPaperCharacter* SecondPlayerCopy = dynamic_cast<AMainPaperCharacter*>(copy_array_of_main_characters[1]);
+    AMainPaperCharacter* SecondPlayer = dynamic_cast<AMainPaperCharacter*>(copy_array_of_main_characters[2]);
+    SecondPlayer->WoodQuantity = SecondPlayerCopy->WoodQuantity;
+    SecondPlayer->StoneQuantity = SecondPlayerCopy->StoneQuantity;
+    SecondPlayer->MeatQuantity = SecondPlayerCopy->MeatQuantity;
+    SecondPlayer->TrophyQuantity = SecondPlayerCopy->TrophyQuantity;
+}
+
 void AMainPaperCharacter::UpdateCharacterSprite()
 {
     if((bIsAttacking) && (!bIsDead))
@@ -412,4 +424,3 @@ void AMainPaperCharacter::UpgradeSword(){
             }
     }
 }
-
